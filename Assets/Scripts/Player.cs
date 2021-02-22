@@ -11,17 +11,47 @@ public class Player : MonoBehaviour {
 
     [SerializeField] float speed = 1;
     [SerializeField] float addSpeed = 0;
+    [SerializeField] GameObject hammer;
+
+   new Rigidbody rigidbody;
 
     int hp = 3;
+
+    int hammerFrame = 0;
 
     void Start() {
         hp = 3;
         cameraT = Camera.main.transform;
-    }
+        rigidbody = GetComponent<Rigidbody>();
+
+        Ray forwerdRay = new Ray(transform.position, transform.forward);
+
+        if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
+
+            var forwardPoints = GetUpRight(forwerdHit, transform.up, transform.right);
+
+
+            Vector3 upFV, rightFV;
+            if (isAbsMove) {
+                upFV = cameraT.up;
+                rightFV = cameraT.right;
+            }
+            else {
+                upFV = forwardPoints[1].NomalD;
+                rightFV = forwardPoints[0].NomalD;
+            }
+
+            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.9f);
+
+            //transform.LookAt(look, upFV);
+            transform.LookAt(transform.position - forwerdHit.normal, upFV);
+        }
+        }
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Block") {
             hp--;
-            transform.position += transform.position - collision.contacts[0].point;
+            rigidbody.AddForce((transform.position - collision.contacts[0].point).normalized*10, ForceMode.VelocityChange);
+
 
             if (hp <= 0) {
 #if UNITY_EDITOR
@@ -88,13 +118,57 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.LeftShift)) {
             isAbsMove = !isAbsMove;
         }
+        if (hammerFrame > 0) {
+            hammerFrame++;
+            hammer.transform.RotateAround(transform.position, transform.up, hammerFrame);
 
-        Ray forwerdRay = new Ray(transform.position, transform.forward);
+            if (hammerFrame > 100) {
+                hammerFrame = 0;
+                hammer.SetActive(false);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Return)) {
+            hammerFrame++;
+            hammer.SetActive(true);
+            hammer.transform.RotateAround(transform.position, transform.up, 0);
+        }
+
+        Ray forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
 
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
 
             var forwardPoints = GetUpRight(forwerdHit, transform.up, transform.right);
 
+
+            Vector3 upFV;
+            if (isAbsMove) {
+                upFV = cameraT.up;
+            }
+            else {
+                upFV = forwardPoints[1].NomalD;
+            }
+
+            var befRoatte = transform.rotation;
+
+            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.5f);
+
+            transform.LookAt(look, upFV);
+
+            var sa = Quaternion.Angle(befRoatte, transform.rotation);
+            if (sa > 20) {
+                transform.rotation = befRoatte;
+            }
+            Debug.Log(sa);
+
+
+        }
+    }
+    private void FixedUpdate() {
+
+
+       var  forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
+        if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
+            var forwardPoints = GetUpRight(forwerdHit, transform.up, transform.right);
 
             Vector3 upFV, rightFV;
             if (isAbsMove) {
@@ -106,7 +180,7 @@ public class Player : MonoBehaviour {
                 rightFV = forwardPoints[0].NomalD;
             }
 
-            //hitT.position = hit.point;
+
             var dir = Vector3.zero;
             if (Input.GetKey(KeyCode.W)) {
                 dir += upFV;
@@ -124,22 +198,14 @@ public class Player : MonoBehaviour {
             }
             dir.Normalize();
 
-
-            transform.position += Vector3.Slerp(Vector3.zero, forwerdHit.normal * (1 - forwerdHit.distance), 0.1f);
-
-
             if (dir != Vector3.zero) {
-                dir = Vector3.ProjectOnPlane(dir, forwerdHit.normal).normalized;
-                // Debug.Log(dir);
-                transform.position += dir * (speed + addSpeed) / 50;
+               // rigidbody.AddForce(-transform.forward * 20, ForceMode.Acceleration);
+                rigidbody.AddForce(dir * (speed + addSpeed), ForceMode.VelocityChange);
+
             }
 
-
-            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.5f);
-
-            transform.LookAt(look, upFV);
-
-        }
+            rigidbody.AddForce(transform.forward * ( forwerdHit.distance* forwerdHit.distance), ForceMode.Acceleration);
+ }
     }
 }
 
