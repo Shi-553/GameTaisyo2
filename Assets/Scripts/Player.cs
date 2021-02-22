@@ -4,8 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    public LayerMask mask;
-    public Transform hitT;
+    [SerializeField] LayerMask mask;
 
     Transform cameraT;
     public bool isAbsMove = false;
