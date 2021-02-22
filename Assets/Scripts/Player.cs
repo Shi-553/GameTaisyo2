@@ -12,9 +12,25 @@ public class Player : MonoBehaviour {
     [SerializeField] float speed = 1;
     [SerializeField] float addSpeed = 0;
 
-    void Start() {
+    int hp = 3;
 
+    void Start() {
+        hp = 3;
         cameraT = Camera.main.transform;
+    }
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Block") {
+            hp--;
+            transform.position += transform.position - collision.contacts[0].point;
+
+            if (hp <= 0) {
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_STANDALONE
+      UnityEngine.Application.Quit();
+#endif
+            }
+        }
     }
 
     /// <summary>
@@ -109,13 +125,13 @@ public class Player : MonoBehaviour {
             dir.Normalize();
 
 
-            transform.position += Vector3.Slerp(Vector3.zero,forwerdHit.normal*(1-forwerdHit.distance),0.1f);
+            transform.position += Vector3.Slerp(Vector3.zero, forwerdHit.normal * (1 - forwerdHit.distance), 0.1f);
 
 
             if (dir != Vector3.zero) {
-            dir = Vector3.ProjectOnPlane(dir, forwerdHit.normal).normalized;
+                dir = Vector3.ProjectOnPlane(dir, forwerdHit.normal).normalized;
                 // Debug.Log(dir);
-                transform.position += dir * (speed+ addSpeed) / 50;
+                transform.position += dir * (speed + addSpeed) / 50;
             }
 
 
@@ -130,11 +146,11 @@ public class Player : MonoBehaviour {
 
 public class PointDistance {
     public Vector3 Distance { get; private set; }
-    public Vector3 NomalD{ get ; private set ; }
-    public Vector3 P1 { get ; private set ; }
+    public Vector3 NomalD { get; private set; }
+    public Vector3 P1 { get; private set; }
     public Vector3 P2 { get; private set; }
 
-    public bool IsChange { get ; private set ; }
+    public bool IsChange { get; private set; }
 
     public PointDistance(Vector3 p1, Vector3 p2) {
         Init(p1, p2);
