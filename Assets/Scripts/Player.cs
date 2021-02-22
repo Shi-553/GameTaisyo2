@@ -101,14 +101,17 @@ public class Player : MonoBehaviour {
             dir.Normalize();
 
 
+            transform.position += Vector3.Slerp(Vector3.zero,forwerdHit.normal*(1-forwerdHit.distance),0.1f);
 
 
-            dir = Vector3.ProjectOnPlane(dir, forwerdHit.normal).normalized;
             if (dir != Vector3.zero) {
+            dir = Vector3.ProjectOnPlane(dir, forwerdHit.normal).normalized;
                 // Debug.Log(dir);
                 transform.position += dir * speed / 50;
             }
-            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.05f);
+
+
+            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.5f);
 
             transform.LookAt(look, upFV);
 
