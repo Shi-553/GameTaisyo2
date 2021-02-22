@@ -7,9 +7,10 @@ public class Player : MonoBehaviour {
     [SerializeField] LayerMask mask;
 
     Transform cameraT;
-    public bool isAbsMove = false;
+    [SerializeField] bool isAbsMove = false;
 
-    public float speed = 1;
+    [SerializeField] float speed = 1;
+    [SerializeField] float addSpeed = 0;
 
     void Start() {
 
@@ -60,6 +61,14 @@ public class Player : MonoBehaviour {
 
 
     void Update() {
+        if (addSpeed > 0) {
+            addSpeed -= 0.1f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            addSpeed = 3;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift)) {
             isAbsMove = !isAbsMove;
         }
@@ -106,7 +115,7 @@ public class Player : MonoBehaviour {
             if (dir != Vector3.zero) {
             dir = Vector3.ProjectOnPlane(dir, forwerdHit.normal).normalized;
                 // Debug.Log(dir);
-                transform.position += dir * speed / 50;
+                transform.position += dir * (speed+ addSpeed) / 50;
             }
 
 
