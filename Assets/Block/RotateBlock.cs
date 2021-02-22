@@ -14,6 +14,6 @@ public class RotateBlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(firstRotate + TransformBlock.GetCurrentAnimeValue());
+        transform.localEulerAngles=(firstRotate + TransformBlock.GetCurrentAnimeValue());
     }
 }
