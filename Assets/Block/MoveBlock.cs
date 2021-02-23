@@ -8,12 +8,12 @@ public class MoveBlock : MonoBehaviour
     Vector3 firstPosition;
     private void Start()
     {
-        firstPosition = transform.position;
+        firstPosition = transform.localPosition;
     }
 
     private void Update()
     {
-        transform.position=(firstPosition+TransformBlock.GetCurrentAnimeValue());
+        transform.localPosition = (firstPosition+TransformBlock.GetCurrentAnimeValue());
     }
 
 }
