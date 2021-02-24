@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
 
-            var forwardPoints = GetUpRight(forwerdHit, transform.up, transform.right);
+            var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
             Vector3 upFV, rightFV;
@@ -63,47 +63,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="hit"></param>
-    /// <param name="up"></param>
-    /// <param name="right"></param>
-    /// <returns>0=底辺 1=高さ 2=斜辺</returns>
-    public PointDistance[] GetUpRight(RaycastHit hit, Vector3 up, Vector3 right) {
-        MeshCollider meshCollider = hit.collider as MeshCollider;
-
-        if (meshCollider == null || meshCollider.sharedMesh == null) {
-            return new PointDistance[] { };
-        }
-
-        Mesh mesh = meshCollider.sharedMesh;
-        Vector3[] vertices = mesh.vertices;
-        int[] triangles = mesh.triangles;
-        Vector3[] ps = { vertices[triangles[hit.triangleIndex * 3 + 0]]
-            ,vertices[triangles[hit.triangleIndex * 3 + 1]]
-            ,vertices[triangles[hit.triangleIndex * 3 + 2]]};
-
-
-
-        Transform hitTransform = hit.collider.transform;
-
-        for (var i = 0; i < ps.Length; i++) {
-            ps[i] = hitTransform.TransformPoint(ps[i]);
-        }
-
-        PointDistance[] ds = { new PointDistance(ps[0], ps[1]), new PointDistance(ps[1], ps[2]), new PointDistance(ps[0], ps[2]) };
-        var order = ds.OrderBy(d => d.Distance.sqrMagnitude).ToArray();
-
-
-        order[0].DotAdjust(right);
-        order[1].DotAdjust(up);
-
-        Debug.DrawLine(order[0].P1, order[0].P2, Color.red);
-        Debug.DrawLine(order[1].P1, order[1].P2, Color.blue);
-        Debug.DrawLine(order[2].P1, order[2].P2, Color.green);
-        return order;
-    }
 
 
     void Update() {
@@ -137,7 +96,7 @@ public class Player : MonoBehaviour {
 
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
 
-            var forwardPoints = GetUpRight(forwerdHit, transform.up, transform.right);
+            var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
             Vector3 upFV;
@@ -158,7 +117,7 @@ public class Player : MonoBehaviour {
             if (sa > 20) {
                 transform.rotation = befRoatte;
             }
-            Debug.Log(sa);
+            //Debug.Log(sa);
 
 
         }
@@ -168,7 +127,7 @@ public class Player : MonoBehaviour {
 
        var  forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
-            var forwardPoints = GetUpRight(forwerdHit, transform.up, transform.right);
+            var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
             Vector3 upFV, rightFV;
             if (isAbsMove) {
@@ -237,5 +196,47 @@ public class PointDistance {
             P2 = t;
             IsChange = !IsChange;
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="hit"></param>
+    /// <param name="up"></param>
+    /// <param name="right"></param>
+    /// <returns>0=底辺 1=高さ 2=斜辺</returns>
+    public static PointDistance[] GetUpRight(RaycastHit hit, Vector3 up, Vector3 right) {
+        MeshCollider meshCollider = hit.collider as MeshCollider;
+
+        if (meshCollider == null || meshCollider.sharedMesh == null) {
+            return new PointDistance[] { };
+        }
+
+        Mesh mesh = meshCollider.sharedMesh;
+        Vector3[] vertices = mesh.vertices;
+        int[] triangles = mesh.triangles;
+        Vector3[] ps = { vertices[triangles[hit.triangleIndex * 3 + 0]]
+            ,vertices[triangles[hit.triangleIndex * 3 + 1]]
+            ,vertices[triangles[hit.triangleIndex * 3 + 2]]};
+
+
+
+        Transform hitTransform = hit.collider.transform;
+
+        for (var i = 0; i < ps.Length; i++) {
+            ps[i] = hitTransform.TransformPoint(ps[i]);
+        }
+
+        PointDistance[] ds = { new PointDistance(ps[0], ps[1]), new PointDistance(ps[1], ps[2]), new PointDistance(ps[0], ps[2]) };
+        var order = ds.OrderBy(d => d.Distance.sqrMagnitude).ToArray();
+
+
+        order[0].DotAdjust(right);
+        order[1].DotAdjust(up);
+
+        Debug.DrawLine(order[0].P1, order[0].P2, Color.red);
+        Debug.DrawLine(order[1].P1, order[1].P2, Color.blue);
+        Debug.DrawLine(order[2].P1, order[2].P2, Color.green);
+        return order;
     }
 };
