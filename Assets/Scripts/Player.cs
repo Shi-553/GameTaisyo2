@@ -50,13 +50,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public void OnTriggerEnter(Collider other) {
-        var p = other.GetComponent<IOperatedPlayerObject>();
+    private void OnCollisionEnter(Collision collision) {
+        var p = collision.gameObject.GetComponent<IOperatedPlayerObject>();
         if (p != null) {
             p.Hit();
         }
-    }
-    private void OnCollisionEnter(Collision collision) {
+
         if (collision.gameObject.tag == "Block") {
             hp--;
             rigidbody.AddForce((transform.position - collision.contacts[0].point).normalized * 10, ForceMode.VelocityChange);
