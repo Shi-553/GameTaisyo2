@@ -19,8 +19,11 @@ public class Player : MonoBehaviour {
     int hp = 3;
 
     int hammerFrame = 0;
-
+    new Renderer renderer;
+    bool isVisible = false;
     void Start() {
+        renderer = GetComponent<Renderer>();
+
         hp = 3;
         cameraT = Camera.main.transform;
         rigidbody = GetComponent<Rigidbody>();
@@ -59,18 +62,37 @@ public class Player : MonoBehaviour {
 
 
             if (hp <= 0) {
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_STANDALONE
-      UnityEngine.Application.Quit();
-#endif
+                Death();
             }
         }
     }
-
+    void Death() {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_STANDALONE
+      UnityEngine.Application.Quit();
+#endif
+    }
 
 
     void Update() {
+        if (!isVisible) {
+            isVisible = renderer.isVisible;
+        }
+        if (isVisible) {
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+
+            // 視錐台の内側にあるか
+            bool isRendered = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, Vector3.one * 0.1f));
+            if (!isRendered) {
+                Debug.Log("yabaiyabai");
+                bool isRendered2 = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, transform.localScale));
+                if (!isRendered2) {
+                    Death();
+
+                }
+            }
+        }
         if (addSpeed > 0) {
             addSpeed -= 0.1f;
         }
@@ -217,9 +239,9 @@ public class PointDistance {
 
         public Vector3 LonggerWidth { get { return TopWidth.sqrMagnitude > BottomWidth.sqrMagnitude ? TopWidth : BottomWidth; } }
 
-        public Vector3 Normal1 { get ; private set; }
-        public Vector3 Normal2 { get ; private set; }
-        public Vector3 Normal { get ; private set; }
+        public Vector3 Normal1 { get; private set; }
+        public Vector3 Normal2 { get; private set; }
+        public Vector3 Normal { get; private set; }
         public Quad() {
         }
         public Quad(Vector3 leftTop, Vector3 rightTop, Vector3 leftBottom, Vector3 rightBottom) {
@@ -229,7 +251,7 @@ public class PointDistance {
             RightBottom = rightBottom;
 
             Normal1 = Vector3.Cross(RightTop - LeftTop, LeftBottom - LeftTop).normalized;
-            Normal2 = Vector3.Cross( LeftBottom - RightBottom, RightTop - RightBottom).normalized;
+            Normal2 = Vector3.Cross(LeftBottom - RightBottom, RightTop - RightBottom).normalized;
             Normal = (Normal1 + Normal2).normalized;
         }
     }
@@ -290,5 +312,5 @@ public class PointDistance {
         return v;
     }
 
-    
+
 };
