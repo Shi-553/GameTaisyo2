@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
             var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.9f);
 
             //transform.LookAt(look, upFV);
-            transform.LookAt(transform.position - forwardPoints.Normal3, upFV);
+            transform.LookAt(transform.position - forwardPoints.Normal, upFV);
         }
     }
     private void OnCollisionEnter(Collision collision) {
@@ -108,7 +108,7 @@ public class Player : MonoBehaviour {
 
             var befRoatte = transform.rotation;
 
-            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwardPoints.Normal3, 0.5f);
+            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwardPoints.Normal, 0.5f);
 
             transform.LookAt(look, upFV);
 
@@ -213,7 +213,7 @@ public class PointDistance {
 
         public Vector3 Normal1 { get ; private set; }
         public Vector3 Normal2 { get ; private set; }
-        public Vector3 Normal3 { get ; private set; }
+        public Vector3 Normal { get ; private set; }
         public Quad() {
         }
         public Quad(Vector3 leftTop, Vector3 rightTop, Vector3 leftBottom, Vector3 rightBottom) {
@@ -224,7 +224,7 @@ public class PointDistance {
 
             Normal1 = Vector3.Cross(RightTop - LeftTop, LeftBottom - LeftTop).normalized;
             Normal2 = Vector3.Cross( LeftBottom - RightBottom, RightTop - RightBottom).normalized;
-            Normal3 = (Normal1 + Normal2).normalized;
+            Normal = (Normal1 + Normal2).normalized;
         }
     }
 

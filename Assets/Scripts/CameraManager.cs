@@ -27,14 +27,14 @@ public class CameraManager : MonoBehaviour {
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
             var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
-            Debug.DrawRay(forwerdHit.point, forwardPoints.Normal3 * 10,Color.red);
+            Debug.DrawRay(forwerdHit.point, forwardPoints.Normal * 10,Color.red);
             Debug.DrawRay(forwerdHit.point, forwardPoints.Normal1 * 10);
             Debug.DrawRay(forwerdHit.point, forwardPoints.Normal2 * 10);
 
             var point = (forwardPoints.LeftTop + forwardPoints.LeftBottom) / 2;
 
 
-            transform.position = Vector3.Slerp(transform.position, point + forwardPoints.Normal3 * 10, 0.01f);
+            transform.position = Vector3.Slerp(transform.position, point + forwardPoints.Normal * 10, 0.01f);
 
 
             befPoint = Vector3.Lerp(befPoint, forwardPoints.LeftHeight.normalized, 0.005f);
