@@ -38,8 +38,8 @@ public class MoveBlock : MonoBehaviour {
 
             var sa = current - prev;
 
-            transform.localPosition += forwardPoints.LonggerWidth.normalized * sa.x + 
-                forwardPoints.LeftHeight.normalized * sa.y+
+            transform.localPosition += forwardPoints.Right.normalized * sa.x + 
+                forwardPoints.Up.normalized * sa.y+
                 forwardPoints.Normal * sa.z;
         }
 
@@ -50,7 +50,7 @@ public class MoveBlock : MonoBehaviour {
             var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
-            Vector3 upFV = forwardPoints.LeftHeight.normalized;
+            Vector3 upFV = forwardPoints.Up.normalized;
 
             Quaternion OriginalRot = transform.rotation;
 

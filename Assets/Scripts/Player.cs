@@ -40,7 +40,7 @@ public class Player : MonoBehaviour {
                 upFV = cameraT.up;
             }
             else {
-                upFV = forwardPoints.LeftHeight.normalized;
+                upFV = forwardPoints.Up.normalized;
             }
 
             var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.9f);
@@ -131,7 +131,7 @@ public class Player : MonoBehaviour {
                 upFV = cameraT.up;
             }
             else {
-                upFV = forwardPoints.LeftHeight.normalized;
+                upFV = forwardPoints.Up.normalized;
             }
 
             var befRoatte = transform.rotation;
@@ -162,8 +162,8 @@ public class Player : MonoBehaviour {
                 rightFV = cameraT.right;
             }
             else {
-                upFV = forwardPoints.LeftHeight.normalized;
-                rightFV = forwardPoints.LonggerWidth.normalized;
+                upFV = forwardPoints.Up.normalized;
+                rightFV = forwardPoints.Right.normalized;
             }
 
 
@@ -190,7 +190,7 @@ public class Player : MonoBehaviour {
 
             }
 
-            rigidbody.AddForce(transform.forward * 10, ForceMode.Acceleration);
+            rigidbody.AddForce(-forwardPoints.Normal * 10, ForceMode.Acceleration);
         }
     }
 }
@@ -232,16 +232,43 @@ public class PointDistance {
         public Vector3 LeftBottom { get; private set; }
         public Vector3 RightBottom { get; private set; }
 
-        public Vector3 RightHeight { get { return RightTop - RightBottom; } }
         public Vector3 LeftHeight { get { return LeftTop - LeftBottom; } }
+        public Vector3 RightHeight { get { return RightTop - RightBottom; } }
         public Vector3 TopWidth { get { return RightTop - LeftTop; } }
         public Vector3 BottomWidth { get { return RightBottom - LeftBottom; } }
 
-        public Vector3 LonggerWidth { get { return TopWidth.sqrMagnitude > BottomWidth.sqrMagnitude ? TopWidth : BottomWidth; } }
-
+        public Vector3 Right {
+            get {
+                return TopWidth * TopRatio + BottomWidth * (1- TopRatio);
+            }
+        }
+        public Vector3 Up {
+            get {
+                return LeftHeight * LeftRatio + RightHeight * (1- LeftRatio);
+            }
+        }
         public Vector3 Normal1 { get; private set; }
         public Vector3 Normal2 { get; private set; }
         public Vector3 Normal { get; private set; }
+        public float LeftRatio { get; private set; }
+        public float TopRatio { get; private set; }
+
+        public void SetPoint(Vector3 point) {
+            var leftCenter = LeftTop + LeftBottom / 2;
+            var rightCenter= RightTop + RightBottom / 2;
+            var topCenter = RightTop + LeftTop / 2;
+            var bottomCenter= RightBottom + LeftBottom / 2;
+
+            var leftCenterDistance = Vector3.Distance(point, leftCenter);
+            var rightCenterDistance = Vector3.Distance(point, rightCenter);
+            var topCenterDistance = Vector3.Distance(point, topCenter);
+            var bottomCenterDistance = Vector3.Distance(point, bottomCenter);
+
+            LeftRatio = leftCenterDistance / (leftCenterDistance + rightCenterDistance);
+            TopRatio = topCenterDistance / (topCenterDistance + bottomCenterDistance);
+            LeftRatio = 0.5f; 
+            TopRatio = 0.5f;
+        }
         public Quad() {
         }
         public Quad(Vector3 leftTop, Vector3 rightTop, Vector3 leftBottom, Vector3 rightBottom) {
@@ -304,6 +331,7 @@ public class PointDistance {
         else /*if(order[0].P2 == order[1].P1)*/ {
             v = new Quad(order[0].P2, order[0].P1, otherV, order[1].P2);
         }
+        v.SetPoint(hit.point);
 
         Debug.DrawLine(v.LeftTop, v.RightTop, Color.red);
         Debug.DrawLine(v.RightTop, v.RightBottom, Color.blue);
