@@ -46,6 +46,15 @@ public class Player : MonoBehaviour {
             transform.LookAt(transform.position - forwardPoints.Normal, upFV);
         }
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        var p = other.GetComponent<IOperatedPlayerObject>();
+        if (p != null)
+        {
+            p.Hit();
+        }
+    }
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Block") {
             hp--;
@@ -283,4 +292,6 @@ public class PointDistance {
         Debug.DrawLine(v.LeftBottom, v.LeftTop, Color.cyan);
         return v;
     }
+
+    
 };
