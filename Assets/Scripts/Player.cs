@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class Player : MonoBehaviour {
     [SerializeField] float addSpeed = 0;
     [SerializeField] GameObject hammer;
 
-   new Rigidbody rigidbody;
+    new Rigidbody rigidbody;
 
     int hp = 3;
 
@@ -31,26 +32,24 @@ public class Player : MonoBehaviour {
             var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
-            Vector3 upFV, rightFV;
+            Vector3 upFV;
             if (isAbsMove) {
                 upFV = cameraT.up;
-                rightFV = cameraT.right;
             }
             else {
-                upFV = forwardPoints[1].NomalD;
-                rightFV = forwardPoints[0].NomalD;
+                upFV = forwardPoints.LeftHeight.normalized;
             }
 
             var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.9f);
 
             //transform.LookAt(look, upFV);
-            transform.LookAt(transform.position - forwerdHit.normal, upFV);
+            transform.LookAt(transform.position - forwardPoints.Normal3, upFV);
         }
-        }
+    }
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.tag == "Block") {
             hp--;
-            rigidbody.AddForce((transform.position - collision.contacts[0].point).normalized*10, ForceMode.VelocityChange);
+            rigidbody.AddForce((transform.position - collision.contacts[0].point).normalized * 10, ForceMode.VelocityChange);
 
 
             if (hp <= 0) {
@@ -104,12 +103,12 @@ public class Player : MonoBehaviour {
                 upFV = cameraT.up;
             }
             else {
-                upFV = forwardPoints[1].NomalD;
+                upFV = forwardPoints.LeftHeight.normalized;
             }
 
             var befRoatte = transform.rotation;
 
-            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.5f);
+            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwardPoints.Normal3, 0.5f);
 
             transform.LookAt(look, upFV);
 
@@ -125,7 +124,7 @@ public class Player : MonoBehaviour {
     private void FixedUpdate() {
 
 
-       var  forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
+        var forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
             var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
@@ -135,8 +134,8 @@ public class Player : MonoBehaviour {
                 rightFV = cameraT.right;
             }
             else {
-                upFV = forwardPoints[1].NomalD;
-                rightFV = forwardPoints[0].NomalD;
+                upFV = forwardPoints.LeftHeight.normalized;
+                rightFV = forwardPoints.LonggerWidth.normalized;
             }
 
 
@@ -158,13 +157,13 @@ public class Player : MonoBehaviour {
             dir.Normalize();
 
             if (dir != Vector3.zero) {
-               // rigidbody.AddForce(-transform.forward * 20, ForceMode.Acceleration);
+                // rigidbody.AddForce(-transform.forward * 20, ForceMode.Acceleration);
                 rigidbody.AddForce(dir * (speed + addSpeed), ForceMode.VelocityChange);
 
             }
 
-            rigidbody.AddForce(transform.forward * ( forwerdHit.distance* forwerdHit.distance), ForceMode.Acceleration);
- }
+            rigidbody.AddForce(transform.forward * 10, ForceMode.Acceleration);
+        }
     }
 }
 
@@ -197,6 +196,37 @@ public class PointDistance {
             IsChange = !IsChange;
         }
     }
+    public class Quad {
+
+
+        public Vector3 LeftTop { get; private set; }
+        public Vector3 RightTop { get; private set; }
+        public Vector3 LeftBottom { get; private set; }
+        public Vector3 RightBottom { get; private set; }
+
+        public Vector3 RightHeight { get { return RightTop - RightBottom; } }
+        public Vector3 LeftHeight { get { return LeftTop - LeftBottom; } }
+        public Vector3 TopWidth { get { return RightTop - LeftTop; } }
+        public Vector3 BottomWidth { get { return RightBottom - LeftBottom; } }
+
+        public Vector3 LonggerWidth { get { return TopWidth.sqrMagnitude > BottomWidth.sqrMagnitude ? TopWidth : BottomWidth; } }
+
+        public Vector3 Normal1 { get ; private set; }
+        public Vector3 Normal2 { get ; private set; }
+        public Vector3 Normal3 { get ; private set; }
+        public Quad() {
+        }
+        public Quad(Vector3 leftTop, Vector3 rightTop, Vector3 leftBottom, Vector3 rightBottom) {
+            LeftTop = leftTop;
+            RightTop = rightTop;
+            LeftBottom = leftBottom;
+            RightBottom = rightBottom;
+
+            Normal1 = Vector3.Cross(RightTop - LeftTop, LeftBottom - LeftTop).normalized;
+            Normal2 = Vector3.Cross( LeftBottom - RightBottom, RightTop - RightBottom).normalized;
+            Normal3 = (Normal1 + Normal2).normalized;
+        }
+    }
 
     /// <summary>
     /// 
@@ -204,21 +234,21 @@ public class PointDistance {
     /// <param name="hit"></param>
     /// <param name="up"></param>
     /// <param name="right"></param>
-    /// <returns>0=底辺 1=高さ 2=斜辺</returns>
-    public static PointDistance[] GetUpRight(RaycastHit hit, Vector3 up, Vector3 right) {
+    /// <returns></returns>
+    public static Quad GetUpRight(RaycastHit hit, Vector3 up, Vector3 right) {
         MeshCollider meshCollider = hit.collider as MeshCollider;
 
         if (meshCollider == null || meshCollider.sharedMesh == null) {
-            return new PointDistance[] { };
+            return new Quad();
         }
 
         Mesh mesh = meshCollider.sharedMesh;
         Vector3[] vertices = mesh.vertices;
         int[] triangles = mesh.triangles;
+
         Vector3[] ps = { vertices[triangles[hit.triangleIndex * 3 + 0]]
             ,vertices[triangles[hit.triangleIndex * 3 + 1]]
             ,vertices[triangles[hit.triangleIndex * 3 + 2]]};
-
 
 
         Transform hitTransform = hit.collider.transform;
@@ -234,9 +264,23 @@ public class PointDistance {
         order[0].DotAdjust(right);
         order[1].DotAdjust(up);
 
-        Debug.DrawLine(order[0].P1, order[0].P2, Color.red);
-        Debug.DrawLine(order[1].P1, order[1].P2, Color.blue);
-        Debug.DrawLine(order[2].P1, order[2].P2, Color.green);
-        return order;
+        var index = Array.FindIndex(ps, p => order[0].P1 != p && order[0].P2 != p);
+        var otherV = vertices[triangles[hit.triangleIndex * 3 + index] + 1];
+        otherV = hitTransform.TransformPoint(otherV);
+
+        Quad v;
+
+        if (order[0].P1 == order[1].P2) {
+            v = new Quad(order[1].P1, otherV, order[0].P2, order[0].P1);
+        }
+        else /*if(order[0].P2 == order[1].P1)*/ {
+            v = new Quad(order[0].P2, order[0].P1, otherV, order[1].P2);
+        }
+
+        Debug.DrawLine(v.LeftTop, v.RightTop, Color.red);
+        Debug.DrawLine(v.RightTop, v.RightBottom, Color.blue);
+        Debug.DrawLine(v.RightBottom, v.LeftBottom, Color.green);
+        Debug.DrawLine(v.LeftBottom, v.LeftTop, Color.cyan);
+        return v;
     }
 };

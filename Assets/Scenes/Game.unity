@@ -130,6 +130,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4452921636693628185, guid: 9fb55f8a8f274c74796521d0408364e2,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4452921636693628185, guid: 9fb55f8a8f274c74796521d0408364e2,
+        type: 3}
       propertyPath: TransformBlock.endValue.x
       value: -2.63
       objectReference: {fileID: 0}
@@ -494,7 +499,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 5
+  near clip plane: 3
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -543,7 +548,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 256
-  speed: 0.01
+  speed: 0.003
 --- !u!1001 &994169001
 PrefabInstance:
   m_ObjectHideFlags: 0
