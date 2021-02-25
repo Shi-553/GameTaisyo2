@@ -81,9 +81,17 @@ public class Player : MonoBehaviour {
             isVisible = renderer.isVisible;
         }
         if (isVisible) {
-            if (!renderer.isVisible) {
-                Death();
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
+            // 視錐台の内側にあるか
+            bool isRendered = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, Vector3.one * 0.1f));
+            if (!isRendered) {
+                Debug.Log("yabaiyabai");
+                bool isRendered2 = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, transform.localScale));
+                if (!isRendered2) {
+                    Death();
+
+                }
             }
         }
         if (addSpeed > 0) {
