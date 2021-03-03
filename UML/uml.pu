@@ -1,0 +1,134 @@
+@startuml
+'コメント
+title uml
+
+namespace Player{
+    class PlayerInput{
+
+    }
+
+    class PlayerHummer
+    class PlayerMover
+    interface IOperatedPlayerObject{
+        + void Hit(Vector3 dir)
+    }
+    interface IOperatedHummerObject{
+        + void Hit(Vector3 dir)
+    }
+
+    class PlayerCore{
+        + int hp
+    }
+    class PlayerItem{
+
+    }
+   interface IDamageable{
+        + void ApplyDamage(Vector3 knockback)
+        + void HealDamage(int value)
+    }
+
+    PlayerMover --> IOperatedPlayerObject
+    PlayerHummer ---> IOperatedHummerObject
+    PlayerInput --> PlayerHummer
+    PlayerInput --> PlayerMover
+
+
+    PlayerMover --|> Gimmick.Wind.IWindAffectable
+
+    PlayerCore --|> IDamageable
+}
+
+namespace Camera{
+    class Camera
+}
+
+namespace Manager{
+    class StageManager
+}
+
+namespace Gimmick{
+    namespace Wind{
+        class Wind<<struct>>{
+            + Vector3 dir
+            + float value
+        }
+        interface IWindAffectable{
+            + void AffectWind(Wind wind)
+        }
+        class WindGenerate{
+            + Wind wind
+
+        }
+    IWindAffectable <-- WindGenerate
+    Wind <-- WindGenerate
+    IWindAffectable -> Wind
+    }
+
+    class Switch{
+        + Door door
+    }
+    class Door
+    class Goal{
+
+    }
+    Goal --u>Scene.SceneManager
+
+    Goal -|> Player.IOperatedPlayerObject
+
+    Switch --|> Player.IOperatedHummerObject
+    Switch --> Door
+}
+namespace UI{
+    class IntObjectUI
+}
+namespace Scene{
+    enum SceneType
+    class SceneManager
+
+    SceneType -> SceneManager
+}
+
+namespace Item{
+    enum ItemType
+    abstract ItemBase{
+        + ItemType type
+    }
+    class HealItem
+    class StopTimeItem
+
+    ItemType -> ItemBase
+    ItemBase <|-- HealItem
+    ItemBase <|-- StopTimeItem
+
+    HealItem --> Player.IDamageable 
+
+
+}
+
+namespace Block{
+    class TransformBlock
+    class MoveBlock
+    class RotateBlock
+    class ScalingBlock
+
+    class DamageBlock
+
+   DamageBlock -> Player.IDamageable 
+
+    TransformBlock <-- MoveBlock
+    TransformBlock <-- ScalingBlock
+    TransformBlock <-- RotateBlock
+}
+namespace AlongMesh{
+    class PointDistance{
+        {static} + Quad GetUpRight(RaycastHit hit, Vector3 up, Vector3 right)
+    }
+    class Quad{
+    }
+
+    PointDistance -> Quad
+}
+
+
+
+@enduml
