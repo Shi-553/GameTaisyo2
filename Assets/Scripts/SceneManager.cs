@@ -5,21 +5,21 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 
 
-public enum SceneType
-{
-    TITLE,
-    GAME,
-    RESULT,
-};
+
 
 namespace Scene
 {
-
-    public class SceneManager : MonoBehaviour
+    public enum SceneType
     {
-        public void ChangeScene(int SceneType, int LoadSceneMode)
+        TITLE,
+        GAME,
+        RESULT,
+    };
+    public class SceneManager : SingletonMonoBehaviour<SceneManager>
+    {
+        public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(SceneType, (LoadSceneMode)LoadSceneMode);
+            UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
     }
 }
