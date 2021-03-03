@@ -1176,10 +1176,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   speed: 0.01
-  ratio: 0.6
+  positionRatio: 0.5
+  positionUp: 0
   distance: 12
   rayDistance: 6
-  up: -2
   positionLerp: 0.01
   lookAtLerp: 0.01
 --- !u!1001 &994169001
@@ -1381,7 +1381,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000904166}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eff37995a7b3d93418f1dc29ccc38e0c, type: 3}
   m_Name: 
@@ -2320,12 +2320,12 @@ PrefabInstance:
     - target: {fileID: 1615966908097478345, guid: 92b3248be121c264eb211dc7c69b5120,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.36
+      value: -0.83
       objectReference: {fileID: 0}
     - target: {fileID: 1615966908097478345, guid: 92b3248be121c264eb211dc7c69b5120,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.04
+      value: -1.96
       objectReference: {fileID: 0}
     - target: {fileID: 1615966908097478345, guid: 92b3248be121c264eb211dc7c69b5120,
         type: 3}
@@ -2384,6 +2384,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2114419191}
   - component: {fileID: 2114419190}
+  - component: {fileID: 2114419192}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2418,6 +2419,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2114419192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2114419189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e6199cb60240243ba2773184a19c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1076266357500460549
 PrefabInstance:
   m_ObjectHideFlags: 0
