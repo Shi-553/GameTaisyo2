@@ -49,3 +49,6 @@ Thumbs.db
 
 #python bytecode cache, for some plugins.
 *.pyc
+/GameTaisyo2_Data
+*.exe
+/UnityPlayer.dll
