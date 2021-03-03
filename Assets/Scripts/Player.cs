@@ -4,197 +4,222 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
-    [SerializeField] LayerMask mask;
+namespace Player
+{
+    public class Player : MonoBehaviour
+    {
+        [SerializeField] LayerMask mask;
 
-    Transform cameraT;
-    [SerializeField] bool isAbsMove = false;
+        Transform cameraT;
+        [SerializeField] bool isAbsMove = false;
 
-    [SerializeField] float speed = 1;
-    [SerializeField] float addSpeed = 0;
-    [SerializeField] GameObject hammer;
+        [SerializeField] float speed = 1;
+        [SerializeField] float addSpeed = 0;
+        [SerializeField] GameObject hammer;
 
-    new Rigidbody rigidbody;
+        new Rigidbody rigidbody;
 
-    int hp = 3;
+        int hammerFrame = 0;
+        new Renderer renderer;
+        bool isVisible = false;
+        void Start()
+        {
+            renderer = GetComponent<Renderer>();
 
-    int hammerFrame = 0;
-    new Renderer renderer;
-    bool isVisible = false;
-    void Start() {
-        renderer = GetComponent<Renderer>();
+            
+            cameraT = Camera.main.transform;
+            rigidbody = GetComponent<Rigidbody>();
 
-        hp = 3;
-        cameraT = Camera.main.transform;
-        rigidbody = GetComponent<Rigidbody>();
+            Ray forwerdRay = new Ray(transform.position, transform.forward);
 
-        Ray forwerdRay = new Ray(transform.position, transform.forward);
+            if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask))
+            {
 
-        if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
-
-            var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
-
-
-            Vector3 upFV;
-            if (isAbsMove) {
-                upFV = cameraT.up;
-            }
-            else {
-                upFV = forwardPoints.Up.normalized;
-            }
-
-            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.9f);
-
-            //transform.LookAt(look, upFV);
-            transform.LookAt(transform.position - forwardPoints.Normal, upFV);
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision) {
-        var p = collision.gameObject.GetComponent<IOperatedPlayerObject>();
-        if (p != null) {
-            p.Hit();
-        }
-
-        if (collision.gameObject.tag == "Block") {
-            hp--;
-            rigidbody.AddForce((transform.position - collision.contacts[0].point).normalized * 10, ForceMode.VelocityChange);
+                var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
-            if (hp <= 0) {
-                Death();
+                Vector3 upFV;
+                if (isAbsMove)
+                {
+                    upFV = cameraT.up;
+                }
+                else
+                {
+                    upFV = forwardPoints.Up.normalized;
+                }
+
+                var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwerdHit.normal, 0.9f);
+
+                //transform.LookAt(look, upFV);
+                transform.LookAt(transform.position - forwardPoints.Normal, upFV);
             }
         }
-    }
-    void Death() {
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            var p = collision.gameObject.GetComponent<IOperatedPlayerObject>();
+            if (p != null)
+            {
+                p.Hit();
+            }
+
+
+        }
+        void Death()
+        {
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #elif UNITY_STANDALONE
       UnityEngine.Application.Quit();
 #endif
-    }
-
-
-    void Update() {
-        if (!isVisible) {
-            isVisible = renderer.isVisible;
         }
-        if (isVisible) {
-            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
 
-            // 視錐台の内側にあるか
-            bool isRendered = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, Vector3.one * 0.1f));
-            if (!isRendered) {
-                Debug.Log("yabaiyabai");
-                bool isRendered2 = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, transform.localScale));
-                if (!isRendered2) {
-                    Death();
 
+        void Update()
+        {
+            if (!isVisible)
+            {
+                isVisible = renderer.isVisible;
+            }
+            if (isVisible)
+            {
+                Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+
+                // 視錐台の内側にあるか
+                bool isRendered = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, Vector3.one * 0.1f));
+                if (!isRendered)
+                {
+                    Debug.Log("yabaiyabai");
+                    bool isRendered2 = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, transform.localScale));
+                    if (!isRendered2)
+                    {
+                        Death();
+
+                    }
                 }
             }
-        }
-        if (addSpeed > 0) {
-            addSpeed -= 0.1f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            addSpeed = 3;
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift)) {
-            isAbsMove = !isAbsMove;
-        }
-        if (hammerFrame > 0) {
-            hammerFrame++;
-            hammer.transform.RotateAround(transform.position, transform.up, hammerFrame);
-
-            if (hammerFrame > 100) {
-                hammerFrame = 0;
-                hammer.SetActive(false);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            hammerFrame++;
-            hammer.SetActive(true);
-            hammer.transform.RotateAround(transform.position, transform.up, 0);
-        }
-
-        Ray forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
-
-        if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
-
-            var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
-
-
-            Vector3 upFV;
-            if (isAbsMove) {
-                upFV = cameraT.up;
-            }
-            else {
-                upFV = forwardPoints.Up.normalized;
+            if (addSpeed > 0)
+            {
+                addSpeed -= 0.1f;
             }
 
-            var befRoatte = transform.rotation;
-
-            var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwardPoints.Normal, 0.5f);
-
-            transform.LookAt(look, upFV);
-
-            var sa = Quaternion.Angle(befRoatte, transform.rotation);
-            if (sa > 20) {
-                transform.rotation = befRoatte;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                addSpeed = 3;
             }
-            //Debug.Log(sa);
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isAbsMove = !isAbsMove;
+            }
+            if (hammerFrame > 0)
+            {
+                hammerFrame++;
+                hammer.transform.RotateAround(transform.position, transform.up, hammerFrame);
+
+                if (hammerFrame > 100)
+                {
+                    hammerFrame = 0;
+                    hammer.SetActive(false);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                hammerFrame++;
+                hammer.SetActive(true);
+                hammer.transform.RotateAround(transform.position, transform.up, 0);
+            }
+
+            Ray forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
+
+            if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask))
+            {
+
+                var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
+                Vector3 upFV;
+                if (isAbsMove)
+                {
+                    upFV = cameraT.up;
+                }
+                else
+                {
+                    upFV = forwardPoints.Up.normalized;
+                }
+
+                var befRoatte = transform.rotation;
+
+                var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwardPoints.Normal, 0.5f);
+
+                transform.LookAt(look, upFV);
+
+                var sa = Quaternion.Angle(befRoatte, transform.rotation);
+                if (sa > 20)
+                {
+                    transform.rotation = befRoatte;
+                }
+                //Debug.Log(sa);
+
+
+            }
+        }
+        private void FixedUpdate()
+        {
+
+
+            var forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
+            if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask))
+            {
+                var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
+
+                Vector3 upFV, rightFV;
+                if (isAbsMove)
+                {
+                    upFV = cameraT.up;
+                    rightFV = cameraT.right;
+                }
+                else
+                {
+                    upFV = forwardPoints.Up.normalized;
+                    rightFV = forwardPoints.Right.normalized;
+                }
+
+
+                var dir = Vector3.zero;
+                if (Input.GetKey(KeyCode.W))
+                {
+                    dir += upFV;
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    dir += -rightFV;
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    dir += -upFV;
+
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    dir += rightFV;
+
+                }
+                dir.Normalize();
+
+                if (dir != Vector3.zero)
+                {
+                    // rigidbody.AddForce(-transform.forward * 20, ForceMode.Acceleration);
+                    rigidbody.AddForce(dir * (speed + addSpeed), ForceMode.VelocityChange);
+
+                }
+
+                rigidbody.AddForce(-forwardPoints.Normal * 10, ForceMode.Acceleration);
+            }
         }
     }
-    private void FixedUpdate() {
 
-
-        var forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
-        if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
-            var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
-
-            Vector3 upFV, rightFV;
-            if (isAbsMove) {
-                upFV = cameraT.up;
-                rightFV = cameraT.right;
-            }
-            else {
-                upFV = forwardPoints.Up.normalized;
-                rightFV = forwardPoints.Right.normalized;
-            }
-
-
-            var dir = Vector3.zero;
-            if (Input.GetKey(KeyCode.W)) {
-                dir += upFV;
-            }
-            if (Input.GetKey(KeyCode.A)) {
-                dir += -rightFV;
-            }
-            if (Input.GetKey(KeyCode.S)) {
-                dir += -upFV;
-
-            }
-            if (Input.GetKey(KeyCode.D)) {
-                dir += rightFV;
-
-            }
-            dir.Normalize();
-
-            if (dir != Vector3.zero) {
-                // rigidbody.AddForce(-transform.forward * 20, ForceMode.Acceleration);
-                rigidbody.AddForce(dir * (speed + addSpeed), ForceMode.VelocityChange);
-
-            }
-
-            rigidbody.AddForce(-forwardPoints.Normal * 10, ForceMode.Acceleration);
-        }
-    }
 }
-
 
 public class PointDistance {
     public Vector3 Distance { get; private set; }
