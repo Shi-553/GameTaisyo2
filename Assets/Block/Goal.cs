@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour, IOperatedPlayerObject
 {
-    //Inspectorでキャラクターとゴールオブジェクトの指定を出来る様にします。
-    [SerializeField] GameObject chara;
 
     void IOperatedPlayerObject.Hit(){
-        chara.SetActive(false);
-        Debug.Log("GOAL");
+        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.RESULT, LoadSceneMode.Single);
     }
 
 }
