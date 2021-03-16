@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Item;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace Player
     public class PlayerCore : MonoBehaviour ,IDamageable
     {
         int hp = 3;
+        int currentItemIndex = -1;
+        List<UseableItemBase> useableItems=new List<UseableItemBase>();
 
         public void ApplyDamage(Vector3 knockback)
         {
@@ -18,6 +21,29 @@ namespace Player
         public void HealDamage(int value)
         {
             hp+=value;
+        }
+        public void UseItem()
+        {
+            if (currentItemIndex == -1) {
+                return;
+            }
+            useableItems[currentItemIndex].Use(gameObject);
+            useableItems.RemoveAt(currentItemIndex);
+            currentItemIndex--;
+        }
+        public void NextItem()
+        {
+            if (currentItemIndex == -1) {
+                return;
+            }
+            currentItemIndex = (currentItemIndex + 1) % useableItems.Count;
+        }
+        public void PrevItem()
+        {
+            if (currentItemIndex == -1) {
+                return;
+            }
+            currentItemIndex = (currentItemIndex - 1) % useableItems.Count;
         }
 
 
@@ -34,6 +60,17 @@ namespace Player
             var p = collision.gameObject.GetComponent<IOperatedPlayerObject>();
             if (p != null) {
                 p.Hit();
+            }
+            var immediateItem = collision.gameObject.GetComponent<ImmediateItemBase>();
+            if (immediateItem != null) {
+                immediateItem.Hit(gameObject);
+            }
+            var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
+            if (useableItem != null) {
+                if (currentItemIndex == -1) {
+                    currentItemIndex = 0;
+                }
+                useableItems.Add(useableItem);
             }
 
 
