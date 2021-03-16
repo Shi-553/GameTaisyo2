@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScalingBlock : MonoBehaviour
-{
-    [SerializeField] TransformBlock TransformBlock;
+public class ScalingBlock : TransformBlock {
     Vector3 firstScale;
     void Start()
     {
@@ -14,6 +12,6 @@ public class ScalingBlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = (firstScale + TransformBlock.GetCurrentAnimeValue());
+        transform.localScale = (firstScale + GetCurrentAnimeValue());
     }
 }
