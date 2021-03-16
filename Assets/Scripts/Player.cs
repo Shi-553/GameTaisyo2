@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
     [SerializeField] LayerMask mask;
@@ -17,7 +18,6 @@ public class Player : MonoBehaviour {
     new Rigidbody rigidbody;
 
     int hp = 3;
-
     int hammerFrame = 0;
     new Renderer renderer;
     bool isVisible = false;
@@ -67,11 +67,13 @@ public class Player : MonoBehaviour {
         }
     }
     void Death() {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_STANDALONE
-      UnityEngine.Application.Quit();
-#endif
+        //#if UNITY_EDITOR
+        //        UnityEditor.EditorApplication.isPlaying = false;
+        //#elif UNITY_STANDALONE
+        //      UnityEngine.Application.Quit();
+        //#endif
+        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.RESULT, LoadSceneMode.Additive);
+
     }
 
 
