@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour {
+public class CameraManager : MonoBehaviour, Item.TimeStopable {
     [SerializeField] LayerMask mask;
 
 
@@ -18,6 +18,14 @@ public class CameraManager : MonoBehaviour {
     [SerializeField] float positionLerp = 0.01f;
     [SerializeField] float lookAtLerp = 0.01f;
     Vector3 aftQ;
+
+    public void TimeReStarted() {
+        enabled = true;
+    }
+
+    public void TimeStoped() {
+        enabled = false;
+    }
 
     void Start() {
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
