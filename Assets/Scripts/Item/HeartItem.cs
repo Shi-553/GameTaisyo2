@@ -9,7 +9,6 @@ namespace Item {
             if (damageble != null) {
                 damageble.HealDamage(1);
             }
-            Delete();
         }
     }
 }
