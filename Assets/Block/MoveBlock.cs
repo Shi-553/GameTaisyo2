@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveBlock : MonoBehaviour {
+public class MoveBlock : TransformBlock {
     int mask;
 
-    [SerializeField] TransformBlock TransformBlock;
     [SerializeField] [Range(0.0f,1.0f)] float smoothSpeed=0.1f;
 
 
@@ -13,14 +12,14 @@ public class MoveBlock : MonoBehaviour {
 
     private void Start() {
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
-        prevAnimeValue = TransformBlock.GetCurrentAnimeValue();
+        prevAnimeValue = GetCurrentAnimeValue();
 
         Set(Vector3.zero, prevAnimeValue);
     }
 
     private void Update() {
 
-        var animeValue = TransformBlock.GetCurrentAnimeValue();
+        var animeValue = GetCurrentAnimeValue();
         Set(prevAnimeValue, animeValue);
         prevAnimeValue = animeValue;
     }

@@ -61,9 +61,12 @@ namespace Player
             if (p != null) {
                 p.Hit();
             }
+        }
+        private void OnTriggerEnter(Collider collision) {
             var immediateItem = collision.gameObject.GetComponent<ImmediateItemBase>();
             if (immediateItem != null) {
                 immediateItem.Hit(gameObject);
+                immediateItem.Delete();
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
             if (useableItem != null) {
@@ -71,6 +74,7 @@ namespace Player
                     currentItemIndex = 0;
                 }
                 useableItems.Add(useableItem);
+                useableItem.Delete();
             }
 
 

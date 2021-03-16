@@ -1,25 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[System.Serializable]
-public class TransformBlock 
-{
-    [SerializeField] Vector3 beginValue;
-    [SerializeField] Vector3 endValue;
-    [SerializeField] float speed=1;
-    [SerializeField] AnimationCurve curve;
-    // Start is called before the first frame update
 
-    public Vector3 GetCurrentAnimeValue()
-    {
+public class TransformBlock : MonoBehaviour,Item.TimeStopable {
+    [SerializeField] protected Vector3 beginValue;
+    [SerializeField]protected Vector3 endValue;
+    [SerializeField] protected float speed = 1;
+    [SerializeField] protected AnimationCurve curve;
+    
+
+    float stoppedTime=0;
+    float allDiffTime=0;
+
+
+    public Vector3 GetCurrentAnimeValue() {
 
         var time = GetCurrentTime();
 
-       return  beginValue* (1 - time) + endValue* time;
+        return beginValue * (1 - time) + endValue * time;
 
     }
     public float GetCurrentTime() {
-        return curve.Evaluate(Time.time* speed); ;
+        if (stoppedTime != 0) {
+            return curve.Evaluate((stoppedTime) * speed);
+        }
+        return curve.Evaluate((Time.time - allDiffTime) * speed);
     }
 
+    public void TimeReStarted() {
+        allDiffTime += stoppedTime - Time.time;
+        stoppedTime = 0;
+    }
+
+    public void TimeStopped() {
+        stoppedTime = Time.time;
+    }
 }

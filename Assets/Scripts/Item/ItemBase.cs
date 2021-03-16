@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Item {
     public abstract class ItemBase : MonoBehaviour {
-        protected void Delete() {
-            Destroy(gameObject);
+        public void Delete() {
+            gameObject.SetActive(false);
         }
     }
     public abstract class ImmediateItemBase : ItemBase {
@@ -13,5 +13,8 @@ namespace Item {
     }
     public abstract class UseableItemBase : ItemBase {
         public abstract void Use(GameObject player);
+
+        [SerializeField]
+        Sprite sprite;
     }
 }
