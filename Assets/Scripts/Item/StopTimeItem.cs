@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Item {
     interface TimeStopable {
-        void TimeStoped();
+        void TimeStopped();
         void TimeReStarted();
     }
     public class StopTimeItem : UseableItemBase {
@@ -23,7 +23,7 @@ namespace Item {
                 var timeStopable = c as TimeStopable;
 
                 if (timeStopable != null) {
-                    timeStopable.TimeStoped();
+                    timeStopable.TimeStopped();
                     components.Add(timeStopable);
                 }
             }

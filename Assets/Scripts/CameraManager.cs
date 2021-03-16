@@ -23,7 +23,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
         enabled = true;
     }
 
-    public void TimeStoped() {
+    public void TimeStopped() {
         enabled = false;
     }
 
