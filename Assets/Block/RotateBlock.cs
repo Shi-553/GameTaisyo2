@@ -14,4 +14,12 @@ public class RotateBlock : TransformBlock {
     {
         transform.localEulerAngles=(firstRotate + GetCurrentAnimeValue());
     }
+    private void OnDrawGizmos() {
+        if (!UnityEditor.EditorApplication.isPlaying) {
+            var child = transform.GetChild(0);
+            transform.localEulerAngles += endValue;
+            Gizmos.DrawMesh(child.GetComponent<MeshFilter>().sharedMesh, child.position, child.rotation, child.lossyScale);
+            transform.localEulerAngles -= endValue;
+        }
+    }
 }

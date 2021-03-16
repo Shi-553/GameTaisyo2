@@ -14,4 +14,13 @@ public class ScalingBlock : TransformBlock {
     {
         transform.localScale = (firstScale + GetCurrentAnimeValue());
     }
+
+    private void OnDrawGizmos() {
+        if (!UnityEditor.EditorApplication.isPlaying) {
+            var child = transform.GetChild(0);
+            transform.localScale += endValue;
+            Gizmos.DrawMesh(child.GetComponent<MeshFilter>().sharedMesh, child.position, child.rotation, child.lossyScale);
+            transform.localScale -= endValue;
+        }
+    }
 }
