@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Item {
     public abstract class ItemBase : MonoBehaviour {
-        public void Delete() {
+        public void DeleteModel() {
             gameObject.SetActive(false);
         }
     }
@@ -12,7 +12,12 @@ namespace Item {
         public abstract void Hit(GameObject player);
     }
     public abstract class UseableItemBase : ItemBase {
-        public abstract void Use(GameObject player);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>isDelete</returns>
+        public abstract bool Use(GameObject player);
 
         [SerializeField]
         Sprite sprite;

@@ -11,6 +11,8 @@ namespace Player
         int hp = 3;
         int currentItemIndex = -1;
         List<UseableItemBase> useableItems=new List<UseableItemBase>();
+        [SerializeField]
+        List<GameObject> defaultUseableItems=new List<GameObject>();
 
         public void ApplyDamage(Vector3 knockback)
         {
@@ -27,9 +29,11 @@ namespace Player
             if (currentItemIndex == -1) {
                 return;
             }
-            useableItems[currentItemIndex].Use(gameObject);
-            useableItems.RemoveAt(currentItemIndex);
-            currentItemIndex--;
+            var isDelete = useableItems[currentItemIndex].Use(gameObject);
+            if (isDelete) {
+                useableItems.RemoveAt(currentItemIndex);
+                currentItemIndex--;
+            }
         }
         public void NextItem()
         {
@@ -53,7 +57,16 @@ namespace Player
         void Start() {
             renderer = GetComponent<Renderer>();
 
+            useableItems = new List<UseableItemBase>();
+            foreach (var item in defaultUseableItems) {
+                var u = item.GetComponent<UseableItemBase>();
+                u.DeleteModel();
+                useableItems.Add(u);
 
+                if (currentItemIndex == -1) {
+                    currentItemIndex = 0;
+                }
+            }
         }
 
         private void OnCollisionEnter(Collision collision) {
@@ -66,7 +79,7 @@ namespace Player
             var immediateItem = collision.gameObject.GetComponent<ImmediateItemBase>();
             if (immediateItem != null) {
                 immediateItem.Hit(gameObject);
-                immediateItem.Delete();
+                immediateItem.DeleteModel();
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
             if (useableItem != null) {
@@ -74,7 +87,7 @@ namespace Player
                     currentItemIndex = 0;
                 }
                 useableItems.Add(useableItem);
-                useableItem.Delete();
+                useableItem.DeleteModel();
             }
 
 
