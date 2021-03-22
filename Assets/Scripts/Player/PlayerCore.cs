@@ -14,15 +14,23 @@ namespace Player
         [SerializeField]
         List<GameObject> defaultUseableItems=new List<GameObject>();
 
+        IntObjectUI heartUI;
+
         public void ApplyDamage(Vector3 knockback)
         {
             hp--;
             GetComponent<Rigidbody>().AddForce(knockback,ForceMode.VelocityChange);
+            heartUI.Remove();
+            if (hp <= 0) {
+                Death();
+            }
         }
 
         public void HealDamage(int value)
         {
             hp+=value;
+
+            heartUI.Add(value);
         }
         public void UseItem()
         {
@@ -67,6 +75,10 @@ namespace Player
                     currentItemIndex = 0;
                 }
             }
+
+            var canvasTrans = GameObject.Find("Canvas").transform;
+            heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
+            heartUI.Set(hp);
         }
 
         private void OnCollisionEnter(Collision collision) {

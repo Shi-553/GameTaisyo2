@@ -27,15 +27,19 @@ public class IntObjectUI : MonoBehaviour
             Add();
         }
     }
-    public void Add()
+    public void Add(int addCount=1)
     {
-        objects.Add(Instantiate(objectPrefab, transform.position+firstPos + (nextDiff * objects.Count), Quaternion.identity));
+        for (int i = 0; i < addCount; i++) {
+            var obj = Instantiate(objectPrefab, transform.position + firstPos + (nextDiff * objects.Count), Quaternion.identity);
+            obj.transform.SetParent(transform);
+            objects.Add(obj);
+        }
     }
-    public void Remove()
-    {
-
-        Destroy(objects[objects.Count - 1]);
-        objects.RemoveAt(objects.Count-1);
+    public void Remove(int removeCount=1) {
+        for (int i = 0; i < removeCount; i++) {
+            Destroy(objects[objects.Count - 1]);
+            objects.RemoveAt(objects.Count - 1);
+        }
         
     }
     public void Clear()
