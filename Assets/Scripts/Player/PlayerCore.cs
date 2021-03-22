@@ -78,7 +78,7 @@ namespace Player
 
             var canvasTrans = GameObject.Find("Canvas").transform;
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
-            heartUI.Set(hp);
+            heartUI.SetMax(hp);
         }
 
         private void OnCollisionEnter(Collision collision) {
