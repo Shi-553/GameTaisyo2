@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateBlock : MonoBehaviour
-{
-    [SerializeField] TransformBlock TransformBlock;
+public class RotateBlock : TransformBlock {
     Vector3 firstRotate;
     void Start()
     {
@@ -14,6 +12,14 @@ public class RotateBlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localEulerAngles=(firstRotate + TransformBlock.GetCurrentAnimeValue());
+        transform.localEulerAngles=(firstRotate + GetCurrentAnimeValue());
+    }
+    private void OnDrawGizmos() {
+        if (!UnityEditor.EditorApplication.isPlaying) {
+            var child = transform.GetChild(0);
+            transform.localEulerAngles += endValue;
+            Gizmos.DrawMesh(child.GetComponent<MeshFilter>().sharedMesh, child.position, child.rotation, child.lossyScale);
+            transform.localEulerAngles -= endValue;
+        }
     }
 }
