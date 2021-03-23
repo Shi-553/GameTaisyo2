@@ -21,5 +21,6 @@ namespace Item {
 
         [SerializeField]
         Sprite sprite;
+        public Sprite Sprite { get { return sprite; } }
     }
 }

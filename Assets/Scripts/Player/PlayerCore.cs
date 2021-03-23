@@ -15,6 +15,7 @@ namespace Player
         List<GameObject> defaultUseableItems=new List<GameObject>();
 
         IntObjectUI heartUI;
+        SlideObjectUI slideUI;
 
         public void ApplyDamage(Vector3 knockback)
         {
@@ -41,6 +42,8 @@ namespace Player
             if (isDelete) {
                 useableItems.RemoveAt(currentItemIndex);
                 currentItemIndex--;
+
+                slideUI.SetItem(useableItems[currentItemIndex].Sprite);
             }
         }
         public void NextItem()
@@ -48,14 +51,16 @@ namespace Player
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex + 1) % useableItems.Count;
+            currentItemIndex = (currentItemIndex + 1+ useableItems.Count) % useableItems.Count;
+            slideUI.SetItem(useableItems[currentItemIndex].Sprite);
         }
         public void PrevItem()
         {
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex - 1) % useableItems.Count;
+            currentItemIndex = (currentItemIndex - 1+ useableItems.Count) % useableItems.Count;
+            slideUI.SetItem(useableItems[currentItemIndex].Sprite);
         }
 
 
@@ -77,6 +82,9 @@ namespace Player
             }
 
             var canvasTrans = GameObject.Find("Canvas").transform;
+            slideUI = canvasTrans.Find("Item").Find("Item").GetComponent<SlideObjectUI>();
+            slideUI.SetItem(useableItems[currentItemIndex].Sprite);
+
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
             heartUI.SetMax(hp);
         }
@@ -100,6 +108,7 @@ namespace Player
                 }
                 useableItems.Add(useableItem);
                 useableItem.DeleteModel();
+                slideUI.SetItem(useableItems[currentItemIndex].Sprite);
             }
 
 
