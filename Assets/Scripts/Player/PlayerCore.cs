@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Player
 {
@@ -14,15 +15,24 @@ namespace Player
         [SerializeField]
         List<GameObject> defaultUseableItems=new List<GameObject>();
 
+        IntObjectUI heartUI;
+        SlideObjectUI slideUI;
+
         public void ApplyDamage(Vector3 knockback)
         {
             hp--;
             GetComponent<Rigidbody>().AddForce(knockback,ForceMode.VelocityChange);
+            heartUI.Remove();
+            if (hp <= 0) {
+                Death();
+            }
         }
 
         public void HealDamage(int value)
         {
             hp+=value;
+
+            heartUI.Add(value);
         }
         public void UseItem()
         {
@@ -33,6 +43,8 @@ namespace Player
             if (isDelete) {
                 useableItems.RemoveAt(currentItemIndex);
                 currentItemIndex--;
+
+                SetItem();
             }
         }
         public void NextItem()
@@ -40,18 +52,25 @@ namespace Player
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex + 1) % useableItems.Count;
+            currentItemIndex = (currentItemIndex + 1+ useableItems.Count) % useableItems.Count;
+            SetItem();
         }
         public void PrevItem()
         {
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex - 1) % useableItems.Count;
+            currentItemIndex = (currentItemIndex - 1+ useableItems.Count) % useableItems.Count;
+            SetItem();
         }
+        void SetItem() {
+            if (currentItemIndex == -1|| useableItems.Count==0) {
+                slideUI.SetItem(new List<Sprite>(), 0, 0);
+                return;
+            }
 
-
-
+            slideUI.SetItem(useableItems.Select(i=>i.Sprite).ToList(), currentItemIndex,1);
+        }
         new Renderer renderer;
         bool isVisible = false;
         void Start() {
@@ -67,6 +86,13 @@ namespace Player
                     currentItemIndex = 0;
                 }
             }
+
+            var canvasTrans = GameObject.Find("Canvas").transform;
+            slideUI = canvasTrans.Find("Item").Find("Item").GetComponent<SlideObjectUI>();
+            SetItem();
+
+            heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
+            heartUI.SetMax(hp);
         }
 
         private void OnCollisionEnter(Collision collision) {
@@ -88,6 +114,7 @@ namespace Player
                 }
                 useableItems.Add(useableItem);
                 useableItem.DeleteModel();
+                SetItem();
             }
 
 
