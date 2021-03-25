@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
-    public class PlayerMove : MonoBehaviour {
+    public class PlayerMove : MonoBehaviour ,IWindAffectable{
 
         new Rigidbody rigidbody;
         [SerializeField] LayerMask mask;
@@ -61,6 +61,11 @@ namespace Player {
 
 
             }
+        }
+
+        public void AffectWind(Wind wind)
+        {
+            rigidbody.AddForce(wind.dir * wind.value);
         }
     }
 }
