@@ -9,5 +9,6 @@ public class Switch : MonoBehaviour, IOperatedHummerObject
     void IOperatedHummerObject.Hit()
     {
         door.OpenDoor();
+        gameObject.SetActive(false);
     }
 }

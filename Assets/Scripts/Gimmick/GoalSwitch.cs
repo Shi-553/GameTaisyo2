@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalSwitch : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class GoalSwitch : MonoBehaviour, IOperatedHummerObject {
+    [SerializeField] Goal goal;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void IOperatedHummerObject.Hit() {
+        goal.Show();
+
+        gameObject.SetActive(false);
     }
 }
