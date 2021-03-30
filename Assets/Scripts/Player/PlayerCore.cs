@@ -23,7 +23,7 @@ namespace Player
             hp--;
             GetComponent<Rigidbody>().AddForce(knockback,ForceMode.VelocityChange);
             heartUI.Remove();
-            if (hp <= 0) {
+            if (hp == 0) {
                 Death();
             }
         }
@@ -120,11 +120,8 @@ namespace Player
 
         }
         void Death() {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_STANDALONE
-      UnityEngine.Application.Quit();
-#endif
+            Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.RESULT, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            Time.timeScale = 0;
         }
 
 
@@ -141,7 +138,10 @@ namespace Player
                     Debug.Log("yabaiyabai");
                     bool isRendered2 = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, transform.localScale));
                     if (!isRendered2) {
-                        Death();
+                        if (hp != 0) {
+                            Death();
+                        }
+                        hp = 0;
 
                     }
                 }
