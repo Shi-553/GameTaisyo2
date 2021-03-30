@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour, Item.TimeStopable {
+public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangeable {
     [SerializeField] LayerMask mask;
 
 
     [SerializeField] float speed = 0.005f;
+    float speedScale=1;
 
     [SerializeField] float positionRatio = 0.5f;
     [SerializeField] float positionUp = 0;
@@ -19,6 +20,10 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     [SerializeField] float lookAtLerp = 0.01f;
     Vector3 aftQ;
 
+    public void TimeChange(float timeScale) {
+        speedScale = timeScale;
+    }
+
     public void TimeReStarted() {
         enabled = true;
     }
@@ -28,6 +33,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     }
 
     void Start() {
+        speedScale = 1;
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var forwerdRay = new Ray(transform.position + transform.forward * 5, transform.forward);
@@ -81,7 +87,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
             var add = (forwardPoints.TopWidth * positionRatio) +
                 (forwardPoints.BottomWidth * (1 - positionRatio));
 
-            transform.position += add.normalized * speed;
+            transform.position += add.normalized * (speed* speedScale);
 
 
         }

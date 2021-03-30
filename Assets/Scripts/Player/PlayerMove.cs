@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
-    public class PlayerMove : MonoBehaviour {
+    public class PlayerMove : MonoBehaviour ,IWindAffectable, Item.SpeedChangeable{
 
         new Rigidbody rigidbody;
         [SerializeField] LayerMask mask;
         [SerializeField] float speed = 1;
+        float speedScale=1;
 
         private void Start() {
+            speedScale = 1;
 
             rigidbody = GetComponent<Rigidbody>();
 
@@ -30,7 +32,7 @@ namespace Player {
                 var move = upFV * dir.y + rightFV * dir.x;
 
                 if (dir != Vector2.zero) {
-                    rigidbody.AddForce(move * speed , ForceMode.VelocityChange);
+                    rigidbody.AddForce(move * (speed* speedScale), ForceMode.VelocityChange);
 
                 }
 
@@ -61,6 +63,15 @@ namespace Player {
 
 
             }
+        }
+
+        public void TimeChange(float timeScale) {
+            speedScale = timeScale;
+        }
+
+        public void AffectWind(Wind wind)
+        {
+            rigidbody.AddForce(wind.dir * wind.value);
         }
     }
 }
