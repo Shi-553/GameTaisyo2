@@ -11,8 +11,9 @@ namespace Item {
         [SerializeField]
         float stopSecound = 3;
 
-        public override void Use(GameObject player) {
+        public override bool Use(GameObject player) {
             player.GetComponent<MonoBehaviour>().StartCoroutine(TimeStop());
+            return true;
         }
 
         IEnumerator TimeStop() {
