@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
-    public class PlayerMove : MonoBehaviour, Item.SpeedChangeable {
+    public class PlayerMove : MonoBehaviour ,IWindAffectable, Item.SpeedChangeable{
 
         new Rigidbody rigidbody;
         [SerializeField] LayerMask mask;
@@ -67,6 +67,11 @@ namespace Player {
 
         public void TimeChange(float timeScale) {
             speedScale = timeScale;
+        }
+
+        public void AffectWind(Wind wind)
+        {
+            rigidbody.AddForce(wind.dir * wind.value);
         }
     }
 }
