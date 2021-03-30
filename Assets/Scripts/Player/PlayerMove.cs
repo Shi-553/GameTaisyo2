@@ -10,6 +10,8 @@ namespace Player {
         [SerializeField] float speed = 1;
         float speedScale=1;
 
+        public Vector2 Dir { get; private set; }
+
         private void Start() {
             speedScale = 1;
 
@@ -21,6 +23,11 @@ namespace Player {
             LookAtPlayer();
         }
         public void MovePlayer(Vector2 dir) {
+            if (dir != Vector2.zero) {
+                Dir = dir;
+            }
+
+
             var forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
             if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
                 var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Player
+namespace Damage
 {
-     interface IDamageable
+     interface IPlayerDamageable
     {
          void ApplyDamage(Vector3 knockback);
 

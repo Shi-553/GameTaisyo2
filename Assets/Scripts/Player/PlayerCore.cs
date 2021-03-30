@@ -7,8 +7,7 @@ using System.Linq;
 namespace Player
 {
 
-    public class PlayerCore : MonoBehaviour ,IDamageable
-    {
+    public class PlayerCore : MonoBehaviour , Damage.IPlayerDamageable {
         int hp = 3;
         int currentItemIndex = -1;
         List<UseableItemBase> useableItems=new List<UseableItemBase>();

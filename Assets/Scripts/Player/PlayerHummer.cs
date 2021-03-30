@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Player {
     public class PlayerHummer : MonoBehaviour {
         int hammerFrame = 0;
+        int atk = 1;
         Transform rotateCenter;
 
         Transform RotateCenter {
@@ -22,6 +23,10 @@ namespace Player {
             var o = other.GetComponent<IOperatedHummerObject>();
             if (o != null) {
                 o.Hit();
+            }
+            var d = other.GetComponent<Damage.IGimmickDamageable>();
+            if (d != null) {
+                d.ApplyDamage(atk);
             }
         }
 
