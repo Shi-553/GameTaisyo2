@@ -6,15 +6,17 @@ using UnityEngine.UI; //パネルのイメージを操作するのに必要
 public class FadeController : MonoBehaviour
 {
 
+
 	public float fadeSpeed = 0.002f;        //透明度が変わるスピードを管理
-	public float fadeSpeed2 = 0.002f;        //透明度が変わるスピードを管理
+
 	float red, green, blue, alfa;   //パネルの色、不透明度を管理
+	float redT, greenT, blueT, alfaT;   //パネルの色、不透明度を管理
 	float red2, green2, blue2, alfa2;   //パネルの色、不透明度を管理
 
 	public bool isFadeOut = false;  //フェードアウト処理の開始、完了を管理するフラグ
 	public bool isFadeIn = false;   //フェードイン処理の開始、完了を管理するフラグ
-	Image fadeImage, fadeImage2;                //透明度を変更するパネルのイメージ
-	public GameObject targetObject;
+	Image fadeImage, fadeImage2,fadeImageT;                //透明度を変更するパネルのイメージ
+	public GameObject targetObject, targetObject2;
 	void Start()
 	{
 
@@ -24,11 +26,17 @@ public class FadeController : MonoBehaviour
 		blue = fadeImage.color.b;
 		alfa = fadeImage.color.a;
 
-		fadeImage2 = targetObject.GetComponent<Image>();
-		red2 = fadeImage2.color.r;
-		green2 = fadeImage2.color.g;
-		blue2 = fadeImage2.color.b;
-		alfa2 = fadeImage2.color.a;
+		fadeImage2 = targetObject2.GetComponent<Image>();
+		red2   = fadeImage2.color.r;
+		green2  = fadeImage2.color.g;
+		blue2   = fadeImage2.color.b;
+		alfa2   = fadeImage2.color.a;
+
+		fadeImageT = targetObject.GetComponent<Image>();
+		redT = fadeImageT.color.r;
+		greenT = fadeImageT.color.g;
+		blueT = fadeImageT.color.b;
+		alfaT = fadeImageT.color.a;
 	}
 
 	void Update()
@@ -48,20 +56,27 @@ public class FadeController : MonoBehaviour
 	void StartFadeIn()
 	{
 
-		alfa2 -= fadeSpeed2;                //a)不透明度を徐々に下げる
-		SetAlpha2();                      //b)変更した不透明度パネルに反映する
-		if (alfa2 <= 0)
+		alfaT -= fadeSpeed;                //a)不透明度を徐々に下げる
+		SetAlphaT();                      //b)変更した不透明度パネルに反映する
+		if (alfaT <= 0)
 		{
-			fadeImage2.enabled = false;    //d)パネルの表示をオフにする
+			fadeImageT.enabled = false;    //d)パネルの表示をオフにする
 			alfa -= fadeSpeed;                //a)不透明度を徐々に下げる
 			SetAlpha();                      //b)変更した不透明度パネルに反映する
 			if (alfa <= 0)
 			{                    //c)完全に透明になったら処理を抜ける
-				isFadeIn = false;
+				
 				fadeImage.enabled = false;    //d)パネルの表示をオフにする
+				alfa2 -= fadeSpeed;                //a)不透明度を徐々に下げる
+				SetAlpha2();                      //b)変更した不透明度パネルに反映する
+				if (alfa2 <= 0)
+				{                    //c)完全に透明になったら処理を抜ける
+					isFadeIn = false;
+					fadeImage2.enabled = false;    //d)パネルの表示をオフにする
+				}
+				
 			}
 		}
-
 	}
 
 	void StartFadeOut()
@@ -78,6 +93,11 @@ public class FadeController : MonoBehaviour
 	void SetAlpha()
 	{
 		fadeImage.color = new Color(red, green, blue, alfa);
+	}
+
+	void SetAlphaT()
+	{
+		fadeImageT.color = new Color(redT, greenT, blueT, alfaT);
 	}
 
 	void SetAlpha2()

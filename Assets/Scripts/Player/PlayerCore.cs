@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Player
 {
@@ -10,6 +11,7 @@ namespace Player
     {
         int hp = 3;
         int currentItemIndex = -1;
+        bool load = true;
         List<UseableItemBase> useableItems=new List<UseableItemBase>();
 
         public void ApplyDamage(Vector3 knockback)
@@ -80,11 +82,17 @@ namespace Player
 
         }
         void Death() {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#elif UNITY_STANDALONE
-      UnityEngine.Application.Quit();
-#endif
+            //#if UNITY_EDITOR
+            //            UnityEditor.EditorApplication.isPlaying = false;
+            //#elif UNITY_STANDALONE
+            //      UnityEngine.Application.Quit();
+            //#endif
+            if (load==true)
+            {
+                Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.RESULT, LoadSceneMode.Additive);
+                load = false;
+            }
+            
         }
 
 
