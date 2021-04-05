@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Item {
     interface SpeedChangeable {
@@ -10,6 +11,18 @@ namespace Item {
     public class ChangeSpeedItem : UseableItemBase {
         [SerializeField]
         bool isSpeedUp = false;
+
+        Text speedScaleText;
+
+        Text SpeedScaleText { get {
+                if (speedScaleText == null) {
+                    var textObj = GameObject.Find("Canvas/SpeedScale/Text");
+                    speedScaleText = textObj.GetComponent<Text>();
+                }
+               return speedScaleText;
+            } 
+        }
+
 
         public override bool Use(GameObject player) {
             TimeChange(isSpeedUp);
@@ -43,6 +56,7 @@ namespace Item {
             if (Mathf.Approximately(Time.timeScale, scale)) {
                 return;
             }
+            SpeedScaleText.text = scale.ToString();
 
             Time.timeScale = scale;
 
