@@ -35,6 +35,7 @@ public class SlideObjectUI : MonoBehaviour {
                 Destroy(obj);
             }
         }
+        objects.Clear();
 
         var index = currentIndex - halfSiblingCount;
         while (index < 0) {
@@ -50,19 +51,19 @@ public class SlideObjectUI : MonoBehaviour {
             obj.transform.SetParent(transform);
             obj.transform.position = transform.position;
             var nextPos = nextPosDiff;
-            if (i > sprites.Count / 2) {
+            if (i > halfSiblingCount) {
                 nextPos.y *= -1;
             }
-            obj.transform.position -= nextPos * (i - sprites.Count / 2);
+            obj.transform.position -= nextPos * (i - halfSiblingCount);
 
             var nextScale = nextScaleDiff;
-            if (i > sprites.Count / 2) {
+            if (i > halfSiblingCount) {
                 nextScale *= -1;
             }
-            obj.transform.localScale -= nextScale * (i - sprites.Count / 2);
+            obj.transform.localScale -= nextScale * (i - halfSiblingCount);
 
             var nextrotate = nextRotateDiff;
-            obj.transform.localEulerAngles -= nextrotate * (i - sprites.Count / 2);
+            obj.transform.localEulerAngles -= nextrotate * (i - halfSiblingCount);
 
 
             obj.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
