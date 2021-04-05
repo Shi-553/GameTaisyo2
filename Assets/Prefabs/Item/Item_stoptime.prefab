@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 302319156475798814}
   - component: {fileID: 4224586615319520825}
   - component: {fileID: 938157061930552449}
+  - component: {fileID: -4435405151977463222}
   m_Layer: 0
   m_Name: Item_stoptime
   m_TagString: Untagged
@@ -106,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 1115165406231363492}
   m_LocalRotation: {x: -0.5967831, y: -0.7457437, z: -0.28512216, w: -0.080136195}
   m_LocalPosition: {x: 2.68, y: -4.9153404, z: -4.426}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 6882064678431971524}
   - {fileID: 6790159000460070948}
@@ -144,6 +145,21 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.99
   m_Center: {x: 0, y: 0.96, z: 0}
+--- !u!114 &-4435405151977463222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115165406231363492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8702b618a6eaad40b2b3c3a7c89f90a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 0
+  y: 0
+  z: 1
 --- !u!1 &2393177267477095907
 GameObject:
   m_ObjectHideFlags: 0
