@@ -9,19 +9,42 @@ namespace Item {
 
     public class ChangeSpeedItem : UseableItemBase {
         [SerializeField]
-        float changeSecound = 3;
-        [SerializeField]
-        float changeTimeSpeedValue = 0.3f;
+        bool isSpeedUp = false;
 
         public override bool Use(GameObject player) {
-            player.GetComponent<MonoBehaviour>().StartCoroutine(TimeChange());
+            TimeChange(isSpeedUp);
 
             return false;
         }
 
 
-        IEnumerator TimeChange() {
-            Time.timeScale = changeTimeSpeedValue;
+        void TimeChange(bool isSpeedUp) {
+            var scale = Time.timeScale;
+
+            if (Mathf.Approximately(Time.timeScale, 1.0f)) {
+                if (isSpeedUp) {
+                    scale = 1.5f;
+                }
+                else {
+                    scale = 0.7f;
+                }
+            }
+            else if (Time.timeScale < 1.0f) {
+                if (isSpeedUp) {
+                    scale = 1.0f;
+                }
+            }
+            else if (Time.timeScale > 1.0f) {
+                if (!isSpeedUp) {
+                    scale = 1.0f;
+                }
+            }
+
+            if (Mathf.Approximately(Time.timeScale, scale)) {
+                return;
+            }
+
+            Time.timeScale = scale;
 
             var components = new List<SpeedChangeable>();
 
@@ -30,15 +53,9 @@ namespace Item {
                 var timeStopable = c as SpeedChangeable;
 
                 if (timeStopable != null) {
-                    timeStopable.TimeChange(changeTimeSpeedValue);
+                    timeStopable.TimeChange(scale);
                     components.Add(timeStopable);
                 }
-            }
-            yield return new WaitForSeconds(changeSecound);
-            Time.timeScale =1;
-
-            foreach (var c in components) {
-                c.TimeChange(1);
             }
         }
     }
