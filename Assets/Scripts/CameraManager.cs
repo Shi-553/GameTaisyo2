@@ -33,6 +33,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangea
     }
 
     void Start() {
+        Application.targetFrameRate = 120;
         speedScale = 1;
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
