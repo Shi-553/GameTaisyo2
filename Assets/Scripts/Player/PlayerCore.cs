@@ -78,7 +78,7 @@ namespace Player
             useableItems = new List<UseableItemBase>();
             foreach (var item in defaultUseableItems) {
                 var u = item.GetComponent<UseableItemBase>();
-                u.DeleteModel();
+                u.DeleteModel(gameObject);
                 useableItems.Add(u);
 
                 if (currentItemIndex == -1) {
@@ -104,7 +104,7 @@ namespace Player
             var immediateItem = collision.gameObject.GetComponent<ImmediateItemBase>();
             if (immediateItem != null) {
                 immediateItem.Hit(gameObject);
-                immediateItem.DeleteModel();
+                immediateItem.DeleteModel(gameObject);
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
             if (useableItem != null) {
@@ -112,7 +112,7 @@ namespace Player
                     currentItemIndex = 0;
                 }
                 useableItems.Add(useableItem);
-                useableItem.DeleteModel();
+                useableItem.DeleteModel(gameObject);
                 SetItem();
             }
 

@@ -4,8 +4,15 @@ using UnityEngine;
 
 namespace Item {
     public abstract class ItemBase : MonoBehaviour {
-        public void DeleteModel() {
+        public void DeleteModel(GameObject player) {
             gameObject.SetActive(false);
+            player.GetComponent<MonoBehaviour>().StartCoroutine(Repop());
+
+        }
+        IEnumerator Repop() {
+            yield return new WaitForSeconds(15);
+
+            gameObject.SetActive(true);
         }
     }
     public abstract class ImmediateItemBase : ItemBase {
