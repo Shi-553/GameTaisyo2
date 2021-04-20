@@ -71,6 +71,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 0
     m_RotationOrder: 4
+  isStopped: 0
 --- !u!1 &9010194525680126798
 GameObject:
   m_ObjectHideFlags: 0

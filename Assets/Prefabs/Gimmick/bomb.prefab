@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: -6455630529918854370}
   m_Layer: 0
   m_Name: bomb
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,6 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   atk: 3
   bombRadius: 2
+  speed: 0.1
   dir: {x: 0, y: 0, z: 0}
 --- !u!54 &-6455630529918854370
 Rigidbody:
