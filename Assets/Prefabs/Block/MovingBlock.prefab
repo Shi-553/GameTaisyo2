@@ -71,6 +71,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 0
     m_RotationOrder: 4
+  isStopped: 0
   smoothSpeed: 0.1
 --- !u!1 &7136838040152213613
 GameObject:

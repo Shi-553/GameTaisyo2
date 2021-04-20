@@ -123,6 +123,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: heart Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fc8dd2440123b1f4695645158ca94e6d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc8dd2440123b1f4695645158ca94e6d, type: 3}
 --- !u!1 &4804834843822569613 stripped

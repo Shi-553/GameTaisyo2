@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3871057761068655123}
   m_Layer: 0
   m_Name: CrackBlock
-  m_TagString: Untagged
+  m_TagString: Gimmick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
