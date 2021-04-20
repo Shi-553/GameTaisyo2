@@ -7,7 +7,7 @@ public class BeltConbeyor : MonoBehaviour
 {
     public void Activation() {
         var colliders = Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
-        var objects = colliders.Where(c => !c.CompareTag("Mebiusu")|| !c.CompareTag("Player"));
+        var objects = colliders.Where(c => !c.CompareTag("Mebiusu")&& !c.CompareTag("Player"));
         foreach (var obj in objects) {
             var trans = obj.transform;
             var pos = trans.localPosition;
