@@ -4,37 +4,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace Player
-{
+namespace Player {
 
-    public class PlayerCore : MonoBehaviour , Damage.IPlayerDamageable {
-        [SerializeField]int hp = 3;
-        int currentItemIndex = -1;
-        List<UseableItemBase> useableItems=new List<UseableItemBase>();
+    public class PlayerCore : MonoBehaviour, Damage.IPlayerDamageable {
         [SerializeField]
-        List<GameObject> defaultUseableItems=new List<GameObject>();
+        int hpMax = 3;
+        int hp;
+
+        int currentItemIndex = -1;
+        List<UseableItemBase> useableItems = new List<UseableItemBase>();
+        [SerializeField]
+        List<GameObject> defaultUseableItems = new List<GameObject>();
 
         IntObjectUI heartUI;
         SlideObjectUI slideUI;
 
-        public void ApplyDamage(Vector3 knockback)
-        {
+        public void ApplyDamage(Vector3 knockback) {
             hp--;
-            GetComponent<Rigidbody>().AddForce(knockback,ForceMode.VelocityChange);
+            GetComponent<Rigidbody>().AddForce(knockback, ForceMode.VelocityChange);
             heartUI.Remove();
             if (hp == 0) {
                 Death();
             }
         }
 
-        public void HealDamage(int value)
-        {
-            hp+=value;
+        public void HealDamage(int value) {
+            hp = Mathf.Min(hp + value, hpMax);
 
             heartUI.Add(value);
         }
-        public void UseItem()
-        {
+        public void UseItem() {
             if (currentItemIndex == -1) {
                 return;
             }
@@ -46,33 +45,33 @@ namespace Player
                 SetItem();
             }
         }
-        public void NextItem()
-        {
+        public void NextItem() {
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex + 1+ useableItems.Count) % useableItems.Count;
+            currentItemIndex = (currentItemIndex + 1 + useableItems.Count) % useableItems.Count;
             SetItem();
         }
-        public void PrevItem()
-        {
+        public void PrevItem() {
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex - 1+ useableItems.Count) % useableItems.Count;
+            currentItemIndex = (currentItemIndex - 1 + useableItems.Count) % useableItems.Count;
             SetItem();
         }
         void SetItem() {
-            if (currentItemIndex == -1|| useableItems.Count==0) {
+            if (currentItemIndex == -1 || useableItems.Count == 0) {
                 slideUI.SetItem(new List<Sprite>(), 0, 0);
                 return;
             }
 
-            slideUI.SetItem(useableItems.Select(i=>i.Sprite).ToList(), currentItemIndex,1);
+            slideUI.SetItem(useableItems.Select(i => i.Sprite).ToList(), currentItemIndex, 1);
         }
         new Renderer renderer;
         bool isVisible = false;
         void Start() {
+            hp = hpMax;
+
             renderer = GetComponent<Renderer>();
 
             useableItems = new List<UseableItemBase>();
