@@ -9,7 +9,7 @@ public class Goal : MonoBehaviour, IOperatedPlayerObject
         gameObject.SetActive(true);
     }
     void IOperatedPlayerObject.Hit(){
-        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.RESULT2, LoadSceneMode.Additive);
+        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMEOVER, LoadSceneMode.Additive);
     }
 
 }

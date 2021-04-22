@@ -14,8 +14,8 @@ namespace Scene
         TITLE,
         STAGESELECT,
         GAME,
-        RESULT,
-        RESULT2,
+        GAMECLEAR,
+        GAMEOVER,
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
