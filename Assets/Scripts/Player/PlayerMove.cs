@@ -38,12 +38,13 @@ namespace Player {
 
                 var move = upFV * dir.y + rightFV * dir.x;
 
+                rigidbody.AddForce(-forwardPoints.Normal * 5, ForceMode.Acceleration);
+
                 if (dir != Vector2.zero) {
                     rigidbody.AddForce(move * (speed* speedScale), ForceMode.VelocityChange);
 
                 }
 
-                rigidbody.AddForce(-forwardPoints.Normal * 10, ForceMode.Acceleration);
             }
         }
         void LookAtPlayer() {
