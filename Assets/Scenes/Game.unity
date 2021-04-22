@@ -531,7 +531,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &124354805
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12527,13 +12527,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114419189}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64ff037be130d5e46bb46332b55accc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CountText: {fileID: 124354804}
-  CountTime: 4
+  countTime: 4
 --- !u!1001 &2125328094
 PrefabInstance:
   m_ObjectHideFlags: 0
