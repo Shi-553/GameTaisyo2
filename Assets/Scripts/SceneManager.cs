@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Scene
 {
+
     public enum SceneType
     {
         TITLE,
@@ -22,6 +23,10 @@ namespace Scene
         public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
+        }
+        public void ChangeScene(int nSceneType)
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType);
         }
     }
 }
