@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Button : MonoBehaviour
+public class SceneChangeButton : MonoBehaviour
 {
     [SerializeField] Scene.SceneType sceneType;
     // Start is called before the first frame update
