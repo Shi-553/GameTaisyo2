@@ -6,7 +6,6 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     public bool GameIsPasue = false;
-    public GameObject ingameMenu;
     private void Update()
     {
         if(Input.GetButtonDown("Pause"))
@@ -22,12 +21,12 @@ public class PauseMenu : MonoBehaviour
     }
     public void Pause() {
         Scene.SceneManager.Instance.TimeStop();
-        ingameMenu.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
         GameIsPasue = true;
     }
     public void Resume() {
         Scene.SceneManager.Instance.TimeRestart();
-        ingameMenu.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
         GameIsPasue = false;
     }
     public void Restart() {
