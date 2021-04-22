@@ -1607,3 +1607,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1364171943}
+  swapVH: 0
+  reverseV: 1
+  reverseH: 0
+  columnMax: 0

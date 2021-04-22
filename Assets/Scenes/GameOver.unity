@@ -246,6 +246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 164730290}
+  swapVH: 0
+  reverseV: 1
+  reverseH: 0
+  columnMax: 0
 --- !u!1 &129434352
 GameObject:
   m_ObjectHideFlags: 0
