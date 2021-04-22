@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-
-
-
+using Item;
 
 namespace Scene
 {
@@ -28,6 +26,33 @@ namespace Scene
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType);
         }
+        public void TimeStop() {
+            Time.timeScale = 0;
+            var a = FindObjectsOfType<Component>();
+            foreach (var c in a) {
+                var timeStopable = c as TimeStopable;
+
+                if (timeStopable != null) {
+                    timeStopable.TimeStopped();
+                }
+            }
+
+        }
+
+        public void TimeRestart() {
+            Time.timeScale = 1f;
+
+
+            var a = FindObjectsOfType<Component>();
+            foreach (var c in a) {
+                var timeStopable = c as TimeStopable;
+
+                if (timeStopable != null) {
+                    timeStopable.TimeReStarted();
+                }
+            }
+        }
+
     }
 }
 

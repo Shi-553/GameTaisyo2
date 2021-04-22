@@ -3287,9 +3287,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2114419192}
-        m_MethodName: ChangeScene
-        m_Mode: 3
+      - m_Target: {fileID: 2114419193}
+        m_MethodName: Restart
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11342,6 +11342,7 @@ GameObject:
   - component: {fileID: 1956590991}
   - component: {fileID: 1956590990}
   - component: {fileID: 1956590989}
+  - component: {fileID: 1956590992}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -11412,9 +11413,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2114419192}
-        m_MethodName: ChangeScene
-        m_Mode: 3
+      - m_Target: {fileID: 1956590992}
+        m_MethodName: OnClickButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11460,6 +11461,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956590987}
   m_CullTransparentMesh: 0
+--- !u!114 &1956590992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956590987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cca049391e2df24e84296b785e73d45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneType: 0
 --- !u!1001 &1983130337
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12513,7 +12527,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114419189}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64ff037be130d5e46bb46332b55accc7, type: 3}
   m_Name: 
