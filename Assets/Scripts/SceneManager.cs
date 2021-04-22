@@ -12,8 +12,10 @@ namespace Scene
     public enum SceneType
     {
         TITLE,
+        STAGESELECT,
         GAME,
-        RESULT,
+        GAMECLEAR,
+        GAMEOVER,
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {

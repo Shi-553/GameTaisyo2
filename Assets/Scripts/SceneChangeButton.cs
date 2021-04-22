@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Button : MonoBehaviour
+public class SceneChangeButton : MonoBehaviour
 {
     [SerializeField] Scene.SceneType sceneType;
     // Start is called before the first frame update
@@ -13,7 +13,7 @@ public class Button : MonoBehaviour
     }
 
     // Update is called once per frame
-     void OnClickButton()
+    public void OnClickButton()
     {
         Scene.SceneManager.Instance.ChangeScene(sceneType, LoadSceneMode.Single);
     }

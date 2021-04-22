@@ -118,7 +118,7 @@ namespace Player {
 
         }
         void Death() {
-            Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.RESULT, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMECLEAR, UnityEngine.SceneManagement.LoadSceneMode.Additive);
             Time.timeScale = 0;
         }
 
