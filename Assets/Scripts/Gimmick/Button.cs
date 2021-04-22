@@ -13,7 +13,7 @@ public class Button : MonoBehaviour
     }
 
     // Update is called once per frame
-     void OnClickButton()
+    public void OnClickButton()
     {
         Scene.SceneManager.Instance.ChangeScene(sceneType, LoadSceneMode.Single);
     }

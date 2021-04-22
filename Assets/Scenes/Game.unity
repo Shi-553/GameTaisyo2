@@ -5129,7 +5129,7 @@ Transform:
   - {fileID: 1200669579}
   - {fileID: 1062195576}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1000904171
 MonoBehaviour:
@@ -5187,7 +5187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a13ce588f26f414cad3dfc3383ffdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 139
+  hpMax: 3
   defaultUseableItems:
   - {fileID: 7924673629440422368, guid: f377c3ad73cdac943a3840fbd1783004, type: 3}
   - {fileID: 9093307673043609982, guid: fc880193b9849f748864269e0b62806a, type: 3}
@@ -11689,7 +11689,7 @@ PrefabInstance:
     - target: {fileID: 2973984164340172964, guid: 1075539ca5a709541b4320e785c78a32,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2973984164340172964, guid: 1075539ca5a709541b4320e785c78a32,
         type: 3}
