@@ -4540,7 +4540,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 5
+  near clip plane: 7
   far clip plane: 1000
   field of view: 50
   orthographic: 0
@@ -4592,10 +4592,10 @@ MonoBehaviour:
   speed: 0.02
   positionRatio: 0.5
   positionUp: 0
-  distance: 12
-  rayDistance: 6
-  positionLerp: 0.01
-  lookAtLerp: 0.01
+  distance: 13
+  rayDistance: 7
+  positionLerp: 0.015
+  lookAtLerp: 0.015
 --- !u!4 &965790291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3830698740520057860, guid: 73451446808c34747a686fb6aaae9eb3,
@@ -5187,7 +5187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a13ce588f26f414cad3dfc3383ffdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 139
+  hpMax: 3
   defaultUseableItems:
   - {fileID: 7924673629440422368, guid: f377c3ad73cdac943a3840fbd1783004, type: 3}
   - {fileID: 9093307673043609982, guid: fc880193b9849f748864269e0b62806a, type: 3}
