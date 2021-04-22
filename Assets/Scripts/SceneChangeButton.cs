@@ -9,7 +9,7 @@ public class SceneChangeButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -17,4 +17,14 @@ public class SceneChangeButton : MonoBehaviour
     {
         Scene.SceneManager.Instance.ChangeScene(sceneType, LoadSceneMode.Single);
     }
+
+    public void End()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#elif UNITY_STANDALONE
+      UnityEngine.Application.Quit();
+#endif
+    }
+
 }
