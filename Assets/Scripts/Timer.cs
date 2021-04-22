@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] Text CountText;
+    [SerializeField] Text countText;
     [SerializeField] float countTime = 4.0f;
     int count = 1;
 
@@ -25,12 +25,13 @@ public class Timer : MonoBehaviour
         if (count > 0)
         {
             count = (int)countTime;
-            CountText.text = count.ToString();
+            countText.text = count.ToString();
             countTime -= 0.01f;
         }
          if ((int)countTime==0)
         {
-            CountText.text = "";
+            gameObject.SetActive(false);
+            countText.text = "";
             Scene.SceneManager.Instance.TimeRestart();
             count = 0;
         }
