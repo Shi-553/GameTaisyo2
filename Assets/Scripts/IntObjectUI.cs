@@ -17,19 +17,6 @@ public class IntObjectUI : MonoBehaviour
     {
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Remove();
-        }
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Add();
-        }
-    }
     GameObject GetObject(GameObject prefab,int num) {
         return Instantiate(prefab, transform.position + firstPos + (nextDiff * num), Quaternion.identity);
     }
