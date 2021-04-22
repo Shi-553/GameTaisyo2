@@ -26,7 +26,12 @@ namespace Scene
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType);
         }
+
+        public bool IsTimeStopped { get; private set; }
+
         public void TimeStop() {
+            IsTimeStopped = true;
+
             Time.timeScale = 0;
             var a = FindObjectsOfType<Component>();
             foreach (var c in a) {
@@ -40,6 +45,7 @@ namespace Scene
         }
 
         public void TimeRestart() {
+            IsTimeStopped = false;
             Time.timeScale = 1f;
 
 
