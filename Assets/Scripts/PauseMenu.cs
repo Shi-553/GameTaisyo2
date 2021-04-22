@@ -8,10 +8,12 @@ public class PauseMenu : MonoBehaviour
     public bool GameIsPasue = false;
     private void Update()
     {
-        if(Input.GetButtonDown("Pause"))
+        if (Input.GetButtonDown("Pause"))
         {
-            if(!GameIsPasue)
-            {
+            if(!GameIsPasue) {
+                if (Scene.SceneManager.Instance.IsTimeStopped) {
+                    return;
+                }
                 Pause();
             }
             else {
