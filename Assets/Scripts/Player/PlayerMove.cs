@@ -35,6 +35,8 @@ namespace Player {
                 var upFV = forwardPoints.Up.normalized;
                 var rightFV = forwardPoints.Right.normalized;
 
+                Debug.DrawLine(transform.position, transform.position + rightFV,Color.black);
+                Debug.DrawLine(transform.position, transform.position + upFV,Color.black);
 
                 var move = upFV * dir.y + rightFV * dir.x;
 
@@ -54,21 +56,7 @@ namespace Player {
 
                 var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
-
-                var upFV = forwardPoints.Up.normalized;
-
-               // var befRoatte = transform.rotation;
-
-                var look = Vector3.Slerp(transform.position + transform.forward, transform.position - forwardPoints.Normal, 0.5f);
-
-                transform.LookAt(look, upFV);
-
-                //var sa = Quaternion.Angle(befRoatte, transform.rotation);
-                //if (sa > 20) {
-                //    transform.rotation = befRoatte;
-                //}
-                //Debug.Log(sa);
-
+                transform.LookAt(transform.position - forwardPoints.Normal, forwardPoints.Up.normalized);
 
             }
         }
