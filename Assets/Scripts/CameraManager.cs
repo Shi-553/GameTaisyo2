@@ -17,6 +17,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangea
 
 
     [SerializeField] float positionLerp = 0.01f;
+    [SerializeField] float pointLerp = 0.01f;
     [SerializeField] float lookAtLerp = 0.01f;
     Vector3 aftQ;
 
@@ -76,19 +77,18 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangea
             Debug.DrawRay(point, forwardPoints.Normal1 * distance);
             Debug.DrawRay(point, forwardPoints.Normal2 * distance);
 
-            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * distance , positionLerp);
 
+            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * distance, positionLerp);
 
 
             aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp);
 
-            transform.LookAt(forwerdHit.point, aftQ);
+            var p= Vector3.Lerp(forwerdHit.point, point , pointLerp);
+            transform.LookAt(p, aftQ);
 
 
-            var add = (forwardPoints.TopWidth * positionRatio) +
-                (forwardPoints.BottomWidth * (1 - positionRatio));
 
-            transform.position += add.normalized * (speed* speedScale);
+            transform.position += forwardPoints.Right.normalized * (speed* speedScale);
 
 
         }

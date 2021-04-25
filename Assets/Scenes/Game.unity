@@ -2470,7 +2470,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 8e26a50c8c771e84390e772acf5da11f, type: 3}
+  - {fileID: -4125471728267972529, guid: d509ff03e2cf5844e96aafd3abf99f74, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2499,7 +2499,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 994169001}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505878688}
-  m_Mesh: {fileID: 4068373912626513877, guid: 8e26a50c8c771e84390e772acf5da11f, type: 3}
+  m_Mesh: {fileID: 4068373912626513877, guid: d509ff03e2cf5844e96aafd3abf99f74, type: 3}
 --- !u!4 &505878691
 Transform:
   m_ObjectHideFlags: 0
@@ -2508,9 +2508,9 @@ Transform:
   m_PrefabInstance: {fileID: 994169001}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505878688}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -2.43, y: -11.9, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.23, y: -11.97, z: -0.25}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -2528,7 +2528,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4068373912626513877, guid: 8e26a50c8c771e84390e772acf5da11f, type: 3}
+  m_Mesh: {fileID: 4068373912626513877, guid: d509ff03e2cf5844e96aafd3abf99f74, type: 3}
 --- !u!4 &511499734 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7485260647291939152, guid: 52d310af49c7d3f41a4acfe575376ae2,
@@ -5247,7 +5247,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 7
+  near clip plane: 5
   far clip plane: 1000
   field of view: 50
   orthographic: 0
@@ -5301,8 +5301,9 @@ MonoBehaviour:
   positionUp: 0
   distance: 13
   rayDistance: 7
-  positionLerp: 0.015
-  lookAtLerp: 0.015
+  positionLerp: 0.01
+  pointLerp: 0.01
+  lookAtLerp: 0.01
 --- !u!4 &965790291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3830698740520057860, guid: 73451446808c34747a686fb6aaae9eb3,
@@ -5481,37 +5482,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.43
+      value: -2.23
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.9
+      value: -11.97
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
@@ -5526,7 +5527,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0edeaba7d27b91a4ba94789e2baa42ba,
         type: 3}
@@ -6904,7 +6905,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1215409961
 Transform:
   m_ObjectHideFlags: 0
