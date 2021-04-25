@@ -5,17 +5,21 @@ using UnityEngine;
 public class WindGenerate : MonoBehaviour
 {
     [SerializeField]
-    Wind wind;
-    
+    float power = 1;
+    [SerializeField]
+    LayerMask layer;
     private void Update()
     {
 
-        if (Physics.BoxCast(transform.position, transform.localScale / 2, transform.forward, out RaycastHit hit))
+        var pos = transform.position;
+        pos -= transform.up * transform.localScale.y*2;
+
+        if (Physics.BoxCast(pos, transform.localScale / 2, transform.up, out RaycastHit hit,Quaternion.identity,Mathf.Infinity, layer))
         {
             IWindAffectable windaffectable = hit.transform.GetComponent<IWindAffectable>();
             if(windaffectable != null)
             {
-                windaffectable.AffectWind(wind);
+                windaffectable.AffectWind(new Wind(transform.up, power));
             }
         }
     }
