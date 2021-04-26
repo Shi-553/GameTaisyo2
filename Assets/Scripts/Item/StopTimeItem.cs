@@ -9,10 +9,11 @@ namespace Item {
     }
     public class StopTimeItem : UseableItemBase {
         [SerializeField]
-        float stopSecound = 3;
+        int stopSecound = 3;
 
         public override bool Use(GameObject player) {
             player.GetComponent<MonoBehaviour>().StartCoroutine(TimeStop());
+            CountDownUI.Instance.StartCountDown(stopSecound);
             return true;
         }
 
