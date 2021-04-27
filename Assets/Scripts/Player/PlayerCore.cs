@@ -106,7 +106,7 @@ namespace Player {
                 immediateItem.DeleteModel(gameObject);
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
-            if (useableItem != null) {
+            if (useableItem != null && useableItems.All(item => item.Sprite.GetInstanceID() != useableItem.Sprite.GetInstanceID())) {
                 if (currentItemIndex == -1) {
                     currentItemIndex = 0;
                 }
