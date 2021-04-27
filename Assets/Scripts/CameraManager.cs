@@ -20,13 +20,14 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     [SerializeField] float lookAtLerp = 0.01f;
     Vector3 aftQ;
 
+    bool isStopped = false;
 
     public void TimeReStarted() {
-        enabled = true;
+        isStopped = false;
     }
 
     public void TimeStopped() {
-        enabled = false;
+        isStopped = true;
     }
 
     void Start() {
@@ -49,7 +50,9 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
         }
     }
     void Update() {
-        //transform.rotation = aftQ;
+        if (isStopped) {
+            return;
+        }
 
         var forwerdRay = new Ray(transform.position + transform.forward * rayDistance, transform.forward);
 
