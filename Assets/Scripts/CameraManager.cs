@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangeable {
+public class CameraManager : MonoBehaviour, Item.TimeStopable {
     [SerializeField] LayerMask mask;
 
 
     [SerializeField] float speed = 0.005f;
-    float speedScale=1;
 
     [SerializeField] float positionRatio = 0.5f;
     [SerializeField] float positionUp = 0;
@@ -21,9 +20,6 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangea
     [SerializeField] float lookAtLerp = 0.01f;
     Vector3 aftQ;
 
-    public void TimeChange(float timeScale) {
-        speedScale = timeScale;
-    }
 
     public void TimeReStarted() {
         enabled = true;
@@ -35,7 +31,6 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangea
 
     void Start() {
         Application.targetFrameRate = 120;
-        speedScale = 1;
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var forwerdRay = new Ray(transform.position + transform.forward * 5, transform.forward);
@@ -78,17 +73,17 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable, Item.SpeedChangea
             Debug.DrawRay(point, forwardPoints.Normal2 * distance);
 
 
-            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * distance, positionLerp);
+            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * distance, positionLerp * Time.timeScale);
 
 
-            aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp);
+            aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp * Time.timeScale);
 
-            var p= Vector3.Lerp(forwerdHit.point, point , pointLerp);
+            var p= Vector3.Lerp(forwerdHit.point, point , pointLerp * Time.timeScale);
             transform.LookAt(p, aftQ);
 
 
 
-            transform.position += forwardPoints.Right.normalized * (speed* speedScale);
+            transform.position += forwardPoints.Right.normalized * (speed * Time.timeScale);
 
 
         }
