@@ -26035,8 +26035,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 6501607618863738096, guid: 70dbe970b93aebd40af1109f96fb58cd, type: 3}
-  speed: 1000
+  speed: 200
   interval: 1.29
+  maxDistance: 5
 --- !u!65 &1786182386
 BoxCollider:
   m_ObjectHideFlags: 0
