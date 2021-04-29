@@ -6,18 +6,41 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     [SerializeField] LayerMask mask;
 
 
-    [SerializeField] float speed = 0.005f;
+    [SerializeField] float speed = 0.002f;
 
     [SerializeField] float positionRatio = 0.5f;
     [SerializeField] float positionUp = 0;
 
-    [SerializeField] float distance = 12;
-    [SerializeField] float rayDistance = 6;
+    /// <summary>
+    /// 遠いときの距離
+    /// </summary>
+    [SerializeField] float farDistance = 25;
+    /// <summary>
+    /// 近いときの距離
+    /// </summary>
+    [SerializeField] float nearDistance = 13;
+
+    /// <summary>
+    /// 遠近切り替えにつかうBoxRayのサイズ
+    /// </summary>
+    [SerializeField] Vector3 thresholdRayBoxScale =new Vector3(10,5,1);
+
+    /// <summary>
+    /// 遠近切り替えの閾値
+    /// </summary>
+    [SerializeField]
+    float thresholdDistance = 10;
+
+
+     float distance;
+
+    [SerializeField] float rayDistance = 7;
 
 
     [SerializeField] float positionLerp = 0.01f;
     [SerializeField] float pointLerp = 0.01f;
     [SerializeField] float lookAtLerp = 0.01f;
+
     Vector3 aftQ;
 
     bool isStopped = false;
@@ -31,6 +54,8 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     }
 
     void Start() {
+        distance = farDistance;
+
         Application.targetFrameRate = 120;
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
@@ -89,6 +114,18 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
             transform.position += forwardPoints.Right.normalized * (speed * Time.timeScale);
 
 
+        }
+
+        ExtDebug.DrawBoxCastBox(forwerdHit.point - forwerdRay.direction * farDistance, thresholdRayBoxScale, transform.rotation, transform.forward, Mathf.Infinity, Color.red);
+
+        if (Physics.BoxCast(forwerdHit.point-forwerdRay.direction*farDistance, thresholdRayBoxScale, transform.forward, out var boxHit, transform.rotation, Mathf.Infinity, mask)) {
+            //Debug.Log(boxHit.distance);
+            if (boxHit.distance > thresholdDistance) {
+                distance = farDistance;
+            }
+            else {
+                distance = nearDistance;
+            }
         }
     }
 }
