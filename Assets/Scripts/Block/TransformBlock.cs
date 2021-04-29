@@ -37,13 +37,23 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
         }
     }
 
+    bool isStopItem = false;
+
     public void TimeReStarted() {
+        if (!isStopItem) {
+            return;
+        }
         allDiffTime += Time.time - stoppedTime;
         stoppedTime = 0;
         isStopped = false;
+        isStopItem = false;
     }
 
     public void TimeStopped() {
+        if (isStopped) {
+            return;
+        }
+        isStopItem = true;
         isStopped = true;
         stoppedTime = Time.time;
     }

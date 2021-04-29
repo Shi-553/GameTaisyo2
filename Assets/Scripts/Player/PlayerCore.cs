@@ -19,13 +19,23 @@ namespace Player {
         IntObjectUI heartUI;
         SlideObjectUI slideUI;
 
+        [SerializeField]
+        float invincibleTime = 1.5f;
+        float currentInvincibleTime = 0;
+
+
         public void ApplyDamage(Vector3 knockback) {
+            if (currentInvincibleTime != 0) {
+                return;
+            }
+            currentInvincibleTime = invincibleTime;
             hp--;
             GetComponent<Rigidbody>().AddForce(knockback, ForceMode.VelocityChange);
             heartUI.Remove();
             if (hp == 0) {
                 Death();
             }
+
         }
 
         public void HealDamage(int value) {
@@ -106,7 +116,7 @@ namespace Player {
                 immediateItem.DeleteModel(gameObject);
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
-            if (useableItem != null) {
+            if (useableItem != null && useableItems.All(item => item.Sprite.GetInstanceID() != useableItem.Sprite.GetInstanceID())) {
                 if (currentItemIndex == -1) {
                     currentItemIndex = 0;
                 }
@@ -124,7 +134,23 @@ namespace Player {
 
 
         void Update() {
-            if (!isVisible) {
+            if (currentInvincibleTime > 0) {
+                currentInvincibleTime -= Time.deltaTime;
+            }
+            if (currentInvincibleTime < 0) {
+                currentInvincibleTime = 0;
+                GetComponent<MeshRenderer>().enabled = true;
+            }
+            else {
+                if (currentInvincibleTime % 0.5 > 0.4) {
+                    GetComponent<MeshRenderer>().enabled = false;
+                }
+                else {
+                    GetComponent<MeshRenderer>().enabled = true;
+                }
+            }
+
+                if (!isVisible) {
                 isVisible = renderer.isVisible;
             }
             if (isVisible) {
