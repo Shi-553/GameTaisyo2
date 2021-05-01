@@ -6,12 +6,13 @@ public class BeltConbeyorSwitch : MonoBehaviour, IOperatedHummerObject {
     [SerializeField] BeltConbeyor beltConbeyor;
 
     Coroutine enumerator;
-    void IOperatedHummerObject.Hit() {
+    void IOperatedHummerObject.Hit(Player.PlayerHummer hummer) {
         if (enumerator == null) {
             enumerator = StartCoroutine(On());
+            hummer.ApplyDamage(10);
         }
     }
-
+    
 
     IEnumerator On() {
         var child = transform.GetChild(0).gameObject;

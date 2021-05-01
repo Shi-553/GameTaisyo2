@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChangeSwitch : MonoBehaviour, IOperatedHummerObject {
     [SerializeField]
     List<TransformBlock> list;
-    void IOperatedHummerObject.Hit() {
+    void IOperatedHummerObject.Hit(Player.PlayerHummer hummer) {
         foreach (var block in list) {
             if (block.isStopped) {
                 block.TimeReStarted();
@@ -18,5 +18,7 @@ public class ChangeSwitch : MonoBehaviour, IOperatedHummerObject {
         var angles = child.localEulerAngles;
         angles.y *= -1;
         child.localEulerAngles = angles;
+
+        hummer.ApplyDamage(10);
     }
 }
