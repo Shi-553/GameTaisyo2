@@ -57,7 +57,7 @@ namespace Player {
             }
         }
         public void WieldHummer() {
-            if (hummerFrame != 0) {
+            if (hummerFrame != 0 || hp == 0) {
                 return;
             }
             rotate = 0;
@@ -71,7 +71,7 @@ namespace Player {
             startPos = transform.localPosition;
         }
 
-        public bool ApplyDamage(int damage,bool isPierce=true) {
+        public bool ApplyDamage(int damage, bool isPierce = true) {
             hp -= damage;
             if (hp < 0) {
                 hp = 0;
