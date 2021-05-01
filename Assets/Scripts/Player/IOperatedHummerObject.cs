@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Player;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public interface IOperatedHummerObject
 {
-    void Hit();
+    void Hit(PlayerHummer hummer);
 
 }
