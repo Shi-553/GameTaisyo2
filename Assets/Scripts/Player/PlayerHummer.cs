@@ -72,6 +72,10 @@ namespace Player {
         }
 
         public bool ApplyDamage(int damage, bool isPierce = true) {
+            if (rotateAdd < 0) {
+                return false;
+            }
+
             hp -= damage;
             if (hp < 0) {
                 hp = 0;
