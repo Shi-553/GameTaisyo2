@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1615966908097478351}
   - component: {fileID: 1615966908097478350}
   - component: {fileID: 1615966908097478349}
+  - component: {fileID: 2578576296104378158}
   m_Layer: 0
   m_Name: Door
   m_TagString: Gimmick
@@ -104,5 +105,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bdcb0d7a43883f408ee3cdd78c096b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2578576296104378158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615966908097478348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570b44276527dfc4592df729f02b58a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
