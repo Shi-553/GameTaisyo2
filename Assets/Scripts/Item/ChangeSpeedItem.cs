@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Item {
-    interface SpeedChangeable {
-        void TimeChange(float timeScale);
-    }
 
     public class ChangeSpeedItem : UseableItemBase {
         [SerializeField]
@@ -60,17 +57,6 @@ namespace Item {
 
             Time.timeScale = scale;
 
-            var components = new List<SpeedChangeable>();
-
-            var a = FindObjectsOfType<Component>();
-            foreach (var c in a) {
-                var timeStopable = c as SpeedChangeable;
-
-                if (timeStopable != null) {
-                    timeStopable.TimeChange(scale);
-                    components.Add(timeStopable);
-                }
-            }
         }
     }
 }

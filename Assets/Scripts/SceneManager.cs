@@ -30,6 +30,7 @@ namespace Scene
 
         public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode)
         {
+            Time.timeScale = 1.0f;
             if (nLoadSceneMode  == LoadSceneMode.Single)
              {
                 ChangeScene((int)nSceneType);
@@ -38,39 +39,29 @@ namespace Scene
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
         public void ChangeScene(int nSceneType) {
+            Time.timeScale = 1.0f;
             StartCoroutine(SceneChangeCorutine((SceneType)nSceneType));
         }
 
         public bool IsTimeStopped { get; private set; }
 
+        float timeScale = 0;
         public void TimeStop() {
+            if (IsTimeStopped) {
+                return;
+            }
             IsTimeStopped = true;
+            timeScale = Time.timeScale;
 
             Time.timeScale = 0;
-            var a = FindObjectsOfType<Component>();
-            foreach (var c in a) {
-                var timeStopable = c as TimeStopable;
-
-                if (timeStopable != null) {
-                    timeStopable.TimeStopped();
-                }
-            }
-
         }
 
         public void TimeRestart() {
-            IsTimeStopped = false;
-            Time.timeScale = 1f;
-
-
-            var a = FindObjectsOfType<Component>();
-            foreach (var c in a) {
-                var timeStopable = c as TimeStopable;
-
-                if (timeStopable != null) {
-                    timeStopable.TimeReStarted();
-                }
+            if (!IsTimeStopped) {
+                return;
             }
+            IsTimeStopped = false;
+            Time.timeScale = timeScale;
         }
 
     }
