@@ -45,6 +45,8 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
     bool isStopped = false;
 
+    public Vector3 MebiusuPoint { private set; get; }
+
     public void TimeReStarted() {
         isStopped = false;
     }
@@ -83,6 +85,8 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
 
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
+            MebiusuPoint = forwerdHit.point;
+
             var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
