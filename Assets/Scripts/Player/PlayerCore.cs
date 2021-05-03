@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace Player {
 
@@ -23,6 +24,15 @@ namespace Player {
         float invincibleTime = 1.5f;
         float currentInvincibleTime = 0;
 
+        CameraManager cameraManager;
+
+        [SerializeField]
+        float deathDistance = 15;
+        [SerializeField]
+        float deathAlertDistance = 12;
+        [SerializeField]
+        float deathImageAlphaMax = 0.8f;
+        Image alertImage;
 
         public void ApplyDamage(Vector3 knockback) {
             if (currentInvincibleTime != 0) {
@@ -77,12 +87,8 @@ namespace Player {
 
             slideUI.SetItem(useableItems.Select(i => i.Sprite).ToList(), currentItemIndex, 1);
         }
-        new Renderer renderer;
-        bool isVisible = false;
         void Start() {
             hp = hpMax;
-
-            renderer = GetComponent<Renderer>();
 
             useableItems = new List<UseableItemBase>();
             foreach (var item in defaultUseableItems) {
@@ -101,6 +107,9 @@ namespace Player {
 
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
             heartUI.SetMax(hp);
+
+            cameraManager = Camera.main.GetComponent<CameraManager>();
+            alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
         }
 
         private void OnCollisionEnter(Collision collision) {
@@ -150,29 +159,14 @@ namespace Player {
                 }
             }
 
-                if (!isVisible) {
-                isVisible = renderer.isVisible;
+            var cameraDistance = Vector3.Distance(cameraManager.MebiusuPoint, transform.position);
+            var color = alertImage.color;
+            color.a = Mathf.Lerp(0, deathImageAlphaMax, (cameraDistance - deathAlertDistance) / (deathDistance - deathAlertDistance));
+            alertImage.color = color;
+            if (cameraDistance > deathDistance) {
+                Death();
+                enabled = false;
             }
-            if (isVisible) {
-                Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
-
-                // 視錐台の内側にあるか
-                bool isRendered = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, Vector3.one * 0.1f));
-                if (!isRendered) {
-                    Debug.Log("yabaiyabai");
-                    bool isRendered2 = GeometryUtility.TestPlanesAABB(planes, new Bounds(transform.position, transform.localScale));
-                    if (!isRendered2) {
-                        if (hp != 0) {
-                            Death();
-                        }
-                        hp = 0;
-
-                    }
-                }
-            }
-
-
-
         }
     }
 
