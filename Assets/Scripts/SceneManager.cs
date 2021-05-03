@@ -7,7 +7,7 @@ using Item;
 
 namespace Scene
 {
-
+   
     public enum SceneType
     {
         TITLE,
@@ -18,13 +18,29 @@ namespace Scene
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
-        public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode) {
+        private IEnumerator SceneChangeCorutine(SceneType sceneType)
+        {
+            GameObject fadeImage= GameObject.Find("Fade Image");
+            FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
+            yield return StartCoroutine(fadeCorutine.Fade(sceneType));
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene((int)sceneType);
+
+        }
+
+        public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode)
+        {
             Time.timeScale = 1.0f;
+            if (nLoadSceneMode  == LoadSceneMode.Single)
+             {
+                ChangeScene((int)nSceneType);
+                return;
+            }
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
         public void ChangeScene(int nSceneType) {
             Time.timeScale = 1.0f;
-            UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType);
+            StartCoroutine(SceneChangeCorutine((SceneType)nSceneType));
         }
 
         public bool IsTimeStopped { get; private set; }
