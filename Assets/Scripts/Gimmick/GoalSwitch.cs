@@ -5,9 +5,11 @@ using UnityEngine;
 public class GoalSwitch : MonoBehaviour, IOperatedHummerObject {
     [SerializeField] Goal goal;
 
-    void IOperatedHummerObject.Hit() {
+    void IOperatedHummerObject.Hit(Player.PlayerHummer hummer) {
         goal.Show();
 
         gameObject.SetActive(false);
+
+        hummer.ApplyDamage(10);
     }
 }

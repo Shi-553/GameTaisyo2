@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitBlock : TransformBlock, IOperatedHummerObject
+public class HitBlock : MonoBehaviour, IOperatedHummerObject
 {
     int mask;
     [SerializeField] Vector2 movevalue;
@@ -17,10 +17,10 @@ public class HitBlock : TransformBlock, IOperatedHummerObject
 
     }
 
-    void IOperatedHummerObject.Hit()
+    void IOperatedHummerObject.Hit(Player.PlayerHummer hummer)
     {
         MoveBlock(movevalue);
-
+        hummer.ApplyDamage(20);
     }
 
     void LookAtBlock()
@@ -58,7 +58,7 @@ public class HitBlock : TransformBlock, IOperatedHummerObject
 
             if (dir != Vector2.zero)
             {
-                GetComponent<Rigidbody>().AddForce(move * (speed * Time.timeScale), ForceMode.VelocityChange);
+                GetComponent<Rigidbody>().AddForce(move * ( Time.timeScale), ForceMode.VelocityChange);
 
             }
 
