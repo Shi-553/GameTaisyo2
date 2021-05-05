@@ -58,7 +58,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     void Start() {
         distance = farDistance;
 
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var forwerdRay = new Ray(transform.position + transform.forward * 5, transform.forward);
