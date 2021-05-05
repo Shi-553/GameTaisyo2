@@ -21763,7 +21763,7 @@ MonoBehaviour:
   deathDistance: 15
   deathAlertDistance: 12
   deathImageAlphaMax: 0.8
-  cameraFollowUpRate: 0.1
+  cameraFollowUpRate: 0.15
 --- !u!1001 &1001775278
 PrefabInstance:
   m_ObjectHideFlags: 0
