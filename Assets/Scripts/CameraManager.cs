@@ -32,7 +32,8 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     float thresholdDistance = 10;
 
 
-     float distance;
+    public float TargetDistance { private set; get; }
+    public float MebiusuDistance { private set; get; }
 
     [SerializeField] float rayDistance = 7;
 
@@ -55,10 +56,11 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
         isStopped = true;
     }
 
-    void Start() {
-        distance = farDistance;
+    void Awake() {
+        TargetDistance = farDistance;
+        Application.targetFrameRate = 60;
 
-        Application.targetFrameRate = 120;
+
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var forwerdRay = new Ray(transform.position + transform.forward * 5, transform.forward);
@@ -70,11 +72,15 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
                 (forwardPoints.LeftBottom + forwardPoints.RightBottom) / 2*(1- positionRatio)) ;
 
 
-            transform.position = point + forwardPoints.Normal * distance;
+            transform.position = point + forwardPoints.Normal * TargetDistance;
 
             transform.LookAt(point, forwardPoints.Up.normalized);
             aftQ = transform.up;
+
+            MebiusuDistance = forwerdHit.distance;
         }
+    }
+    void Start() {
     }
     void Update() {
         if (isStopped) {
@@ -100,12 +106,12 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
             Debug.DrawLine(firstCenter, forwerdHit.point, Color.red);
             Debug.DrawLine(firstCenter, forwerdHit.point, Color.black);
 
-            Debug.DrawRay(point, forwardPoints.Normal * distance, Color.red);
-            Debug.DrawRay(point, forwardPoints.Normal1 * distance);
-            Debug.DrawRay(point, forwardPoints.Normal2 * distance);
+            Debug.DrawRay(point, forwardPoints.Normal * TargetDistance, Color.red);
+            Debug.DrawRay(point, forwardPoints.Normal1 * TargetDistance);
+            Debug.DrawRay(point, forwardPoints.Normal2 * TargetDistance);
 
 
-            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * distance, positionLerp * Time.timeScale);
+            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * TargetDistance, positionLerp * Time.timeScale);
 
 
             aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp * Time.timeScale);
@@ -119,16 +125,17 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
 
         }
+        MebiusuDistance = forwerdHit.distance;
 
         ExtDebug.DrawBoxCastBox(forwerdHit.point - forwerdRay.direction * farDistance, thresholdRayBoxScale, transform.rotation, transform.forward, Mathf.Infinity, Color.red);
 
         if (Physics.BoxCast(forwerdHit.point-forwerdRay.direction*farDistance, thresholdRayBoxScale, transform.forward, out var boxHit, transform.rotation, Mathf.Infinity, mask)) {
             //Debug.Log(boxHit.distance);
             if (boxHit.distance > thresholdDistance) {
-                distance = farDistance;
+                TargetDistance = farDistance;
             }
             else {
-                distance = nearDistance;
+                TargetDistance = nearDistance;
             }
         }
     }
