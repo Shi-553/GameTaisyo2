@@ -12,7 +12,9 @@ namespace Player {
         int hpMax = 3;
         int hp;
 
-        int currentItemIndex = -1;
+        [SerializeField]
+        int itemMax = 3;
+        int currentItemIndex = 0;
         List<UseableItemBase> useableItems = new List<UseableItemBase>();
         [SerializeField]
         List<GameObject> defaultUseableItems = new List<GameObject>();
@@ -62,7 +64,7 @@ namespace Player {
             heartUI.Add(value);
         }
         public void UseItem() {
-            if (currentItemIndex == -1) {
+            if (currentItemIndex == -1|| useableItems.Count-1<currentItemIndex) {
                 return;
             }
             var isDelete = useableItems[currentItemIndex].Use(gameObject);
@@ -77,23 +79,23 @@ namespace Player {
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex + 1 + useableItems.Count) % useableItems.Count;
+            currentItemIndex = (currentItemIndex + 1 + itemMax) % itemMax;
             SetItem();
         }
         public void PrevItem() {
             if (currentItemIndex == -1) {
                 return;
             }
-            currentItemIndex = (currentItemIndex - 1 + useableItems.Count) % useableItems.Count;
+            currentItemIndex = (currentItemIndex - 1 + itemMax) % itemMax;
             SetItem();
         }
         void SetItem() {
             if (currentItemIndex == -1 || useableItems.Count == 0) {
-                slideUI.SetItem(new List<Sprite>(), 0, 0);
+                slideUI.SetItem(new List<Sprite>(), 0);
                 return;
             }
 
-            slideUI.SetItem(useableItems.Select(i => i.Sprite).ToList(), currentItemIndex, 1);
+            slideUI.SetItem(useableItems.Select(i => i.Sprite).ToList(), currentItemIndex);
         }
         void Start() {
             hp = hpMax;
@@ -114,7 +116,6 @@ namespace Player {
             SetItem();
 
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
-            heartUI.SetMax(hp);
 
             cameraManager = Camera.main.GetComponent<CameraManager>();
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
@@ -135,7 +136,7 @@ namespace Player {
                 immediateItem.DeleteModel(gameObject);
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
-            if (useableItem != null && useableItems.All(item => item.Sprite.GetInstanceID() != useableItem.Sprite.GetInstanceID())) {
+            if (useableItem != null&&useableItems.Count< itemMax && useableItems.All(item => item.Sprite.GetInstanceID() != useableItem.Sprite.GetInstanceID())) {
                 if (currentItemIndex == -1) {
                     currentItemIndex = 0;
                 }

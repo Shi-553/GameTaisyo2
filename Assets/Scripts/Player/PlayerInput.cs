@@ -21,7 +21,6 @@ namespace Player {
                 return;
             }
             if (Input.GetButtonDown("Hummer")) {
-                playerHummer.gameObject.SetActive(true);
                 playerHummer.WieldHummer();
             }
             if (Input.GetButtonDown("UseItem")) {

@@ -12,14 +12,14 @@ namespace Item {
         [SerializeField]
         AudioClip se;
 
-        Text speedScaleText;
+        IntObjectUI speedUI;
 
-        Text SpeedScaleText { get {
-                if (speedScaleText == null) {
-                    var textObj = GameObject.Find("Canvas/SpeedScale/Text");
-                    speedScaleText = textObj.GetComponent<Text>();
+
+        IntObjectUI SpeedUI { get {
+                if (speedUI == null) {
+                    speedUI = GameObject.Find("Canvas/SpeedScale/Background").GetComponent<IntObjectUI>();
                 }
-               return speedScaleText;
+               return speedUI;
             } 
         }
 
@@ -38,29 +38,32 @@ namespace Item {
                 if (isSpeedUp) {
                     scale = 1.5f;
                     AudioManager.Instance.Play(se);
+                    SpeedUI.Add();
                 }
                 else {
                     scale = 0.7f;
                     AudioManager.Instance.Play(se);
+                    SpeedUI.Remove();
                 }
             }
             else if (Time.timeScale < 1.0f) {
                 if (isSpeedUp) {
                     scale = 1.0f;
                     AudioManager.Instance.Play(se);
+                    SpeedUI.Add();
                 }
             }
             else if (Time.timeScale > 1.0f) {
                 if (!isSpeedUp) {
                     scale = 1.0f;
                     AudioManager.Instance.Play(se);
+                    SpeedUI.Remove();
                 }
             }
 
             if (Mathf.Approximately(Time.timeScale, scale)) {
                 return;
             }
-            SpeedScaleText.text = scale.ToString();
 
             Time.timeScale = scale;
 
