@@ -9,7 +9,7 @@ public class CountDownUI : SingletonMonoBehaviour<CountDownUI>
 
     void Start()
     {
-        text = transform.GetChild(0).GetComponent<Text>();
+        text = transform.GetComponentInChildren<Text>(true);
     }
 
     void Update()
@@ -20,11 +20,11 @@ public class CountDownUI : SingletonMonoBehaviour<CountDownUI>
         StartCoroutine(CountDown(time));
     }
     IEnumerator CountDown(int time) {
-        text.gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(true);
         for (int i = 0; i < time; i++) {
             text.text = (time - i).ToString();
             yield return new WaitForSeconds(1);
         }
-        text.gameObject.SetActive(false);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 }
