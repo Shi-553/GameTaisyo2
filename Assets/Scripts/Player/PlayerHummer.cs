@@ -9,13 +9,15 @@ namespace Player {
         int atk = 1;
         Transform rotateCenter;
 
-        int hp = 100;
+        [SerializeField]
+        int hpMax = 100;
+        int hp ;
 
         float rotate = 0;
         float rotateAdd = 0;
 
-        private void Start() {
-            hp = 100;
+        private void Awake() {
+            hp = hpMax;
         }
 
         Transform RotateCenter {
@@ -58,6 +60,7 @@ namespace Player {
         }
         public void WieldHummer() {
             if (hummerFrame != 0 || hp == 0) {
+            gameObject.SetActive(false);
                 return;
             }
             rotate = 0;
@@ -91,5 +94,11 @@ namespace Player {
             return isPierce;
         }
 
+        public void Repair(int value) {
+            hp += value;
+            if (hp > hpMax) {
+                hp = hpMax;
+            }
+        }
     }
 }

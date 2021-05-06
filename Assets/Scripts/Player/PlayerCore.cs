@@ -36,6 +36,10 @@ namespace Player {
         [SerializeField]
         AudioClip damagese;
 
+        float baseDistance;
+        [SerializeField]
+        float cameraFollowUpRate = 0.5f;
+
         public void ApplyDamage(Vector3 knockback) {
             if (currentInvincibleTime != 0) {
                 return;
@@ -114,6 +118,8 @@ namespace Player {
 
             cameraManager = Camera.main.GetComponent<CameraManager>();
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
+
+            baseDistance = cameraManager.MebiusuDistance;
         }
 
         private void OnCollisionEnter(Collision collision) {
@@ -162,12 +168,20 @@ namespace Player {
                     GetComponent<MeshRenderer>().enabled = true;
                 }
             }
+            var cameraOffset = (baseDistance-cameraManager.MebiusuDistance) * cameraFollowUpRate;
+
+            var deathAlertDistanceFromOffset = deathAlertDistance - cameraOffset;
+            var deathDistanceFromOffset = deathDistance - cameraOffset;
 
             var cameraDistance = Vector3.Distance(cameraManager.MebiusuPoint, transform.position);
             var color = alertImage.color;
-            color.a = Mathf.Lerp(0, deathImageAlphaMax, (cameraDistance - deathAlertDistance) / (deathDistance - deathAlertDistance));
+            color.a = Mathf.Lerp(0, deathImageAlphaMax, (cameraDistance - deathAlertDistanceFromOffset) / (deathDistanceFromOffset - deathAlertDistanceFromOffset));
             alertImage.color = color;
-            if (cameraDistance > deathDistance) {
+
+            Debug.Log(cameraOffset);
+            Debug.Log(cameraDistance);
+
+            if (cameraDistance > deathDistanceFromOffset) {
                 Death();
                 enabled = false;
             }
