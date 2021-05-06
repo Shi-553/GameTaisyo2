@@ -9,6 +9,9 @@ namespace Item {
         [SerializeField]
         bool isSpeedUp = false;
 
+        [SerializeField]
+        AudioClip se;
+
         Text speedScaleText;
 
         Text SpeedScaleText { get {
@@ -34,19 +37,23 @@ namespace Item {
             if (Mathf.Approximately(Time.timeScale, 1.0f)) {
                 if (isSpeedUp) {
                     scale = 1.5f;
+                    AudioManager.Instance.Play(se);
                 }
                 else {
                     scale = 0.7f;
+                    AudioManager.Instance.Play(se);
                 }
             }
             else if (Time.timeScale < 1.0f) {
                 if (isSpeedUp) {
                     scale = 1.0f;
+                    AudioManager.Instance.Play(se);
                 }
             }
             else if (Time.timeScale > 1.0f) {
                 if (!isSpeedUp) {
                     scale = 1.0f;
+                    AudioManager.Instance.Play(se);
                 }
             }
 
