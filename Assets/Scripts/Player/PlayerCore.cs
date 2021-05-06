@@ -116,7 +116,6 @@ namespace Player {
             SetItem();
 
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
-            heartUI.SetMax(hp);
 
             cameraManager = Camera.main.GetComponent<CameraManager>();
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
