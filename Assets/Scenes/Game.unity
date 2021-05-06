@@ -33183,9 +33183,7 @@ MonoBehaviour:
   framePre: {fileID: 474301869740276335, guid: ac677a6b16e1a0b45a9e36afcbe15e05, type: 3}
   selectFramePre: {fileID: 4951800652016320373, guid: 565aa018a56b8aa4fbcd1566d076c729,
     type: 3}
-  nextPosDiff: {x: -130, y: -30, z: 0}
-  nextScaleDiff: {x: -0.3, y: -0.3, z: -0.3}
-  nextRotateDiff: {x: 0, y: 0, z: 20}
+  nextPosDiff: {x: -130, y: 0, z: 0}
 --- !u!1001 &882677683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51559,7 +51557,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 150, y: -298.1}
+  m_AnchoredPosition: {x: 300, y: -290.1}
   m_SizeDelta: {x: 256, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1376468243
@@ -58150,7 +58148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -150, y: -298.1}
+  m_AnchoredPosition: {x: -300, y: -290.1}
   m_SizeDelta: {x: 256, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1578140293
