@@ -15,7 +15,7 @@ namespace Item {
         int audioSounceId;
 
         public override bool Use(GameObject player) {
-            audioSounceId=AudioManager.Instance.Play(se);
+            audioSounceId=AudioManager.Instance.Play(se,true);
             player.GetComponent<MonoBehaviour>().StartCoroutine(TimeStop());
             CountDownUI.Instance.StartCountDown(stopSecound);
             return true;
