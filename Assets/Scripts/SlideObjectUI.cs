@@ -8,16 +8,14 @@ public class SlideObjectUI : MonoBehaviour {
     GameObject framePre;
     [SerializeField]
     GameObject selectFramePre;
+    [SerializeField]
+    Transform selectX;
 
 
     List<GameObject> objects = new List<GameObject>();
 
     [SerializeField]
     Vector3 nextPosDiff;
-    [SerializeField]
-    Vector3 nextScaleDiff;
-    [SerializeField]
-    Vector3 nextRotateDiff;
 
     void Start() {
 
@@ -29,7 +27,7 @@ public class SlideObjectUI : MonoBehaviour {
     }
 
 
-    public void SetItem(List<Sprite> sprites, int currentIndex, int halfSiblingCount) {
+    public void SetItem(List<Sprite> sprites, int currentIndex) {
         foreach (var obj in objects) {
             if (obj != null) {
                 Destroy(obj);
@@ -37,40 +35,26 @@ public class SlideObjectUI : MonoBehaviour {
         }
         objects.Clear();
 
-        var index = currentIndex - halfSiblingCount;
-        while (index < 0) {
-            index += sprites.Count;
-        }
-        index %= sprites.Count;
+        for (int i = 0; i < 3; i++) {
 
-        for (int i = 0; i < halfSiblingCount * 2 + 1; i++) {
-            var sprite = sprites[index];
-
-            var obj = (index  == currentIndex )? Instantiate(selectFramePre) : Instantiate(framePre);
+            var obj = (i == currentIndex) ? Instantiate(selectFramePre) : Instantiate(framePre);
 
             obj.transform.SetParent(transform);
             obj.transform.position = transform.position;
-            var nextPos = nextPosDiff;
-            if (i > halfSiblingCount) {
-                nextPos.y *= -1;
+            obj.transform.position -= nextPosDiff * (i - 1f);
+
+
+            if (sprites.Count > i) {
+                obj.transform.GetChild(0).GetComponent<Image>().sprite = sprites[i];
             }
-            obj.transform.position -= nextPos * (i - halfSiblingCount);
-
-            var nextScale = nextScaleDiff;
-            if (i > halfSiblingCount) {
-                nextScale *= -1;
+            else {
+                obj.transform.GetChild(0).GetComponent<Image>().enabled = false;
             }
-            obj.transform.localScale -= nextScale * (i - halfSiblingCount);
-
-            var nextrotate = nextRotateDiff;
-            obj.transform.localEulerAngles -= nextrotate * (i - halfSiblingCount);
-
-
-            obj.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-
             objects.Add(obj);
 
-            index = (index + 1 + sprites.Count) % sprites.Count;
+        }
+        if (objects.Count > currentIndex) {
+            selectX.position = objects[currentIndex].transform.position - new Vector3(50, 50);
         }
     }
 }

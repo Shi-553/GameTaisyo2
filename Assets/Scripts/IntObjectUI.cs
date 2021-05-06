@@ -7,14 +7,16 @@ public class IntObjectUI : MonoBehaviour
     [SerializeField] Vector3 firstPos;
     [SerializeField] Vector3 nextDiff;
      List<GameObject> objects = new List<GameObject>();
+    [SerializeField]
     int current=0;
     [SerializeField] int max=3;
 
     [SerializeField] GameObject objectPrefab;
     [SerializeField] GameObject removeObjectPrefab;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        SetMax(max,current);
     }
 
     GameObject GetObject(GameObject prefab,int num) {
@@ -52,13 +54,18 @@ public class IntObjectUI : MonoBehaviour
         }
         objects.Clear();
     }
-    public void SetMax(int num)
+    public void SetMax(int m,int c)
     {
-        max = num;
-        current = max;
+        max = m;
+        current = c;
         Clear();
-        for (int i =0;i< num; i++) {
+        for (int i =0;i< c; i++) {
             var obj = GetObject(objectPrefab, i);
+            obj.transform.SetParent(transform);
+            objects.Add(obj);
+        }
+        for (int i = c; i < m; i++) {
+            var obj = GetObject(removeObjectPrefab, i);
             obj.transform.SetParent(transform);
             objects.Add(obj);
         }
