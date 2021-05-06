@@ -15,6 +15,9 @@ public class ButtonManager : MonoBehaviour {
     [SerializeField] bool reverseH = false;
 
     [SerializeField] int columnMax = 0;
+    
+    [SerializeField]
+    AudioClip se;
 
     void Update() {
         float v = Input.GetAxisRaw("Vertical");
@@ -29,6 +32,7 @@ public class ButtonManager : MonoBehaviour {
         if (!pressed) {
             if (v != 0 || h != 0) {
                 pressed = true;
+                AudioManager.Instance.Play(se);
             }
 
             var vVal = reverseV ? 1 : -1;

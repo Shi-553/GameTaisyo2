@@ -33,6 +33,8 @@ namespace Player {
         [SerializeField]
         float deathImageAlphaMax = 0.8f;
         Image alertImage;
+        [SerializeField]
+        AudioClip damagese;
 
         float baseDistance;
         [SerializeField]
@@ -46,6 +48,8 @@ namespace Player {
             hp--;
             GetComponent<Rigidbody>().AddForce(knockback, ForceMode.VelocityChange);
             heartUI.Remove();
+
+            AudioManager.Instance.Play(damagese);
             if (hp == 0) {
                 Death();
             }

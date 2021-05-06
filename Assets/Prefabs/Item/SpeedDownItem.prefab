@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 8568ca1c3514cbe4d9983ef7ec247f47, type: 3}
   isSpeedUp: 0
+  se: {fileID: 8300000, guid: a5e817c2abbf225428791d75b613b3e1, type: 3}

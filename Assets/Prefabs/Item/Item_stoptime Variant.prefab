@@ -572,6 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 54fcb42c55a477841b9d4b1ad2a08cc1, type: 3}
   stopSecound: 3
+  se: {fileID: 8300000, guid: d283a1573f73ca34eb94edf4173bc26f, type: 3}
 --- !u!114 &6374756826945957149
 MonoBehaviour:
   m_ObjectHideFlags: 0

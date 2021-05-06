@@ -10,8 +10,12 @@ namespace Item {
     public class StopTimeItem : UseableItemBase {
         [SerializeField]
         int stopSecound = 3;
+        [SerializeField]
+        AudioClip se;
+        int audioSounceId;
 
         public override bool Use(GameObject player) {
+            audioSounceId=AudioManager.Instance.Play(se,true);
             player.GetComponent<MonoBehaviour>().StartCoroutine(TimeStop());
             CountDownUI.Instance.StartCountDown(stopSecound);
             return true;
@@ -31,6 +35,7 @@ namespace Item {
             }
             yield return new WaitForSeconds(stopSecound);
 
+            AudioManager.Instance.Stop(audioSounceId);
             foreach (var c in components) {
                 c.TimeReStarted();
             }

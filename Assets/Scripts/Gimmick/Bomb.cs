@@ -17,6 +17,9 @@ public class Bomb : MonoBehaviour {
     [SerializeField]
     Vector3 dir;
     int isExplosion = 0;
+    
+    [SerializeField]
+    AudioClip se;
 
     private void Start() {
 
@@ -55,6 +58,8 @@ public class Bomb : MonoBehaviour {
         if (isExplosion == 0) {
             transform.localScale += Vector3.one * bombRadius;
             isExplosion++;
+
+            AudioManager.Instance.Play(se);
         }
 
         var d = other.GetComponent<Damage.IGimmickDamageable>();
