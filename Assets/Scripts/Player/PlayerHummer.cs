@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Player {
     public class PlayerHummer : MonoBehaviour {
         int hummerFrame = 0;
-        int hummerFrameEnd = 80;
+        int hummerFrameEnd = 30;
         int atk = 1;
         Transform rotateCenter;
 
@@ -16,8 +16,11 @@ namespace Player {
         float rotate = 0;
         float rotateAdd = 0;
 
-        private void Awake() {
+        HummerUI hummerUI=null;
+
+        private void Init() {
             hp = hpMax;
+            hummerUI = GameObject.Find("Hummer").GetComponent<HummerUI>();
         }
 
         Transform RotateCenter {
@@ -59,15 +62,17 @@ namespace Player {
             }
         }
         public void WieldHummer() {
-            if (hummerFrame != 0 || hp == 0) {
-            gameObject.SetActive(false);
+            if (hummerUI == null) {
+                Init();
+            }
+            if (hummerFrame != 0||hp == 0) {
                 return;
             }
-            rotate = 0;
-            rotateAdd = 1;
-            hummerFrame = 1;
-            hummerFrameEnd = 80;
             gameObject.SetActive(true);
+            rotate = 0;
+            rotateAdd = 5;
+            hummerFrame = 1;
+            hummerFrameEnd = 30;
 
             transform.RotateAround(RotateCenter.position, RotateCenter.up, 0);
             startRotate = transform.localRotation;
@@ -89,6 +94,7 @@ namespace Player {
                 hummerFrameEnd = hummerFrame + 20;
                 rotateAdd = -5.0f;
             }
+            hummerUI.SetSlider(hp / (float)hpMax);
 
 
             return isPierce;
@@ -99,6 +105,7 @@ namespace Player {
             if (hp > hpMax) {
                 hp = hpMax;
             }
+            hummerUI.SetSlider(hp / (float)hpMax);
         }
     }
 }
