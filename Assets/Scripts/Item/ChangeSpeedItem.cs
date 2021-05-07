@@ -5,29 +5,39 @@ using UnityEngine.UI;
 
 namespace Item {
 
-    public class ChangeSpeedItem : UseableItemBase {
-        [SerializeField]
-        bool isSpeedUp = false;
+    public class ChangeSpeedItem : MonoBehaviour {
 
         [SerializeField]
-        AudioClip se;
+        AudioClip speedUpSE;
+        [SerializeField]
+        AudioClip speedDownSE;
 
         IntObjectUI speedUI;
 
 
-        IntObjectUI SpeedUI { get {
+        IntObjectUI SpeedUI {
+            get {
                 if (speedUI == null) {
                     speedUI = GameObject.Find("Canvas/SpeedScale/Background").GetComponent<IntObjectUI>();
                 }
-               return speedUI;
-            } 
+                return speedUI;
+            }
         }
 
+        bool isPressed = false;
 
-        public override bool Use(GameObject player) {
-            TimeChange(isSpeedUp);
+        private void Update() {
+            var trigger = Input.GetAxis("SpeedChange");
+            if (trigger == 0) {
+                isPressed = false;
+                return;
+            }
+            if (isPressed) {
+                return;
+            }
+            isPressed = true;
 
-            return false;
+            TimeChange(trigger > 0);
         }
 
 
@@ -37,26 +47,26 @@ namespace Item {
             if (Mathf.Approximately(Time.timeScale, 1.0f)) {
                 if (isSpeedUp) {
                     scale = 1.5f;
-                    AudioManager.Instance.Play(se);
+                    AudioManager.Instance.Play(speedUpSE);
                     SpeedUI.Add();
                 }
                 else {
                     scale = 0.7f;
-                    AudioManager.Instance.Play(se);
+                    AudioManager.Instance.Play(speedDownSE);
                     SpeedUI.Remove();
                 }
             }
             else if (Time.timeScale < 1.0f) {
                 if (isSpeedUp) {
                     scale = 1.0f;
-                    AudioManager.Instance.Play(se);
+                    AudioManager.Instance.Play(speedUpSE);
                     SpeedUI.Add();
                 }
             }
             else if (Time.timeScale > 1.0f) {
                 if (!isSpeedUp) {
                     scale = 1.0f;
-                    AudioManager.Instance.Play(se);
+                    AudioManager.Instance.Play(speedDownSE);
                     SpeedUI.Remove();
                 }
             }
