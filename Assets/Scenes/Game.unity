@@ -20511,7 +20511,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &500128296
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38453,8 +38453,8 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!135 &1000904167
-SphereCollider:
+--- !u!136 &1000904167
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -38463,9 +38463,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Height: 1
+  m_Direction: 2
+  m_Center: {x: -0.00000011920929, y: 0, z: 0}
 --- !u!23 &1000904168
 MeshRenderer:
   m_ObjectHideFlags: 0
