@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour
         if (count == 0) {
             return;
         }
-        if (Input.GetButtonDown("Submit")) {
+        if (Input.GetButtonDown("Submit")|| Input.GetButtonDown("Pause")) {
             countTime = 0;
         }
         if (count > 0)

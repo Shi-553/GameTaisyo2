@@ -24,13 +24,13 @@ namespace Scene
             FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
             yield return StartCoroutine(fadeCorutine.Fade(sceneType));
 
+            Time.timeScale = 1.0f;
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)sceneType);
 
         }
 
         public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode)
         {
-            Time.timeScale = 1.0f;
             if (nLoadSceneMode  == LoadSceneMode.Single)
              {
                 ChangeScene((int)nSceneType);
@@ -39,7 +39,6 @@ namespace Scene
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
         public void ChangeScene(int nSceneType) {
-            Time.timeScale = 1.0f;
             StartCoroutine(SceneChangeCorutine((SceneType)nSceneType));
         }
 

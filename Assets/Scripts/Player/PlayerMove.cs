@@ -38,7 +38,7 @@ namespace Player {
 
                 var move = upFV * dir.y + rightFV * dir.x;
 
-                rigidbody.AddForce(-forwardPoints.Normal * 5, ForceMode.Acceleration);
+                rigidbody.AddForce(-forwardPoints.Normal * 20, ForceMode.Acceleration);
 
                 if (dir != Vector2.zero) {
                     rigidbody.AddForce(move * (speed*Time.timeScale), ForceMode.VelocityChange);
