@@ -38445,6 +38445,7 @@ GameObject:
   - component: {fileID: 1000904174}
   - component: {fileID: 1000904173}
   - component: {fileID: 1000904171}
+  - component: {fileID: 1000904175}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -38586,15 +38587,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hpMax: 3
   itemMax: 3
-  defaultUseableItems:
-  - {fileID: 7924673629440422368, guid: f377c3ad73cdac943a3840fbd1783004, type: 3}
-  - {fileID: 9093307673043609982, guid: fc880193b9849f748864269e0b62806a, type: 3}
+  defaultUseableItems: []
   invincibleTime: 1.5
   deathDistance: 15
   deathAlertDistance: 12
   deathImageAlphaMax: 0.8
   damagese: {fileID: 8300000, guid: b607b57da81564346a345afbaedc65ec, type: 3}
   cameraFollowUpRate: 0.5
+--- !u!114 &1000904175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000904166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c21c20989d2d92141a6e1912d0c70148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedUpSE: {fileID: 8300000, guid: c14fa1983d27e1c43a5213fd1a6edb43, type: 3}
+  speedDownSE: {fileID: 8300000, guid: a5e817c2abbf225428791d75b613b3e1, type: 3}
 --- !u!1001 &1001775278
 PrefabInstance:
   m_ObjectHideFlags: 0
