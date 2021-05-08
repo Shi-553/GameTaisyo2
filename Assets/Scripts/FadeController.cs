@@ -3,85 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; //パネルのイメージを操作するのに必要
 
-public class FadeController : MonoBehaviour
-{
+public class FadeController : MonoBehaviour {
+    [SerializeField]
+    float fadeSpeed = 1;
+    [SerializeField]
+    float targetSpeed = 1;
+    [SerializeField]
+    float fadeSpeed2 = 3;
 
-	public float fadeSpeed = 0.002f;        //透明度が変わるスピードを管理
-	public float fadeSpeed2 = 0.002f;        //透明度が変わるスピードを管理
-	float red, green, blue, alfa;   //パネルの色、不透明度を管理
-	float red2, green2, blue2, alfa2;   //パネルの色、不透明度を管理
+    Image fadeImage;
+    Image targetImage;
+    Image fadeImage2;
 
-	public bool isFadeOut = false;  //フェードアウト処理の開始、完了を管理するフラグ
-	public bool isFadeIn = false;   //フェードイン処理の開始、完了を管理するフラグ
-	Image fadeImage, fadeImage2;                //透明度を変更するパネルのイメージ
-	public GameObject targetObject;
-	void Start()
-	{
+    Coroutine coroutine;
 
-		fadeImage = GetComponent<Image>();
-		red = fadeImage.color.r;
-		green = fadeImage.color.g;
-		blue = fadeImage.color.b;
-		alfa = fadeImage.color.a;
+    void Start() {
+        fadeImage = transform.GetChild(2).GetComponent<Image>();
+        targetImage = transform.GetChild(1).GetComponent<Image>();
+        fadeImage2 = transform.GetChild(0).GetComponent<Image>();
 
-		fadeImage2 = targetObject.GetComponent<Image>();
-		red2 = fadeImage2.color.r;
-		green2 = fadeImage2.color.g;
-		blue2 = fadeImage2.color.b;
-		alfa2 = fadeImage2.color.a;
-	}
+        coroutine = StartCoroutine(Enumerator());
+    }
 
-	void Update()
-	{
-		if (isFadeIn)
-		{
-			StartFadeIn();
-		}
+    void Update() {
+        if (Input.GetButtonDown("Submit") || Input.GetButtonDown("Pause")) {
+            if (coroutine != null) {
+                StopCoroutine(coroutine);
+                coroutine = null;
+                End();
+            }
+        }
+    }
+    void End() {
+        fadeImage.gameObject.SetActive(false);
+        targetImage.gameObject.SetActive(false);
+        fadeImage2.gameObject.SetActive(false);
+    }
 
-		if (isFadeOut)
-		{
-			StartFadeOut();
-		}
+    IEnumerator Enumerator() {
+        yield return new WaitForSeconds(0.5f);
 
-	}
+        yield return StartCoroutine(ClearAlpha(fadeImage, fadeSpeed));
 
-	void StartFadeIn()
-	{
+        yield return new WaitForSeconds(1);
 
-		alfa2 -= fadeSpeed2;                //a)不透明度を徐々に下げる
-		SetAlpha2();                      //b)変更した不透明度パネルに反映する
-		if (alfa2 <= 0)
-		{
-			fadeImage2.enabled = false;    //d)パネルの表示をオフにする
-			alfa -= fadeSpeed;                //a)不透明度を徐々に下げる
-			SetAlpha();                      //b)変更した不透明度パネルに反映する
-			if (alfa <= 0)
-			{                    //c)完全に透明になったら処理を抜ける
-				isFadeIn = false;
-				fadeImage.enabled = false;    //d)パネルの表示をオフにする
-			}
-		}
+        yield return StartCoroutine(ClearAlpha(targetImage, targetSpeed));
+        yield return StartCoroutine(ClearAlpha(fadeImage2, fadeSpeed2));
 
-	}
+        End();
+        coroutine = null;
+    }
 
-	void StartFadeOut()
-	{
-		fadeImage.enabled = true;  // a)パネルの表示をオンにする
-		alfa += fadeSpeed;         // b)不透明度を徐々にあげる
-		SetAlpha();               // c)変更した透明度をパネルに反映する
-		if (alfa >= 1)
-		{             // d)完全に不透明になったら処理を抜ける
-			isFadeOut = false;
-		}
-	}
 
-	void SetAlpha()
-	{
-		fadeImage.color = new Color(red, green, blue, alfa);
-	}
+    IEnumerator ClearAlpha(Image image, float speed) {
+        Color color = Color.white;
 
-	void SetAlpha2()
-	{
-		fadeImage2.color = new Color(red2, green2, blue2, alfa2);
-	}
+        while (true) {
+            color.a -= Time.deltaTime * speed;
+
+            image.color = color;
+            yield return null;
+
+            if (color.a < 0) {
+                break;
+            }
+        }
+    }
 }
