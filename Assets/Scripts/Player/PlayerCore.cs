@@ -163,10 +163,10 @@ namespace Player {
             }
             else {
                 if (currentInvincibleTime % 0.5 > 0.4) {
-                    GetComponent<MeshRenderer>().enabled = false;
+                    //GetComponent<MeshRenderer>().enabled = false;
                 }
                 else {
-                    GetComponent<MeshRenderer>().enabled = true;
+                    //GetComponent<MeshRenderer>().enabled = true;
                 }
             }
             var cameraOffset = (baseDistance-cameraManager.MebiusuDistance) * cameraFollowUpRate;
