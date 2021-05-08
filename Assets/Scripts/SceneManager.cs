@@ -15,12 +15,20 @@ namespace Scene
         GAME,
         GAMECLEAR,
         GAMEOVER,
+        NONE,
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
+        public static string stage = "";
+        SceneType current= SceneType.NONE;
+
         private void Start() {
 
             Application.targetFrameRate = 60;
+            current = (SceneType)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+            if (current == SceneType.GAME) {
+                GameObject.Find("stage").transform.Find(stage).gameObject.SetActive(true);
+            }
         }
         private IEnumerator SceneChangeCorutine(SceneType sceneType)
         {

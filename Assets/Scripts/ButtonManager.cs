@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour {
@@ -10,7 +12,7 @@ public class ButtonManager : MonoBehaviour {
     [SerializeField]
     Vector3 selectScale;
     [SerializeField]
-    Color selectColor;
+    Color selectColor=Color.white;
 
     int selectIndex = 0;
     bool pressed = false;
@@ -24,6 +26,8 @@ public class ButtonManager : MonoBehaviour {
     
     [SerializeField]
     AudioClip se;
+    [Serializable] public class MyEvent : UnityEvent<GameObject> { }
+    [SerializeField] MyEvent action;
 
     private void Start() {
         var selected = transform.GetChild(selectIndex);
@@ -95,6 +99,7 @@ public class ButtonManager : MonoBehaviour {
         if (Input.GetButtonDown("Submit")) {
             UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
             transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
+            action.Invoke(transform.GetChild(selectIndex).gameObject);
         }
     }
 }
