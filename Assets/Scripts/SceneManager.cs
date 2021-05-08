@@ -18,7 +18,7 @@ namespace Scene
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
-        private void Awake() {
+        private void Start() {
 
             Application.targetFrameRate = 60;
         }
