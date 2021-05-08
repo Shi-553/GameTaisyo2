@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class DestroyButton : MonoBehaviour {
     // Start is called before the first frame update
-    public GameObject StartButton, EndButton;
+    public GameObject nextButton;
+    [SerializeField]
+    AudioClip clip;
+
     void Start() {
         
     }
@@ -18,10 +21,9 @@ public class DestroyButton : MonoBehaviour {
     }
 
     public void OnClick() {
-        StartButton.SetActive(true);
-        EndButton.SetActive(true);
+        nextButton.SetActive(true);
         this.gameObject.SetActive(false);
-
+        AudioManager.Instance.Play(clip);
 
     }
 }

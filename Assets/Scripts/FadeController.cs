@@ -17,6 +17,9 @@ public class FadeController : MonoBehaviour {
 
     Coroutine coroutine;
 
+    [SerializeField]
+    MonoBehaviour nextScript;
+
     void Start() {
         fadeImage = transform.GetChild(2).GetComponent<Image>();
         targetImage = transform.GetChild(1).GetComponent<Image>();
@@ -38,6 +41,7 @@ public class FadeController : MonoBehaviour {
         fadeImage.gameObject.SetActive(false);
         targetImage.gameObject.SetActive(false);
         fadeImage2.gameObject.SetActive(false);
+        nextScript.enabled = true;
     }
 
     IEnumerator Enumerator() {
