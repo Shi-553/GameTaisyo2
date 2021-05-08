@@ -18,6 +18,10 @@ namespace Scene
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
+        private void Start() {
+
+            Application.targetFrameRate = 60;
+        }
         private IEnumerator SceneChangeCorutine(SceneType sceneType)
         {
             GameObject fadeImage= GameObject.Find("Fade Image");
