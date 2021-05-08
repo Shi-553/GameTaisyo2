@@ -16,7 +16,7 @@ public class PushKeepSwitch : MonoBehaviour
         var mebiusuLayer = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var colliders = Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
-        var objects = colliders.Where(c => !c.CompareTag("Mebiusu") && !c.CompareTag("Player"));
+        var objects = colliders.Where(c => c.CompareTag("Block") || c.CompareTag("Player"));
 
         if(isActive!=objects.Any()){
 

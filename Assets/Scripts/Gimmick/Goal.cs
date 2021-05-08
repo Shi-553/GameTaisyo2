@@ -13,4 +13,9 @@ public class Goal : MonoBehaviour, IOperatedPlayerObject
         Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMECLEAR, LoadSceneMode.Additive);
     }
 
+    void Update()
+    {
+        transform.Rotate(new Vector3(0, 0, 1.5f));
+    }
+
 }
