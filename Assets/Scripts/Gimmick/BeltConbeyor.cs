@@ -30,6 +30,7 @@ public class BeltConbeyor : MonoBehaviour {
 
             var angle = trans.localEulerAngles;
             angle.x += 180;
+            angle.z += 180;
             trans.localEulerAngles = angle;
 
         }
