@@ -1161,13 +1161,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 0}
-  selectScale: {x: 0.05, y: 0.05, z: 0.05}
-  selectColor: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
+  selectScale: {x: 0.02, y: 0.02, z: 0.02}
+  selectColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
   swapVH: 1
   reverseV: 0
   reverseH: 0
   columnMax: 0
   se: {fileID: 8300000, guid: 3305f8f06f7a86a42b41f197c376130b, type: 3}
+  action:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &941015968
 GameObject:
   m_ObjectHideFlags: 0

@@ -179,8 +179,8 @@ namespace Player {
             color.a = Mathf.Lerp(0, deathImageAlphaMax, (cameraDistance - deathAlertDistanceFromOffset) / (deathDistanceFromOffset - deathAlertDistanceFromOffset));
             alertImage.color = color;
 
-            Debug.Log(cameraOffset);
-            Debug.Log(cameraDistance);
+            //Debug.Log(cameraOffset);
+            //Debug.Log(cameraDistance);
 
             if (cameraDistance > deathDistanceFromOffset) {
                 Death();
