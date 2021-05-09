@@ -42,6 +42,8 @@ namespace Player {
         [SerializeField]
         float cameraFollowUpRate = 0.5f;
 
+        SkinnedMeshRenderer[] renderers;
+
         public void ApplyDamage(Vector3 knockback) {
             if (currentInvincibleTime != 0) {
                 return;
@@ -121,6 +123,7 @@ namespace Player {
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
 
             baseDistance = cameraManager.MebiusuDistance;
+            renderers= transform.Find("attack").Find("player").GetComponentsInChildren<SkinnedMeshRenderer>();
         }
 
         private void OnCollisionEnter(Collision collision) {
@@ -159,14 +162,20 @@ namespace Player {
             }
             if (currentInvincibleTime < 0) {
                 currentInvincibleTime = 0;
-                GetComponent<MeshRenderer>().enabled = true;
+                foreach (var r in renderers) {
+                    r.enabled = true;
+                }
             }
             else {
                 if (currentInvincibleTime % 0.5 > 0.4) {
-                    //GetComponent<MeshRenderer>().enabled = false;
+                    foreach (var r in renderers) {
+                        r.enabled = false;
+                    }
                 }
                 else {
-                    //GetComponent<MeshRenderer>().enabled = true;
+                    foreach (var r in renderers) {
+                        r.enabled = true;
+                    }
                 }
             }
             var cameraOffset = (baseDistance-cameraManager.MebiusuDistance) * cameraFollowUpRate;
@@ -179,8 +188,8 @@ namespace Player {
             color.a = Mathf.Lerp(0, deathImageAlphaMax, (cameraDistance - deathAlertDistanceFromOffset) / (deathDistanceFromOffset - deathAlertDistanceFromOffset));
             alertImage.color = color;
 
-            Debug.Log(cameraOffset);
-            Debug.Log(cameraDistance);
+            //Debug.Log(cameraOffset);
+            //Debug.Log(cameraDistance);
 
             if (cameraDistance > deathDistanceFromOffset) {
                 Death();
