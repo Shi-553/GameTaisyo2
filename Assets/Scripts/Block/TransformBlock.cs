@@ -13,8 +13,14 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
     float stoppedTime = 0;
     float allDiffTime = 0;
 
+    void Awake() {
+        isStopItem=isStopped;
+    }
 
     public Vector3 GetCurrentAnimeValue() {
+        if (isStopped) {
+            return beginValue;
+        }
 
         var time = GetCurrentTime();
 
@@ -44,6 +50,7 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
             return;
         }
         allDiffTime += Time.time - stoppedTime;
+        allDiffTime = Time.time;
         stoppedTime = 0;
         isStopped = false;
         isStopItem = false;
