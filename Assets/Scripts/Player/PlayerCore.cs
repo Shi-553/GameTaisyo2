@@ -72,7 +72,6 @@ namespace Player {
             var isDelete = useableItems[currentItemIndex].Use(gameObject);
             if (isDelete) {
                 useableItems.RemoveAt(currentItemIndex);
-                currentItemIndex--;
 
                 SetItem();
             }
