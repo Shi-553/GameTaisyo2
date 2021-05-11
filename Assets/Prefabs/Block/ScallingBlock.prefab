@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 931811810110326482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 2, z: 5}
   m_Children:
   - {fileID: 1158969999236454625}
   m_Father: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beginValue: {x: 0, y: 0, z: 0}
-  endValue: {x: 0, y: 0, z: 0}
+  endValue: {x: 0, y: 3, z: 0}
   speed: 1
   curve:
     serializedVersion: 2
@@ -100,7 +100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2250572424684515301}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3622790629025379629}
