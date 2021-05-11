@@ -14,6 +14,8 @@ public class RotateBlock : TransformBlock {
     {
         transform.localEulerAngles=(firstRotate + GetCurrentAnimeValue());
     }
+
+#if UNITY_EDITOR
     private void OnDrawGizmos() {
         if (!UnityEditor.EditorApplication.isPlaying) {
             var child = transform.GetChild(0);
@@ -22,4 +24,5 @@ public class RotateBlock : TransformBlock {
             transform.localEulerAngles -= endValue;
         }
     }
+#endif
 }

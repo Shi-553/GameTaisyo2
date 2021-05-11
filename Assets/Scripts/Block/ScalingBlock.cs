@@ -15,6 +15,7 @@ public class ScalingBlock : TransformBlock {
         transform.localScale = (firstScale + GetCurrentAnimeValue());
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos() {
         if (!UnityEditor.EditorApplication.isPlaying) {
             var child = transform.GetChild(0);
@@ -23,4 +24,5 @@ public class ScalingBlock : TransformBlock {
             transform.localScale -= endValue;
         }
     }
+#endif
 }
