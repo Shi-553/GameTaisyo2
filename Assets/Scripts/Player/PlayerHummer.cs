@@ -9,7 +9,7 @@ namespace Player {
         int atk = 1;
         Transform rotateCenter;
         
-        Animator animation;
+        Animator anime;
 
         [SerializeField]
         int hpMax = 100;
@@ -20,10 +20,11 @@ namespace Player {
 
         HummerUI hummerUI=null;
 
-        private void Init() {
+        private void Start() {
             hp = hpMax;
             hummerUI = GameObject.Find("Hummer").GetComponent<HummerUI>();
-            animation =transform.parent.GetComponentInChildren<Animator>(true);
+            anime =transform.parent.GetComponentInChildren<Animator>(true);
+            gameObject.SetActive(false);
         }
 
         Transform RotateCenter {
@@ -65,13 +66,10 @@ namespace Player {
             }
         }
         public void WieldHummer() {
-            if (hummerUI == null) {
-                Init();
-            }
             if (hummerFrame != 0||hp == 0) {
                 return;
             }
-            animation.SetTrigger("Attack");
+            anime.SetTrigger("Attack");
             gameObject.SetActive(true);
             rotate = 0;
             rotateAdd = 5;
@@ -94,7 +92,7 @@ namespace Player {
                 isPierce = false;
             }
             if (!isPierce) {
-                animation.SetTrigger("Parry");
+                anime.SetTrigger("Parry");
                 rotate -= 40;
                 hummerFrameEnd = hummerFrame + 20;
                 rotateAdd = -5.0f;
