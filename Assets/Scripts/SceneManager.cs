@@ -23,6 +23,7 @@ namespace Scene
         int debugStage = 1;
         public static int stage = 0;
         SceneType current= SceneType.NONE;
+        public SceneType Currnt { get { return current; } }
 
         private void Start() {
 
@@ -54,6 +55,7 @@ namespace Scene
                 ChangeScene((int)nSceneType);
                 return;
             }
+            current = nSceneType;
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
         public void ChangeScene(int nSceneType) {
