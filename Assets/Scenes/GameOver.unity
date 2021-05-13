@@ -167,7 +167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 0}
-  selectScale: {x: 0, y: 0, z: 0}
+  selectScale: {x: 0.03, y: 0.03, z: 0.03}
+  isChangeColor: 1
   swapVH: 0
   reverseV: 1
   reverseH: 0
@@ -984,6 +985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e6199cb60240243ba2773184a19c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugStage: 1
 --- !u!4 &1636722989
 Transform:
   m_ObjectHideFlags: 0
