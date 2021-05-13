@@ -9,7 +9,7 @@ public class BeltConbeyor : MonoBehaviour {
         var mebiusuLayer = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var colliders = Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
-        var objects = colliders.Where(c => !c.CompareTag("Mebiusu") && !c.CompareTag("Player"));
+        var objects = colliders.Where(c => c.CompareTag("Block"));
         foreach (var obj in objects) {
             var trans = obj.transform;
 
@@ -30,8 +30,10 @@ public class BeltConbeyor : MonoBehaviour {
 
             var angle = trans.localEulerAngles;
             angle.x += 180;
+            angle.z += 180;
             trans.localEulerAngles = angle;
 
+            Debug.Log(trans.gameObject.name);
         }
 
     }

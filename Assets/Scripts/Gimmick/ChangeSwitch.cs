@@ -7,12 +7,7 @@ public class ChangeSwitch : MonoBehaviour, IOperatedHummerObject {
     List<TransformBlock> list;
     void IOperatedHummerObject.Hit(Player.PlayerHummer hummer) {
         foreach (var block in list) {
-            if (block.isStopped) {
-                block.TimeReStarted();
-            }
-            else {
-                block.TimeStopped();
-            }
+            block.Change();
         }
         var child = transform.GetChild(0);
         var angles = child.localEulerAngles;

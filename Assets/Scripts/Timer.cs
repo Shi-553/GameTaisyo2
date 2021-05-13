@@ -22,13 +22,16 @@ public class Timer : MonoBehaviour
         if (count == 0) {
             return;
         }
+        if (Input.GetButtonDown("Submit")|| Input.GetButtonDown("Pause")) {
+            countTime = 0;
+        }
         if (count > 0)
         {
-            count = (int)countTime;
+            count = Mathf.CeilToInt(countTime);
             countText.text = count.ToString();
-            countTime -= 0.01f;
+            countTime -= Time.fixedDeltaTime;
         }
-         if ((int)countTime==0)
+         if (countTime< 0)
         {
             gameObject.SetActive(false);
             countText.text = "";

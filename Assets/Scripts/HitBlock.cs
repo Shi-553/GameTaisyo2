@@ -59,7 +59,7 @@ public class HitBlock : MonoBehaviour, IOperatedHummerObject
 
             if (dir != Vector2.zero)
             {
-                GetComponent<Rigidbody>().AddForce(move * ( Time.timeScale), ForceMode.VelocityChange);
+                GetComponent<Rigidbody>().AddForce(move, ForceMode.VelocityChange);
 
             }
 

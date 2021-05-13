@@ -43,7 +43,6 @@ public class PauseMenu : MonoBehaviour
         GameIsPasue = false;
     }
     public void Restart() {
-        Scene.SceneManager.Instance.TimeRestart();
         Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAME, UnityEngine.SceneManagement.LoadSceneMode.Single);
         //AudioManager.Instance.Play(ok);
     }

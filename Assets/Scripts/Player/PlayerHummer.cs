@@ -8,6 +8,8 @@ namespace Player {
         int hummerFrameEnd = 30;
         int atk = 1;
         Transform rotateCenter;
+        
+        Animator anime;
 
         [SerializeField]
         int hpMax = 100;
@@ -24,9 +26,11 @@ namespace Player {
         [SerializeField]
         AudioClip repair;
 
-        private void Init() {
+        private void Start() {
             hp = hpMax;
             hummerUI = GameObject.Find("Hummer").GetComponent<HummerUI>();
+            anime =transform.parent.GetComponentInChildren<Animator>(true);
+            gameObject.SetActive(false);
         }
 
         Transform RotateCenter {
@@ -68,12 +72,10 @@ namespace Player {
             }
         }
         public void WieldHummer() {
-            if (hummerUI == null) {
-                Init();
-            }
             if (hummerFrame != 0||hp == 0) {
                 return;
             }
+            anime.SetTrigger("Attack");
             gameObject.SetActive(true);
             rotate = 0;
             rotateAdd = 5;
@@ -97,6 +99,7 @@ namespace Player {
                 isPierce = false;
             }
             if (!isPierce) {
+                anime.SetTrigger("Parry");
                 rotate -= 40;
                 hummerFrameEnd = hummerFrame + 20;
                 rotateAdd = -5.0f;

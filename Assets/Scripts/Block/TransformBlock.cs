@@ -8,11 +8,11 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
     [SerializeField] protected float speed = 1;
     [SerializeField] protected AnimationCurve curve;
 
-    public bool isStopped = false;
+    [SerializeField]
+    bool isStopped = false;
 
     float stoppedTime = 0;
     float allDiffTime = 0;
-
 
     public Vector3 GetCurrentAnimeValue() {
 
@@ -22,7 +22,8 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
 
     }
     public float GetCurrentTime() {
-        if (isStopped) {
+
+        if (isStopTime) {
             if (stoppedTime == 0) {
                 TimeStopped();
             }
@@ -30,6 +31,9 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
 
         }
         else {
+            if (isStopped) {
+                return 0;
+            }
             if (stoppedTime != 0) {
                 TimeReStarted();
             }
@@ -37,24 +41,27 @@ public class TransformBlock : MonoBehaviour, Item.TimeStopable {
         }
     }
 
-    bool isStopItem = false;
+    public void Change() {
+        isStopped = !isStopped;
+    }
 
+    bool isStopTime = false;
     public void TimeReStarted() {
-        if (!isStopItem) {
+        if (!isStopTime) {
             return;
         }
         allDiffTime += Time.time - stoppedTime;
         stoppedTime = 0;
-        isStopped = false;
-        isStopItem = false;
+        isStopTime = false;
     }
 
     public void TimeStopped() {
-        if (isStopped) {
+        if (isStopTime) {
             return;
         }
-        isStopItem = true;
-        isStopped = true;
-        stoppedTime = Time.time;
+        isStopTime = true;
+        if (!isStopped) {
+            stoppedTime = Time.time;
+        }
     }
 }

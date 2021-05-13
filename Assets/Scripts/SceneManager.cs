@@ -15,22 +15,34 @@ namespace Scene
         GAME,
         GAMECLEAR,
         GAMEOVER,
+        NONE,
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
+        public static string stage = "";
+        SceneType current= SceneType.NONE;
+
+        private void Start() {
+
+            Application.targetFrameRate = 60;
+            current = (SceneType)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+            if (current == SceneType.GAME) {
+                GameObject.Find("stage").transform.Find(stage).gameObject.SetActive(true);
+            }
+        }
         private IEnumerator SceneChangeCorutine(SceneType sceneType)
         {
             GameObject fadeImage= GameObject.Find("Fade Image");
             FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
             yield return StartCoroutine(fadeCorutine.Fade(sceneType));
 
+            Time.timeScale = 1.0f;
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)sceneType);
 
         }
 
         public void ChangeScene(SceneType nSceneType, LoadSceneMode nLoadSceneMode)
         {
-            Time.timeScale = 1.0f;
             if (nLoadSceneMode  == LoadSceneMode.Single)
              {
                 ChangeScene((int)nSceneType);
@@ -39,7 +51,6 @@ namespace Scene
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
         public void ChangeScene(int nSceneType) {
-            Time.timeScale = 1.0f;
             StartCoroutine(SceneChangeCorutine((SceneType)nSceneType));
         }
 

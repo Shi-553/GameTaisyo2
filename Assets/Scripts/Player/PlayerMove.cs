@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Player {
     public class PlayerMove : MonoBehaviour ,IWindAffectable{
 
-        new Rigidbody rigidbody;
+        Rigidbody rigid;
         [SerializeField] LayerMask mask;
         [SerializeField] float speed = 1;
 
@@ -13,7 +13,7 @@ namespace Player {
 
         private void Start() {
 
-            rigidbody = GetComponent<Rigidbody>();
+            rigid = GetComponent<Rigidbody>();
 
             LookAtPlayer();
         }
@@ -38,10 +38,10 @@ namespace Player {
 
                 var move = upFV * dir.y + rightFV * dir.x;
 
-                rigidbody.AddForce(-forwardPoints.Normal * 5, ForceMode.Acceleration);
+                rigid.AddForce(-forwardPoints.Normal * 20, ForceMode.Acceleration);
 
                 if (dir != Vector2.zero) {
-                    rigidbody.AddForce(move * (speed*Time.timeScale), ForceMode.VelocityChange);
+                    rigid.AddForce(move * (speed*Time.timeScale), ForceMode.VelocityChange);
 
                 }
 
@@ -62,7 +62,7 @@ namespace Player {
 
         public void AffectWind(Wind wind)
         {
-            rigidbody.AddForce(wind.dir * wind.value);
+            rigid.AddForce(wind.dir * wind.value);
         }
     }
 }

@@ -1,11 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour {
     [SerializeField]
     Transform selectImage;
+
+    [SerializeField]
+    Vector3 selectScale;
+    [SerializeField]
+    Color selectColor=Color.white;
+
     int selectIndex = 0;
     bool pressed = false;
 
@@ -18,8 +26,23 @@ public class ButtonManager : MonoBehaviour {
     
     [SerializeField]
     AudioClip se;
+    [Serializable] public class MyEvent : UnityEvent<GameObject> { }
+    [SerializeField] MyEvent action;
+
+    private void Start() {
+        var selected = transform.GetChild(selectIndex);
+
+        if (selectImage != null) {
+            selectImage.position = selected.position;
+        }
+        selected.localScale += selectScale;
+        selected.GetComponent<Image>().color = selectColor;
+    }
+
 
     void Update() {
+
+
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
 
@@ -33,6 +56,8 @@ public class ButtonManager : MonoBehaviour {
             if (v != 0 || h != 0) {
                 pressed = true;
                 AudioManager.Instance.Play(se);
+                transform.GetChild(selectIndex).localScale -= selectScale;
+                transform.GetChild(selectIndex).GetComponent<Image>().color = Color.white;
             }
 
             var vVal = reverseV ? 1 : -1;
@@ -49,23 +74,32 @@ public class ButtonManager : MonoBehaviour {
             if (h < 0) {
                 selectIndex += columnMax * hVal;
             }
+            if (selectIndex < 0) {
+                selectIndex = (selectIndex + transform.childCount) % transform.childCount;
+            }
+            if (selectIndex > transform.childCount - 1) {
+                selectIndex = selectIndex % transform.childCount;
+            }
+
+            if (pressed) {
+                var selected = transform.GetChild(selectIndex);
+
+                if (selectImage != null) {
+                    selectImage.position = selected.position;
+                }
+                selected.localScale += selectScale;
+                selected.GetComponent<Image>().color = selectColor;
+            }
         }
+
         if (v == 0 && h == 0) {
             pressed = false;
         }
 
-        if (selectIndex < 0) {
-            selectIndex = (selectIndex+ transform.childCount) % transform.childCount;
-        }
-        if (selectIndex > transform.childCount - 1) {
-            selectIndex = selectIndex % transform.childCount;
-        }
-        selectImage.position = transform.GetChild(selectIndex).position;
-
-
         if (Input.GetButtonDown("Submit")) {
             UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
             transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
+            action.Invoke(transform.GetChild(selectIndex).gameObject);
         }
     }
 }
