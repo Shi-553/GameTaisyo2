@@ -6,10 +6,16 @@ public class BeltConbeyorSwitch : MonoBehaviour, IOperatedHummerObject {
     [SerializeField] BeltConbeyor beltConbeyor;
 
     Coroutine enumerator;
+    AudioClip se;
+    private void Start()
+    {
+        se = Resources.Load<AudioClip>("voice/SE/normal");
+    }
     void IOperatedHummerObject.Hit(Player.PlayerHummer hummer) {
         if (enumerator == null) {
             enumerator = StartCoroutine(On());
             hummer.ApplyDamage(10);
+            AudioManager.Instance.Play(se);
         }
     }
     

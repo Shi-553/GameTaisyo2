@@ -37,6 +37,8 @@ namespace Player {
         Image alertImage;
         [SerializeField]
         AudioClip damagese;
+        [SerializeField]
+        AudioClip getitem;
 
         float baseDistance;
         [SerializeField]
@@ -136,6 +138,7 @@ namespace Player {
             if (immediateItem != null) {
                 immediateItem.Hit(gameObject);
                 immediateItem.DeleteModel(gameObject);
+                AudioManager.Instance.Play(getitem);
             }
             var useableItem = collision.gameObject.GetComponent<UseableItemBase>();
             if (useableItem != null&&useableItems.Count< itemMax && useableItems.All(item => item.Sprite.GetInstanceID() != useableItem.Sprite.GetInstanceID())) {
@@ -144,9 +147,9 @@ namespace Player {
                 }
                 useableItems.Add(useableItem);
                 useableItem.DeleteModel(gameObject);
+                AudioManager.Instance.Play(getitem);
                 SetItem();
             }
-
 
         }
         void Death() {

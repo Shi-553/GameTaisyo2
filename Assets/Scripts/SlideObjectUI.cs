@@ -11,7 +11,6 @@ public class SlideObjectUI : MonoBehaviour {
     [SerializeField]
     Transform selectX;
 
-
     List<GameObject> objects = new List<GameObject>();
 
     [SerializeField]
@@ -29,6 +28,7 @@ public class SlideObjectUI : MonoBehaviour {
 
     public void SetItem(List<Sprite> sprites, int currentIndex) {
         foreach (var obj in objects) {
+            
             if (obj != null) {
                 Destroy(obj);
             }

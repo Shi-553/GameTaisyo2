@@ -5,7 +5,14 @@ using UnityEngine;
 public class ChangeSwitch : MonoBehaviour, IOperatedHummerObject {
     [SerializeField]
     List<TransformBlock> list;
+    
+    AudioClip se;
+    private void Start()
+    {
+        se = Resources.Load<AudioClip>("voice/SE/kirikae");
+    }
     void IOperatedHummerObject.Hit(Player.PlayerHummer hummer) {
+        AudioManager.Instance.Play(se);
         foreach (var block in list) {
             block.Change();
         }

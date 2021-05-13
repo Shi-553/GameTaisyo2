@@ -7,6 +7,7 @@ public class CountDownUI : SingletonMonoBehaviour<CountDownUI>
 {
     Text text;
 
+
     void Start()
     {
         text = transform.GetComponentInChildren<Text>(true);

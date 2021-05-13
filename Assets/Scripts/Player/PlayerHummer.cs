@@ -15,6 +15,9 @@ namespace Player {
 
         HummerUI hummerUI = null;
 
+        [SerializeField]
+        AudioClip repair;
+
         bool isAttack = false;
 
         private void Start() {
@@ -76,6 +79,7 @@ namespace Player {
 
         public void Repair(int value) {
             hp += value;
+            AudioManager.Instance.Play(repair);
             if (hp > hpMax) {
                 hp = hpMax;
             }
