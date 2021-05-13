@@ -26,6 +26,10 @@ namespace Player {
 
 
         void OnTriggerEnter(Collider other) {
+            if (other.CompareTag("Mebiusu")) {
+                anime.SetTrigger("AttackEnd");
+                isAttack = false;
+            }
             if (!isAttack) {
                 return;
             }
@@ -36,10 +40,6 @@ namespace Player {
             var d = other.GetComponent<Damage.IGimmickDamageable>();
             if (d != null) {
                 d.ApplyDamage(atk);
-            }
-            if (other.CompareTag("Mebiusu")) {
-                anime.SetTrigger("AttackEnd");
-                isAttack = false;
             }
         }
 
