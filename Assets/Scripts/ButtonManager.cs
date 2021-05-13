@@ -19,6 +19,8 @@ public class ButtonManager : MonoBehaviour {
     int selectIndex = 0;
     bool pressed = false;
 
+    bool isSubmit = false;
+
     [SerializeField] bool swapVH = false;
 
     [SerializeField] bool reverseV = false;
@@ -51,6 +53,9 @@ public class ButtonManager : MonoBehaviour {
 
 
     void Update() {
+        if (isSubmit) {
+            return;
+        }
 
 
         float v = Input.GetAxisRaw("Vertical");
@@ -108,6 +113,7 @@ public class ButtonManager : MonoBehaviour {
         }
 
         if (Input.GetButtonDown("Submit")) {
+            isSubmit = true;
             UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
             transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
             action.Invoke(transform.GetChild(selectIndex).gameObject);
