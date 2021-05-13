@@ -22,9 +22,6 @@ public class Timer : MonoBehaviour
         if (count == 0) {
             return;
         }
-        if (Input.GetButtonDown("Submit")|| Input.GetButtonDown("Pause")) {
-            countTime = 0;
-        }
         if (count > 0)
         {
             count = Mathf.CeilToInt(countTime);
@@ -33,6 +30,7 @@ public class Timer : MonoBehaviour
         }
          if (countTime< 0)
         {
+
             gameObject.SetActive(false);
             countText.text = "";
             Scene.SceneManager.Instance.TimeRestart();

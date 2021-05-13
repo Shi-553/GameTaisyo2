@@ -19,9 +19,6 @@ namespace Player {
         float rotateAdd = 0;
 
         HummerUI hummerUI=null;
-        
-        [SerializeField]
-        AudioClip use;
 
         [SerializeField]
         AudioClip repair;
@@ -93,7 +90,7 @@ namespace Player {
             }
 
             hp -= damage;
-            AudioManager.Instance.Play(use);
+
             if (hp < 0) {
                 hp = 0;
                 isPierce = false;
