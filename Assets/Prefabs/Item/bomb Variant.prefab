@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93b7e0df9568a07469971a320c75f00a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 1610702d7e70cf24a8b2a53a0bc07d5d, type: 3}
+  sprite: {fileID: 21300000, guid: 0b91373e4e5757147aca0483c8932692, type: 3}
   bombPrefab: {fileID: 7083869442149012310, guid: 720308478341ce846b00f036b42dc15f,
     type: 3}
 --- !u!1001 &8314646412990052009
