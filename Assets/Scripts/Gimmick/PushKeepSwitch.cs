@@ -3,27 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class PushKeepSwitch : MonoBehaviour
 {
     [SerializeField]
     List<GameObject> list;
 
-    bool isActive=false;
+    int count = 0;
+    private void Start() {
+        count = 0;
+    }
 
-
-    void Update() {
-
-        var mebiusuLayer = LayerMask.GetMask(new string[] { "Mebiusu" });
-
-        var colliders = Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
-        var objects = colliders.Where(c => c.CompareTag("Block") || c.CompareTag("Player"));
-
-        if(isActive!=objects.Any()){
-
+    private void OnTriggerEnter(Collider other) {
+        if (!other.CompareTag("Block") && !other.CompareTag("Player")) {
+            return;
+        }
+        if (count == 0) {
             foreach (var obj in list) {
-                obj.SetActive(!objects.Any());
+                obj.SetActive(false);
             }
-            isActive = objects.Any();
+        }
+        count++;
+    }
+    private void OnTriggerExit(Collider other) {
+        if (!other.CompareTag("Block") && !other.CompareTag("Player")) {
+            return;
+        }
+        count--;
+
+        if (count == 0) {
+            foreach (var obj in list) {
+                obj.SetActive(true);
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6549123262498011448}
   - component: {fileID: 6549123262498011455}
   - component: {fileID: 6549123262498011454}
+  - component: {fileID: 3714619676043145606}
   m_Layer: 0
   m_Name: beltconveyorCube
   m_TagString: Untagged
@@ -90,9 +91,9 @@ BoxCollider:
   m_GameObject: {fileID: 6549123262498011453}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.5, y: 0.5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6549123262498011454
 MonoBehaviour:
@@ -106,3 +107,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729874241b46f3245959a4b0f36e20f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3714619676043145606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6549123262498011453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0f364dc8afa6648bfde36fafc2eef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suctionPower: 1000
+  suctionThresholdSpeed: 1
