@@ -124,6 +124,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: block_normal Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e22848c0e59201141b6f0b4684f993fb,
+        type: 3}
+      propertyPath: m_TagString
+      value: Block
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e22848c0e59201141b6f0b4684f993fb, type: 3}
 --- !u!1 &808522534737639734 stripped

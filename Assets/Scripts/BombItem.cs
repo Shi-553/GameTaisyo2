@@ -10,9 +10,7 @@ namespace Item {
         public override bool Use(GameObject player) {
             var bomb=Instantiate(bombPrefab);
 
-            var dir = player.GetComponent<Player.PlayerMove>().Dir;
-
-            bomb.transform.position = player.transform.position;
+            bomb.transform.position = player.transform.position + player.transform.right ;
             bomb.transform.rotation = player.transform.rotation;
 
             bomb.GetComponent<Bomb>().SetDirection(new Vector2(1,0));

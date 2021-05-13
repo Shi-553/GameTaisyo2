@@ -4,44 +4,47 @@ using UnityEngine;
 using System.Linq;
 
 public class BeltConbeyor : MonoBehaviour {
+
+    bool isActivate = false;
+
     public void Activation() {
+        isActivate = true;
+    }
 
-        var mebiusuLayer = LayerMask.GetMask(new string[] { "Mebiusu" });
-
-        var colliders = Physics.OverlapBox(transform.position, transform.localScale / 2, transform.rotation);
-        var objects = colliders.Where(c => c.CompareTag("Block"));
-        foreach (var obj in objects) {
-            var trans = obj.transform;
-
-
-            var rayFowerd = new Ray(trans.position, trans.forward);
-
-            if (!Physics.Raycast(rayFowerd, out var hitFowerd, Mathf.Infinity, mebiusuLayer)) {
-                continue;
-            }
-
-            var rayBack = new Ray(hitFowerd.point + trans.forward * 3, -trans.forward);
-
-            if (!Physics.Raycast(rayBack, out var hitBack, Mathf.Infinity, mebiusuLayer)) {
-                continue;
-            }
-
-            trans.position = hitBack.point + trans.forward * hitFowerd.distance;
-
-            var angle = trans.localEulerAngles;
-            angle.x += 180;
-            angle.z += 180;
-            trans.localEulerAngles = angle;
-
-            Debug.Log(trans.gameObject.name);
+    private void OnTriggerStay(Collider other) {
+        if (!isActivate) {
+            return;
+        }
+        if (!other.CompareTag("Block")) {
+            return;
         }
 
-    }
-    void Start() {
 
-    }
+        var mebiusuLayer = LayerMask.GetMask(new string[] { "Mebiusu" });
+        var trans = other.transform;
 
-    void Update() {
+
+        var rayFowerd = new Ray(trans.position, trans.forward);
+
+        if (!Physics.Raycast(rayFowerd, out var hitFowerd, Mathf.Infinity, mebiusuLayer)) {
+            return;
+        }
+
+        var rayBack = new Ray(hitFowerd.point + trans.forward * 3, -trans.forward);
+
+        if (!Physics.Raycast(rayBack, out var hitBack, Mathf.Infinity, mebiusuLayer)) {
+            return;
+        }
+        isActivate = false;
+
+        trans.position = hitBack.point + trans.forward * hitFowerd.distance;
+
+        var angle = trans.localEulerAngles;
+        angle.x += 180;
+        angle.z += 180;
+        trans.localEulerAngles = angle;
+
+        Debug.Log(trans.gameObject.name);
 
     }
 }
