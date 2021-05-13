@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using Item;
+using System.Linq;
 
 namespace Scene
 {
@@ -37,11 +38,11 @@ namespace Scene
                 stageInstance.transform.SetParent(GameObject.Find("stage").transform);
             }
         }
-        private IEnumerator SceneChangeCorutine(SceneType sceneType)
-        {
-            GameObject fadeImage= GameObject.Find("Fade Image");
+        private IEnumerator SceneChangeCorutine(SceneType sceneType) {
+            var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(UnityEngine.SceneManagement.SceneManager.sceneCount - 1);
+           Transform fadeImage= scene.GetRootGameObjects().FirstOrDefault(g=>g.name=="Canvas").transform.Find("Fade Image");
             FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
-            yield return StartCoroutine(fadeCorutine.Fade(sceneType));
+            yield return StartCoroutine(fadeCorutine.FadeOut());
 
             Time.timeScale = 1.0f;
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)sceneType);

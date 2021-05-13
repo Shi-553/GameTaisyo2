@@ -6,27 +6,69 @@ using UnityEngine.UI;
 
 public class FadeCorutine : MonoBehaviour
 {
-    [SerializeField]
-    int fadetime = 100;
-    public IEnumerator Fade(SceneType sceneType)
+    float fadeoutTime = 2;
+    float fadeinTime = 1.5f;
+
+    Coroutine coroutine;
+
+    private void Awake() {
+        coroutine=StartCoroutine(FadeIn());
+    }
+    public IEnumerator FadeOut()
     {
-        
+        if (coroutine != null) {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+
         Image image = GetComponent<Image>();
         image.enabled  =  true;
         Color color = image.color;
         color.a = 0;
         image.color = color;
 
-        for (int i = 0; i < fadetime; i++)
+        yield return new WaitForEndOfFrame();
+        while (true)
         {
-            
-            color = image.color;
-            color.a += 1.0f / fadetime;
+            if (color.a > 1) {
+                break;
+            }
+
+            color.a += Time.unscaledDeltaTime/fadeoutTime;
             image.color = color;
 
             yield return new WaitForEndOfFrame();
         }
         image.enabled = false;
+        coroutine = null;
+    }
+    public IEnumerator FadeIn() {
+
+        if (coroutine != null) {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+
+        Image image = GetComponent<Image>();
+        image.enabled  =  true;
+        Color color = image.color;
+        color.a = 1;
+        image.color = color;
+
+        yield return new WaitForEndOfFrame();
+        while (true)
+        {
+            if (color.a<=0) {
+                break;
+            }
+
+            color.a -= Time.unscaledDeltaTime / fadeinTime;
+            image.color = color;
+
+            yield return new WaitForEndOfFrame();
+        }
+        image.enabled = false;
+        coroutine = null;
     }
 
 
