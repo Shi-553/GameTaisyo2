@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using Item;
+using System.Linq;
 
 namespace Scene
 {
@@ -19,22 +20,31 @@ namespace Scene
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
-        public static string stage = "";
+        [SerializeField]
+        int debugStage = 1;
+        public static int stage = 0;
         SceneType current= SceneType.NONE;
+        public SceneType Currnt { get { return current; } }
 
         private void Start() {
 
             Application.targetFrameRate = 60;
             current = (SceneType)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
             if (current == SceneType.GAME) {
-                GameObject.Find("stage").transform.Find(stage).gameObject.SetActive(true);
+                if (stage == 0) {
+                    stage = debugStage;
+                }
+                var stagePrefab = Resources.Load<GameObject>("Stage/" + stage.ToString());
+                var stageInstance=Instantiate<GameObject>(stagePrefab);
+
+                stageInstance.transform.SetParent(GameObject.Find("stage").transform);
             }
         }
-        private IEnumerator SceneChangeCorutine(SceneType sceneType)
-        {
-            GameObject fadeImage= GameObject.Find("Fade Image");
+        private IEnumerator SceneChangeCorutine(SceneType sceneType) {
+            var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(UnityEngine.SceneManagement.SceneManager.sceneCount - 1);
+           Transform fadeImage= scene.GetRootGameObjects().FirstOrDefault(g=>g.name=="Canvas").transform.Find("Fade Image");
             FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
-            yield return StartCoroutine(fadeCorutine.Fade(sceneType));
+            yield return StartCoroutine(fadeCorutine.FadeOut());
 
             Time.timeScale = 1.0f;
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)sceneType);
@@ -48,6 +58,7 @@ namespace Scene
                 ChangeScene((int)nSceneType);
                 return;
             }
+            current = nSceneType;
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)nSceneType, (LoadSceneMode)nLoadSceneMode);
         }
         public void ChangeScene(int nSceneType) {

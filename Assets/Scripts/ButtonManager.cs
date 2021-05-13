@@ -11,11 +11,16 @@ public class ButtonManager : MonoBehaviour {
 
     [SerializeField]
     Vector3 selectScale;
+
     [SerializeField]
+    bool isChangeColor = true;
     Color selectColor=Color.white;
+    Color unselectColor = new Color(150 / 255.0f, 150 / 255.0f, 150/ 255.0f, 1);
 
     int selectIndex = 0;
     bool pressed = false;
+
+    bool isSubmit = false;
 
     [SerializeField] bool swapVH = false;
 
@@ -29,6 +34,14 @@ public class ButtonManager : MonoBehaviour {
     [Serializable] public class MyEvent : UnityEvent<GameObject> { }
     [SerializeField] MyEvent action;
 
+    public GameObject GetSelected() {
+        return transform.GetChild(selectIndex).gameObject;
+    }
+    public void ButtonReset() {
+        Start();
+        isSubmit = false;
+    }
+
     private void Start() {
         var selected = transform.GetChild(selectIndex);
 
@@ -36,11 +49,20 @@ public class ButtonManager : MonoBehaviour {
             selectImage.position = selected.position;
         }
         selected.localScale += selectScale;
-        selected.GetComponent<Image>().color = selectColor;
+
+        if (isChangeColor) {
+        for (int i = 0; i < transform.childCount; i++) {
+            transform.GetChild(i).GetComponent<Image>().color = unselectColor;
+        }
+            selected.GetComponent<Image>().color = selectColor;
+        }
     }
 
 
     void Update() {
+        if (isSubmit) {
+            return;
+        }
 
 
         float v = Input.GetAxisRaw("Vertical");
@@ -56,8 +78,11 @@ public class ButtonManager : MonoBehaviour {
             if (v != 0 || h != 0) {
                 pressed = true;
                 AudioManager.Instance.Play(se);
-                transform.GetChild(selectIndex).localScale -= selectScale;
-                transform.GetChild(selectIndex).GetComponent<Image>().color = Color.white;
+                var selected = transform.GetChild(selectIndex);
+                selected.localScale -= selectScale;
+                if (isChangeColor) {
+                    selected.GetComponent<Image>().color = unselectColor;
+                }
             }
 
             var vVal = reverseV ? 1 : -1;
@@ -88,7 +113,9 @@ public class ButtonManager : MonoBehaviour {
                     selectImage.position = selected.position;
                 }
                 selected.localScale += selectScale;
-                selected.GetComponent<Image>().color = selectColor;
+                if (isChangeColor) {
+                    selected.GetComponent<Image>().color = selectColor;
+                }
             }
         }
 
@@ -97,6 +124,7 @@ public class ButtonManager : MonoBehaviour {
         }
 
         if (Input.GetButtonDown("Submit")) {
+            isSubmit = true;
             UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
             transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
             action.Invoke(transform.GetChild(selectIndex).gameObject);
