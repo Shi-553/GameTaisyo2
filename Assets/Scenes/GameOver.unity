@@ -168,11 +168,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 164730290}
+  selectScale: {x: 0, y: 0, z: 0}
+  selectColor: {r: 1, g: 1, b: 1, a: 1}
+  unselectColor: {r: 1, g: 1, b: 1, a: 1}
   swapVH: 0
   reverseV: 1
   reverseH: 0
   columnMax: 0
   se: {fileID: 8300000, guid: 3305f8f06f7a86a42b41f197c376130b, type: 3}
+  action:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &129434352
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,11 +227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
