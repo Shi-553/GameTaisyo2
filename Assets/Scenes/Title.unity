@@ -1162,7 +1162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectImage: {fileID: 0}
   selectScale: {x: 0.02, y: 0.02, z: 0.02}
-  selectColor: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 1}
+  selectColor: {r: 1, g: 1, b: 1, a: 1}
+  unselectColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   swapVH: 1
   reverseV: 0
   reverseH: 0
