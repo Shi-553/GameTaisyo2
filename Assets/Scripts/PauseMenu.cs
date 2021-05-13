@@ -30,6 +30,7 @@ public class PauseMenu : MonoBehaviour {
         Scene.SceneManager.Instance.TimeStop();
         transform.GetChild(0).gameObject.SetActive(true);
         GameIsPasue = true;
+        transform.GetComponentInChildren<ButtonManager>().ButtonReset();
 
     }
     public void Resume() {

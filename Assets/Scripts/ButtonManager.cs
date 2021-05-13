@@ -37,6 +37,10 @@ public class ButtonManager : MonoBehaviour {
     public GameObject GetSelected() {
         return transform.GetChild(selectIndex).gameObject;
     }
+    public void ButtonReset() {
+        Start();
+        isSubmit = false;
+    }
 
     private void Start() {
         var selected = transform.GetChild(selectIndex);
