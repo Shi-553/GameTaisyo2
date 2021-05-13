@@ -64,6 +64,9 @@ public class Bomb : MonoBehaviour {
         if (other.tag == "Player" || other.gameObject.layer == mask) {
             return;
         }
+        if (!isExplosion) {
+            explosionFrame = 60;
+        }
 
         var d = other.GetComponent<Damage.IGimmickDamageable>();
         if (d != null) {
