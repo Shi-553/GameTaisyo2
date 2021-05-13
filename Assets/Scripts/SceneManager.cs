@@ -31,8 +31,10 @@ namespace Scene
             Application.targetFrameRate = 60;
             current = (SceneType)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
             if (current == SceneType.GAME) {
-                var s = (stage == 0) ? debugStage : stage;
-                var stagePrefab = Resources.Load<GameObject>("Stage/" + s.ToString());
+                if (stage == 0) {
+                    stage = debugStage;
+                }
+                var stagePrefab = Resources.Load<GameObject>("Stage/" + stage.ToString());
                 var stageInstance=Instantiate<GameObject>(stagePrefab);
 
                 stageInstance.transform.SetParent(GameObject.Find("stage").transform);
