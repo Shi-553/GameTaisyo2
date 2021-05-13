@@ -31,6 +31,10 @@ public class ButtonManager : MonoBehaviour {
     [Serializable] public class MyEvent : UnityEvent<GameObject> { }
     [SerializeField] MyEvent action;
 
+    public GameObject GetSelected() {
+        return transform.GetChild(selectIndex).gameObject;
+    }
+
     private void Start() {
         var selected = transform.GetChild(selectIndex);
 
