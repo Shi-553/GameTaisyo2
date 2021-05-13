@@ -10,7 +10,8 @@ public class SlideObjectUI : MonoBehaviour {
     GameObject selectFramePre;
     [SerializeField]
     Transform selectX;
-
+    [SerializeField]
+    AudioClip get;
 
     List<GameObject> objects = new List<GameObject>();
 
@@ -29,6 +30,7 @@ public class SlideObjectUI : MonoBehaviour {
 
     public void SetItem(List<Sprite> sprites, int currentIndex) {
         foreach (var obj in objects) {
+            AudioManager.Instance.Play(get);
             if (obj != null) {
                 Destroy(obj);
             }

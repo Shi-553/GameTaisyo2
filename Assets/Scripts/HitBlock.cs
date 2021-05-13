@@ -6,6 +6,7 @@ public class HitBlock : MonoBehaviour, IOperatedHummerObject
 {
     int mask;
     [SerializeField] Vector2 movevalue;
+
     void Start()
     {
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });

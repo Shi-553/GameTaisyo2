@@ -17,6 +17,12 @@ namespace Player {
         float rotateAdd = 0;
 
         HummerUI hummerUI=null;
+        
+        [SerializeField]
+        AudioClip use;
+
+        [SerializeField]
+        AudioClip repair;
 
         private void Init() {
             hp = hpMax;
@@ -85,6 +91,7 @@ namespace Player {
             }
 
             hp -= damage;
+            AudioManager.Instance.Play(use);
             if (hp < 0) {
                 hp = 0;
                 isPierce = false;
@@ -93,6 +100,7 @@ namespace Player {
                 rotate -= 40;
                 hummerFrameEnd = hummerFrame + 20;
                 rotateAdd = -5.0f;
+               
             }
             hummerUI.SetSlider(hp / (float)hpMax);
 
@@ -102,6 +110,7 @@ namespace Player {
 
         public void Repair(int value) {
             hp += value;
+            AudioManager.Instance.Play(repair);
             if (hp > hpMax) {
                 hp = hpMax;
             }

@@ -7,6 +7,7 @@ public class CountDownUI : SingletonMonoBehaviour<CountDownUI>
 {
     Text text;
 
+
     void Start()
     {
         text = transform.GetChild(0).GetComponent<Text>();
@@ -21,6 +22,7 @@ public class CountDownUI : SingletonMonoBehaviour<CountDownUI>
     }
     IEnumerator CountDown(int time) {
         text.gameObject.SetActive(true);
+       
         for (int i = 0; i < time; i++) {
             text.text = (time - i).ToString();
             yield return new WaitForSeconds(1);
