@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 116875875}
   - component: {fileID: 116875874}
   m_Layer: 5
-  m_Name: stage02
+  m_Name: 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,7 +302,7 @@ GameObject:
   - component: {fileID: 220423360}
   - component: {fileID: 220423363}
   m_Layer: 5
-  m_Name: stage01
+  m_Name: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 225252580}
   - component: {fileID: 225252579}
   m_Layer: 5
-  m_Name: stage06
+  m_Name: 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1060,6 +1060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e6199cb60240243ba2773184a19c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugStage: 1
 --- !u!4 &524958213
 Transform:
   m_ObjectHideFlags: 0
@@ -1794,7 +1795,7 @@ GameObject:
   - component: {fileID: 926159457}
   - component: {fileID: 926159456}
   m_Layer: 5
-  m_Name: stage03
+  m_Name: 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2035,7 +2036,7 @@ GameObject:
   - component: {fileID: 1077316347}
   - component: {fileID: 1077316346}
   m_Layer: 5
-  m_Name: stage10
+  m_Name: 10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2422,7 +2423,7 @@ GameObject:
   - component: {fileID: 1204114965}
   - component: {fileID: 1204114964}
   m_Layer: 5
-  m_Name: stage07
+  m_Name: 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3233,9 +3234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1817573046}
-  selectScale: {x: 0, y: 0, z: 0}
-  selectColor: {r: 1, g: 1, b: 1, a: 1}
-  unselectColor: {r: 1, g: 1, b: 1, a: 1}
+  selectScale: {x: 0.02, y: 0.02, z: 0.02}
+  isChangeColor: 0
   swapVH: 1
   reverseV: 0
   reverseH: 0
@@ -3572,7 +3572,7 @@ GameObject:
   - component: {fileID: 1697164730}
   - component: {fileID: 1697164729}
   m_Layer: 5
-  m_Name: stage09
+  m_Name: 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3831,7 +3831,7 @@ GameObject:
   - component: {fileID: 1755674520}
   - component: {fileID: 1755674519}
   m_Layer: 5
-  m_Name: stage05
+  m_Name: 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4019,7 +4019,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -474, y: 141}
-  m_SizeDelta: {x: 320.36, y: 323.3}
+  m_SizeDelta: {x: 330.36, y: 333.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817573047
 MonoBehaviour:
@@ -4278,7 +4278,7 @@ GameObject:
   - component: {fileID: 2065394485}
   - component: {fileID: 2065394484}
   m_Layer: 5
-  m_Name: stage04
+  m_Name: 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4480,7 +4480,7 @@ GameObject:
   - component: {fileID: 2127277139}
   - component: {fileID: 2127277138}
   m_Layer: 5
-  m_Name: stage08
+  m_Name: 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

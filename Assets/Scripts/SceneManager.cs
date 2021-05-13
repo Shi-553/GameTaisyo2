@@ -19,7 +19,9 @@ namespace Scene
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
-        public static string stage = "";
+        [SerializeField]
+        int debugStage = 1;
+        public static int stage = 0;
         SceneType current= SceneType.NONE;
 
         private void Start() {
@@ -27,7 +29,11 @@ namespace Scene
             Application.targetFrameRate = 60;
             current = (SceneType)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
             if (current == SceneType.GAME) {
-                GameObject.Find("stage").transform.Find(stage).gameObject.SetActive(true);
+                var s = (stage == 0) ? debugStage : stage;
+                var stagePrefab = Resources.Load<GameObject>("Stage/" + s.ToString());
+                var stageInstance=Instantiate<GameObject>(stagePrefab);
+
+                stageInstance.transform.SetParent(GameObject.Find("stage").transform);
             }
         }
         private IEnumerator SceneChangeCorutine(SceneType sceneType)

@@ -11,10 +11,11 @@ public class ButtonManager : MonoBehaviour {
 
     [SerializeField]
     Vector3 selectScale;
+
     [SerializeField]
+    bool isChangeColor = true;
     Color selectColor=Color.white;
-    [SerializeField]
-    Color unselectColor=Color.white;
+    Color unselectColor = new Color(150 / 255.0f, 150 / 255.0f, 150/ 255.0f, 1);
 
     int selectIndex = 0;
     bool pressed = false;
@@ -45,10 +46,12 @@ public class ButtonManager : MonoBehaviour {
         }
         selected.localScale += selectScale;
 
+        if (isChangeColor) {
         for (int i = 0; i < transform.childCount; i++) {
             transform.GetChild(i).GetComponent<Image>().color = unselectColor;
         }
-        selected.GetComponent<Image>().color = selectColor;
+            selected.GetComponent<Image>().color = selectColor;
+        }
     }
 
 
@@ -73,7 +76,9 @@ public class ButtonManager : MonoBehaviour {
                 AudioManager.Instance.Play(se);
                 var selected = transform.GetChild(selectIndex);
                 selected.localScale -= selectScale;
-                selected.GetComponent<Image>().color = unselectColor;
+                if (isChangeColor) {
+                    selected.GetComponent<Image>().color = unselectColor;
+                }
             }
 
             var vVal = reverseV ? 1 : -1;
@@ -104,7 +109,9 @@ public class ButtonManager : MonoBehaviour {
                     selectImage.position = selected.position;
                 }
                 selected.localScale += selectScale;
-                selected.GetComponent<Image>().color = selectColor;
+                if (isChangeColor) {
+                    selected.GetComponent<Image>().color = selectColor;
+                }
             }
         }
 
