@@ -10,10 +10,12 @@ public class CameraWarning : MonoBehaviour {
     [SerializeField]
     Vector3 move;
     [SerializeField]
-    int speed;
+    int time;
+    [SerializeField]
+    int stopTime;
 
-    Vector3 startL;
-    Vector3 startR;
+    bool isEnd = false;
+
     private void Start() {
         left = transform.Find("Left");
         right = transform.Find("Right");
@@ -25,27 +27,37 @@ public class CameraWarning : MonoBehaviour {
         }
     }
     public void StopWorning() {
-        if (coroutine != null) {
-            StopCoroutine(coroutine);
-            coroutine = null;
-            left.localPosition = startL;
-            right.localPosition = startR;
-        }
+        isEnd = true;
     }
 
     IEnumerator Enumerator() {
-        startL = left.localPosition;
-        startR = right.localPosition;
-        var endL = startL+ move;
-        var endR = startR- move;
+        var startL = left.localPosition;
+        var startR = right.localPosition;
+        var endL = startL + move;
+        var endR = startR - move;
 
-        int time = 0;
+        int t = 0;
+        int st = 0;
+
         while (true) {
-            left.localPosition = Vector3.Lerp(startL, endL,(float)time/ speed);
-            right.localPosition = Vector3.Lerp(startR, endR,(float)time/ speed);
+            left.localPosition = Vector3.Slerp(startL, endL, (float)t / time);
+            right.localPosition = Vector3.Slerp(startR, endR, (float)t / time);
 
-            time = (time + 1) % speed;
+            t++;
 
+            if (t > time) {
+                st++;
+                if (st > stopTime) {
+                    t = 0;
+                    st = 0;
+                    if (isEnd) {
+                        left.localPosition = startL;
+                        right.localPosition = startR;
+                        coroutine = null;
+                        yield break;
+                    }
+                }
+            }
             yield return null;
         }
     }
