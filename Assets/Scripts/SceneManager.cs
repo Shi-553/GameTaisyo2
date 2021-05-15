@@ -35,9 +35,11 @@ namespace Scene
                     stage = debugStage;
                 }
                 var stagePrefab = Resources.Load<GameObject>("Stage/" + stage.ToString());
-                var stageInstance=Instantiate<GameObject>(stagePrefab);
+                if (stagePrefab!=null) {
+                    var stageInstance = Instantiate<GameObject>(stagePrefab);
 
-                stageInstance.transform.SetParent(GameObject.Find("stage").transform);
+                    stageInstance.transform.SetParent(GameObject.Find("stage").transform);
+                }
             }
         }
         private IEnumerator SceneChangeCorutine(SceneType sceneType) {
