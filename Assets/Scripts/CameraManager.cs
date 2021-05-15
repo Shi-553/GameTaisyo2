@@ -23,14 +23,18 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     /// <summary>
     /// 遠近切り替えにつかうBoxRayのサイズ
     /// </summary>
-    [SerializeField] Vector3 thresholdRayBoxScale =new Vector3(10,5,1);
+    [SerializeField] Vector3 thresholdRayBoxScale = new Vector3(10, 5, 1);
 
     /// <summary>
     /// 遠近切り替えの閾値
     /// </summary>
     [SerializeField]
     float thresholdDistance = 10;
-
+    [SerializeField]
+    CameraWarning cameraWarning;
+    [SerializeField]
+    float thresholdWarningDistance = 15;
+    float warningFrame = 0;
 
     public float TargetDistance { private set; get; }
     public float MebiusuDistance { private set; get; }
@@ -67,8 +71,8 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
         if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
             var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
-            var point = ((forwardPoints.LeftTop + forwardPoints.RightTop) / 2* positionRatio +
-                (forwardPoints.LeftBottom + forwardPoints.RightBottom) / 2*(1- positionRatio)) ;
+            var point = ((forwardPoints.LeftTop + forwardPoints.RightTop) / 2 * positionRatio +
+                (forwardPoints.LeftBottom + forwardPoints.RightBottom) / 2 * (1 - positionRatio));
 
 
             transform.position = point + forwardPoints.Normal * TargetDistance;
@@ -115,7 +119,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
             aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp * Time.timeScale);
 
-            var p= Vector3.Lerp(forwerdHit.point, point , pointLerp * Time.timeScale);
+            var p = Vector3.Lerp(forwerdHit.point, point, pointLerp * Time.timeScale);
             transform.LookAt(p, aftQ);
 
 
@@ -128,13 +132,25 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
         ExtDebug.DrawBoxCastBox(forwerdHit.point - forwerdRay.direction * farDistance, thresholdRayBoxScale, transform.rotation, transform.forward, Mathf.Infinity, Color.red);
 
-        if (Physics.BoxCast(forwerdHit.point-forwerdRay.direction*farDistance, thresholdRayBoxScale, transform.forward, out var boxHit, transform.rotation, Mathf.Infinity, mask)) {
+        if (Physics.BoxCast(forwerdHit.point - forwerdRay.direction * farDistance, thresholdRayBoxScale, transform.forward, out var boxHit, transform.rotation, Mathf.Infinity, mask)) {
             //Debug.Log(boxHit.distance);
+
             if (boxHit.distance > thresholdDistance) {
                 TargetDistance = farDistance;
+                warningFrame -= positionLerp;
+
+                if (warningFrame < 0 && boxHit.distance < thresholdWarningDistance) {
+                    cameraWarning.StartWorning();
+                    warningFrame = 0;
+                }
             }
             else {
                 TargetDistance = nearDistance;
+
+                warningFrame += positionLerp;
+            }
+            if (warningFrame > 1) {
+                cameraWarning.StopWorning();
             }
         }
     }
