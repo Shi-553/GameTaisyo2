@@ -23,6 +23,9 @@ namespace Player {
         [SerializeField]
         AudioClip repair;
 
+        [SerializeField]
+        AudioClip use;
+
         private void Start() {
             hp = hpMax;
             hummerUI = GameObject.Find("Hummer").GetComponent<HummerUI>();
@@ -73,6 +76,7 @@ namespace Player {
                 return;
             }
             anime.SetTrigger("Attack");
+            AudioManager.Instance.Play(use);
             gameObject.SetActive(true);
             rotate = 0;
             rotateAdd = 5;
