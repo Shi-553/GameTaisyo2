@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-public class StageEditor
-{
+public class StageEditor : EditorWindow {
+    static float length = 2;
+
     [MenuItem("Tools/SetBlock")]
     static void SetBlock() {
-        Undo.RecordObjects(Selection.gameObjects.Select(o=>o.transform).ToArray(), "set");
+        Undo.RecordObjects(Selection.gameObjects.Select(o => o.transform).ToArray(), "set");
         var mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
 
@@ -29,19 +30,28 @@ public class StageEditor
             }
 
 
-             forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
+            forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
 
 
 
-            if (Physics.Raycast(forwerdRay, out  forwerdHit, Mathf.Infinity, mask)) {
+            if (Physics.Raycast(forwerdRay, out forwerdHit, Mathf.Infinity, mask)) {
 
                 var forwardPoints = PointDistance.GetUpRight(forwerdHit, transform.up, transform.right);
 
 
 
-                transform.localPosition = forwerdHit.point+ forwardPoints.Normal *2;
+                transform.localPosition = forwerdHit.point + forwardPoints.Normal * length;
             }
 
         }
+    }
+    [MenuItem("Tools/SetBlockWindow")]
+    static void SetBlockWindow() {
+        GetWindow<StageEditor>();
+    }
+    void OnGUI() {
+        var text = length.ToString();
+        text = EditorGUILayout.TextField("Length: ", text);
+        float.TryParse(text, out length);
     }
 }

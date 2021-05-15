@@ -16,7 +16,9 @@ public class Bomb : MonoBehaviour {
 
     [SerializeField]
     Vector3 dir;
-    int isExplosion = 0;
+
+    bool isExplosion = false;
+    int explosionFrame = 0;
     
     [SerializeField]
     AudioClip se;
@@ -32,13 +34,21 @@ public class Bomb : MonoBehaviour {
     private void Update() {
 
 
-        if (isExplosion > 0) {
-            isExplosion++;
-            if (isExplosion > 30) {
+            explosionFrame++;
+        if (isExplosion) {
+            if (explosionFrame > 30) {
                 Destroy(gameObject);
             }
         }
         else {
+            if (explosionFrame > 60) {
+                isExplosion = true;
+                explosionFrame = 0;
+
+                transform.localScale += Vector3.one * bombRadius;
+
+                AudioManager.Instance.Play(se);
+            }
 
             var forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
             if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
@@ -52,14 +62,10 @@ public class Bomb : MonoBehaviour {
     }
     void OnTriggerStay(Collider other) {
         if (other.tag == "Player" || other.gameObject.layer == mask) {
-            Debug.Log("meb");
             return;
         }
-        if (isExplosion == 0) {
-            transform.localScale += Vector3.one * bombRadius;
-            isExplosion++;
-
-            AudioManager.Instance.Play(se);
+        if (!isExplosion) {
+            explosionFrame = 60;
         }
 
         var d = other.GetComponent<Damage.IGimmickDamageable>();

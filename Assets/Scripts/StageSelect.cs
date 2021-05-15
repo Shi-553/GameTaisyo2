@@ -11,6 +11,6 @@ public class StageSelect : MonoBehaviour {
         }
     }
     public void SetStage(GameObject obj) {
-        Scene.SceneManager.stage = obj.name;
+        Scene.SceneManager.stage = int.Parse(obj.name);
     }
 }

@@ -16,16 +16,22 @@ public class Timer : MonoBehaviour
     [SerializeField]
     AudioClip countDownSE;
 
+    bool isCountDownSE = false;
+
     void Start()
     {
         Scene.SceneManager.Instance.TimeStop();
         gameBGM = GameObject.Find("GameBGM").GetComponent<AudioSource>();
-        gameBGM.PlayOneShot(countDownSE);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isCountDownSE) {
+            isCountDownSE = true;
+            gameBGM.PlayOneShot(countDownSE);
+        }
+
         if (count == 0) {
             return;
         }
