@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3136705255881956727}
   - component: {fileID: 3136705255881956726}
   - component: {fileID: 3136705255881956721}
+  - component: {fileID: 4940637756113698982}
   m_Layer: 0
   m_Name: Switch_Pless
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3136705255881956720}
   m_LocalRotation: {x: 0.22957104, y: -0.014775768, z: -0.3804426, w: 0.8957356}
-  m_LocalPosition: {x: 3.9, y: 3.76, z: -1.7}
+  m_LocalPosition: {x: 3.952, y: 3.863, z: -1.929}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children:
   - {fileID: 3174309529332958485}
@@ -44,8 +45,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: -0.67}
+  m_Size: {x: 0.5, y: 0.5, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3136705255881956721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +61,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   list:
   - {fileID: 0}
+--- !u!114 &4940637756113698982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3136705255881956720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0f364dc8afa6648bfde36fafc2eef2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suctionPower: 1000
+  suctionThresholdSpeed: 1
 --- !u!1001 &3136705255676977918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,7 +115,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 60d062e1c73792d4f9d9cbe2f967ae38,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.397
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 60d062e1c73792d4f9d9cbe2f967ae38,
         type: 3}
