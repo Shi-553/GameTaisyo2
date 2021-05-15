@@ -6,12 +6,10 @@ public class HitBlock : MonoBehaviour, IOperatedHummerObject
 {
     int mask;
     [SerializeField] Vector2 movevalue;
-    AudioClip use;
 
     void Start()
     {
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
-        use = Resources.Load<AudioClip>("voice/SE/action");
     }
 
     void Update() {
@@ -22,7 +20,6 @@ public class HitBlock : MonoBehaviour, IOperatedHummerObject
 
     void IOperatedHummerObject.Hit(Player.PlayerHummer hummer)
     {
-        AudioManager.Instance.Play(use);
         MoveBlock(movevalue);
         hummer.ApplyDamage(20);
     }

@@ -9,16 +9,29 @@ public class Timer : MonoBehaviour
     [SerializeField] Text countText;
     [SerializeField] float countTime = 4.0f;
     int count = 1;
+    AudioSource gameBGM;
 
-    // Start is called before the first frame update
+    [SerializeField]
+    AudioClip bgm;
+    [SerializeField]
+    AudioClip countDownSE;
+
+    bool isCountDownSE = false;
+
     void Start()
     {
         Scene.SceneManager.Instance.TimeStop();
+        gameBGM = GameObject.Find("GameBGM").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isCountDownSE) {
+            isCountDownSE = true;
+            gameBGM.PlayOneShot(countDownSE);
+        }
+
         if (count == 0) {
             return;
         }
@@ -33,6 +46,9 @@ public class Timer : MonoBehaviour
 
             gameObject.SetActive(false);
             countText.text = "";
+            gameBGM.clip = bgm;
+            gameBGM.loop = true;
+            gameBGM.Play();
             Scene.SceneManager.Instance.TimeRestart();
             count = 0;
         }

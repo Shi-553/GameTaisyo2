@@ -19,6 +19,10 @@ namespace Player {
         AudioClip repair;
 
         bool isAttack = false;
+        bool isParry = false;
+
+        [SerializeField]
+        AudioClip use;
 
         private void Start() {
             hp = hpMax;
@@ -26,12 +30,24 @@ namespace Player {
             anime = transform.root.GetComponentInChildren<Animator>(true);
             isAttack = false;
         }
+        private void Update() {
+            AnimatorClipInfo[] clipInfo = anime.GetCurrentAnimatorClipInfo(0);
+            if (isParry && clipInfo[0].clip.name == "Fly" && transform.parent.localScale.x < 2) {
+                isAttack = false;
+                isParry = false;
+            }
+        }
 
 
         void OnTriggerEnter(Collider other) {
+            if (isParry) {
+                return;
+            }
             if (other.CompareTag("Mebiusu")) {
                 anime.SetTrigger("AttackEnd");
                 isAttack = false;
+                isParry = true;
+                AudioManager.Instance.Play(use);
             }
             if (!isAttack) {
                 return;
@@ -39,6 +55,7 @@ namespace Player {
             var o = other.GetComponent<IOperatedHummerObject>();
             if (o != null) {
                 o.Hit(this);
+                AudioManager.Instance.Play(use);
             }
             var d = other.GetComponent<Damage.IGimmickDamageable>();
             if (d != null) {
@@ -47,14 +64,21 @@ namespace Player {
         }
 
         public void WieldHummer() {
+            if (isAttack || isParry) {
+                return;
+            }
             if (hp == 0) {
                 return;
             }
             anime.SetTrigger("Attack");
             isAttack = true;
+            isParry = false;
         }
 
         public bool ApplyDamage(int damage, bool isPierce = true) {
+            if (isParry) {
+                return false;
+            }
             var isAttackCurrent = isAttack;
 
             if (isAttack) {
@@ -68,6 +92,8 @@ namespace Player {
             }
             if (!isPierce) {
                 anime.SetTrigger("Parry");
+                isParry = true;
+                isAttack = false;
             }
 
             if (!isAttackCurrent) {
