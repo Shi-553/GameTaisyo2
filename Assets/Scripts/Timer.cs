@@ -9,6 +9,8 @@ public class Timer : MonoBehaviour
     [SerializeField] Text countText;
     [SerializeField] float countTime = 4.0f;
     int count = 1;
+    [SerializeField]
+    AudioClip bgm;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,7 @@ public class Timer : MonoBehaviour
 
             gameObject.SetActive(false);
             countText.text = "";
+            AudioManager.Instance.Play(bgm);
             Scene.SceneManager.Instance.TimeRestart();
             count = 0;
         }
