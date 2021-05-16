@@ -11,9 +11,21 @@ namespace Player {
 
         public Vector2 Dir { get; private set; }
 
+
+        [SerializeField]
+        float inclineAngleScale;
+        [SerializeField]
+        Vector3 inclineAngleX;
+        [SerializeField]
+        Vector3 inclineAngleY;
+        Transform child;
+        Vector3 childStartAngle;
+
         private void Start() {
 
             rigid = GetComponent<Rigidbody>();
+            child = transform.GetChild(0);
+            childStartAngle = child.localEulerAngles;
 
             LookAtPlayer();
         }
@@ -24,7 +36,10 @@ namespace Player {
             if (dir != Vector2.zero) {
                 Dir = dir;
             }
-
+            var childAngle= childStartAngle;
+            childAngle+= dir.x*inclineAngleScale * inclineAngleX;
+            childAngle+= dir.y * inclineAngleScale * inclineAngleY;
+            child.localEulerAngles = childAngle;
 
             var forwerdRay = new Ray(transform.position - transform.forward, transform.forward);
             if (Physics.Raycast(forwerdRay, out var forwerdHit, Mathf.Infinity, mask)) {
