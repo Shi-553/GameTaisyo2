@@ -124,7 +124,7 @@ namespace Player {
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
 
             baseDistance = cameraManager.MebiusuDistance;
-            renderers= transform.Find("attack").Find("player").GetComponentsInChildren<SkinnedMeshRenderer>();
+            renderers= transform.GetChild(0).Find("attack").Find("player").GetComponentsInChildren<SkinnedMeshRenderer>();
         }
 
         private void OnCollisionEnter(Collision collision) {
