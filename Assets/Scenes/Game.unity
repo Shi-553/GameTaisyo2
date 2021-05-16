@@ -12635,7 +12635,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   speed: 1.5
-  inclineAngleScale: 20
+  inclineAngleScale: 10
   inclineAngleX: {x: 0, y: -1, z: 0}
   inclineAngleY: {x: 1, y: 0, z: 1}
 --- !u!54 &1000904172
