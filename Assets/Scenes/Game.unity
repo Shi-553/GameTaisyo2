@@ -12749,7 +12749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a13ce588f26f414cad3dfc3383ffdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpMax: 53
+  hpMax: 3
   itemMax: 3
   defaultUseableItems: []
   invincibleTime: 1.5
