@@ -61,7 +61,7 @@ public class Bomb : MonoBehaviour {
         }
     }
     void OnTriggerStay(Collider other) {
-        if (other.tag == "Player" || other.gameObject.layer == mask) {
+        if (other.tag != "Block" ) {
             return;
         }
         if (!isExplosion) {
