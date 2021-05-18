@@ -46,13 +46,13 @@ namespace Player {
 
         SkinnedMeshRenderer[] renderers;
 
-        public void ApplyDamage(Vector3 knockback) {
+        public void ApplyDamage(Vector3 dir,float value) {
             if (currentInvincibleTime != 0) {
                 return;
             }
             currentInvincibleTime = invincibleTime;
             hp--;
-            GetComponent<Rigidbody>().AddForce(knockback, ForceMode.VelocityChange);
+            GetComponent<PlayerMove>().Damage(dir, value);
             heartUI.Remove();
 
             AudioManager.Instance.Play(damagese);

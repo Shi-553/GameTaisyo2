@@ -84,8 +84,9 @@ public class PointDistance {
             LeftRatio = leftCenterDistance / (leftCenterDistance + rightCenterDistance);
             TopRatio = topCenterDistance / (topCenterDistance + bottomCenterDistance);
 
+            Normal = Vector3.Cross(Up,Right ).normalized;
             //LeftRatio = 0.5f;
-           // TopRatio = 0.5f;
+            // TopRatio = 0.5f;
         }
         public Quad() {
         }
@@ -95,9 +96,9 @@ public class PointDistance {
             LeftBottom = leftBottom;
             RightBottom = rightBottom;
 
-            Normal1 = Vector3.Cross(RightTop - LeftTop, LeftBottom - LeftTop).normalized;
-            Normal2 = Vector3.Cross(LeftBottom - RightBottom, RightTop - RightBottom).normalized;
-            Normal = (Normal1 + Normal2).normalized;
+            //Normal1 = Vector3.Cross(RightTop - LeftTop, LeftBottom - LeftTop).normalized;
+            //Normal2 = Vector3.Cross(LeftBottom - RightBottom, RightTop - RightBottom).normalized;
+            //Normal = (Normal1 + Normal2).normalized;
         }
     }
 

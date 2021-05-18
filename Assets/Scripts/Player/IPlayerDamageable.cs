@@ -6,7 +6,7 @@ namespace Damage
 {
      interface IPlayerDamageable
     {
-         void ApplyDamage(Vector3 knockback);
+         void ApplyDamage(Vector3 dir,float value);
 
          void HealDamage(int value);
 
