@@ -24,17 +24,25 @@ namespace Player {
         [SerializeField]
         AudioClip use;
 
+        GameObject hammerRoot;
+
         private void Start() {
             hp = hpMax;
             hummerUI = GameObject.Find("Hummer").GetComponent<HummerUI>();
             anime = transform.root.GetComponentInChildren<Animator>(true);
+
+            hammerRoot = transform.parent.parent.gameObject;
+            hammerRoot.SetActive(false);
             isAttack = false;
+            isParry = false;
+
         }
         private void Update() {
             AnimatorClipInfo[] clipInfo = anime.GetCurrentAnimatorClipInfo(0);
-            if (isParry && clipInfo[0].clip.name == "Fly" && transform.parent.localScale.x < 2) {
+            if (isParry && clipInfo[0].clip.name == "Fly" && hammerRoot.transform.localScale.x < 0.2f) {
                 isAttack = false;
                 isParry = false;
+                hammerRoot.SetActive(false);
             }
         }
 
@@ -70,6 +78,7 @@ namespace Player {
             if (hp == 0) {
                 return;
             }
+            hammerRoot.SetActive(true);
             anime.SetTrigger("Attack");
             isAttack = true;
             isParry = false;
