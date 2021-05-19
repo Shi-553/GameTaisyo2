@@ -5,6 +5,6 @@ using UnityEngine;
 public class NextStage : MonoBehaviour
 {
     public void Next() {
-        Scene.SceneManager.stage++;
+        StageManager.Instance.NextStage();
     }
 }

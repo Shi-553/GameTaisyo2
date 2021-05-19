@@ -2,45 +2,108 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
+using Scene;
+using System.IO;
 
 public class StageManager : SingletonMonoBehaviour<StageManager> {
 
-    int currentStar = 0;
-    [SerializeField] bool isSetSubMesh = false;
+    [SerializeField]
+    int debugStage = 1;
+    int stage = 0;
 
-    void Start() {
-        currentStar = 0;
+    SaveDataWrapper wrapper = null;
+    string SAVEDATA_PATH;
+    string STAGE_PATH;
 
+    override protected void  Awake() {
+        base.Awake();
+        SAVEDATA_PATH = Path.Combine(Application.dataPath, "SaveData.json");
+        STAGE_PATH = Path.Combine(Application.dataPath, "Resources/Stage");
 
+        if (!LoadJson()) {
+            SaveJson();
+        }
 
-        //Mesh mesh = GameObject.Find("mebiusu").GetComponent<MeshFilter>().sharedMesh;
-        //int[] triangles = mesh.triangles;
-        //mesh.subMeshCount = 2;
+        DontDestroyOnLoad(gameObject);
+    }
+    bool LoadJson() {
+        if (!File.Exists(SAVEDATA_PATH)) {
+            return false;
+        }
+        var savadataTextAsset = File.ReadAllText(SAVEDATA_PATH);
+        if (savadataTextAsset == "") {
+            return false;
+        }
 
-        //mesh.SetTriangles(triangles, 0);
-        //mesh.SetTriangles(new int[] { }, 1);
-
+        var savadataString = savadataTextAsset.ToString();
+        wrapper = JsonUtility.FromJson<SaveDataWrapper>(savadataString);
+        if (wrapper == null) {
+            return false;
+        }
+        return true;
+    }
+    void SaveJson() {
+        if (wrapper == null) {
+            wrapper = new SaveDataWrapper();
+            wrapper.saveDatas = new List<SaveData>();
+            for (int i = 0; i < Directory.GetFiles(STAGE_PATH, "*.prefab").Length; i++) {
+                wrapper.saveDatas.Add(new SaveData(StageStatus.UNLOCK));
+            }
+        }
+        var savedataString = JsonUtility.ToJson(wrapper);
+        File.WriteAllText(SAVEDATA_PATH, savedataString);
+    }
+    public void ClearStage(StageStatus status) {
+        GetData(stage).status = status;
+        SaveJson();
     }
 
-    // Update is called once per frame
-    void Update() {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (isSetSubMesh && Input.GetMouseButton(0) && Physics.Raycast(ray, out var hit,Mathf.Infinity)) {
-            MeshCollider meshCollider = hit.collider as MeshCollider;
-            Mesh mesh = meshCollider.sharedMesh;
-            int[] triangles = mesh.triangles;
+    public void LoadStage() {
+        if (stage == 0) {
+            stage = debugStage;
+        }
+        var stagePrefab = Resources.Load<GameObject>(Path.Combine("Stage/", stage.ToString()));
 
+        if (stagePrefab != null) {
+            var stageInstance = Instantiate<GameObject>(stagePrefab);
 
-            var t = mesh.GetTriangles(1).ToList();
-
-            t.Add(triangles[hit.triangleIndex * 3 + 0]);
-            t.Add(triangles[hit.triangleIndex * 3 + 1]);
-            t.Add(triangles[hit.triangleIndex * 3 + 2]);
-            mesh.SetTriangles(t, 1);
-            
+            stageInstance.transform.SetParent(GameObject.Find("stage").transform);
         }
     }
-    void AddStar() {
-        currentStar++;
+    public bool NextStage() {
+        stage++;
+        return GetData(stage) != null;
     }
+    public void SetStage(int s) {
+        stage = s ;
+    }
+
+    public SaveData GetData(int s) {
+        if (s - 1 < 0 || wrapper.saveDatas.Count <= s-1) {
+            return null;
+        }
+        return wrapper.saveDatas[s-1];
+    }
+
+}
+[Serializable]
+public enum StageStatus {
+    LOCK = 0,
+    UNLOCK,
+    CLEAR,
+    NO_DAMAGE,
+    PURE_NO_DAMAGE
+}
+[Serializable]
+public class SaveData {
+    public StageStatus status;
+
+    public SaveData(StageStatus status) {
+        this.status = status;
+    }
+}
+[Serializable]
+public class SaveDataWrapper {
+    public List<SaveData> saveDatas;
 }
