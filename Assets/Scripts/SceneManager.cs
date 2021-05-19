@@ -20,35 +20,30 @@ namespace Scene
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
     {
-        [SerializeField]
-        int debugStage = 1;
-        public static int stage = 0;
         SceneType current= SceneType.NONE;
         public SceneType Currnt { get { return current; } }
 
         private void Start() {
 
             Application.targetFrameRate = 60;
-            current = (SceneType)UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
-            if (current == SceneType.GAME) {
-                if (stage == 0) {
-                    stage = debugStage;
-                }
-                var stagePrefab = Resources.Load<GameObject>("Stage/" + stage.ToString());
-                if (stagePrefab!=null) {
-                    var stageInstance = Instantiate<GameObject>(stagePrefab);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+            OnSceneLoaded(UnityEngine.SceneManagement.SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
-                    stageInstance.transform.SetParent(GameObject.Find("stage").transform);
-                }
-            }
+            DontDestroyOnLoad(gameObject);
         }
+        void OnSceneLoaded(UnityEngine.SceneManagement.Scene i_loadedScene, LoadSceneMode i_mode) {
+            current = (SceneType)i_loadedScene.buildIndex;
+
+        }
+
+
         private IEnumerator SceneChangeCorutine(SceneType sceneType) {
             var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(UnityEngine.SceneManagement.SceneManager.sceneCount - 1);
            Transform fadeImage= scene.GetRootGameObjects().FirstOrDefault(g=>g.name=="Canvas").transform.Find("Fade Image");
             FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
             yield return StartCoroutine(fadeCorutine.FadeOut());
 
-            Time.timeScale = 1.0f;
+            TimeRestart();
             UnityEngine.SceneManagement.SceneManager.LoadScene((int)sceneType);
 
         }

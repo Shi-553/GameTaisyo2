@@ -7,10 +7,23 @@ using UnityEngine.UI;
 
 namespace Player {
 
-    public class PlayerCore : MonoBehaviour, Damage.IPlayerDamageable {
+    public class PlayerCore : SingletonMonoBehaviour<PlayerCore>, Damage.IPlayerDamageable {
         [SerializeField]
         int hpMax = 3;
         int hp;
+        bool isDamage=false;
+        public StageStatus Status { get {
+                if (hp == hpMax) {
+                    if (!isDamage) {
+                        return StageStatus.PURE_NO_DAMAGE;
+                    }
+                    else {
+                        return StageStatus.NO_DAMAGE;
+                    }
+                }
+                return StageStatus.CLEAR;
+            }
+        }
 
         [SerializeField]
         int itemMax = 3;
@@ -52,6 +65,8 @@ namespace Player {
             }
             currentInvincibleTime = invincibleTime;
             hp--;
+            isDamage = true;
+
             GetComponent<PlayerMove>().Damage(dir, value);
             heartUI.Remove();
 
@@ -102,6 +117,7 @@ namespace Player {
         }
         void Start() {
             hp = hpMax;
+            isDamage = false;
 
             useableItems = new List<UseableItemBase>();
             foreach (var item in defaultUseableItems) {
@@ -153,8 +169,9 @@ namespace Player {
 
         }
         void Death() {
+            Scene.SceneManager.Instance.TimeStop();
             Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMEOVER, UnityEngine.SceneManagement.LoadSceneMode.Additive);
-            Time.timeScale = 0;
+            
         }
 
 
