@@ -18,7 +18,13 @@ public class CrackBlock : MonoBehaviour, Damage.IGimmickDamageable, IOperatedHum
 
         if (hp <= damage) {
             if (h.ApplyDamage(20)) {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+                var cs = transform.parent.GetComponentsInChildren<ParticleSystem>();
+                foreach (var c in cs) {
+                    c.Play();
+                }
+                
+                Destroy(gameObject.transform.parent.gameObject,2);
             }
         }
         else {
