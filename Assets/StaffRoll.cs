@@ -25,11 +25,11 @@ public class StaffRoll : MonoBehaviour
             isEnd = true;
             return;
         }
+        if (Input.GetButtonDown("Cancel")&& endB.activeSelf) {
+            Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.TITLE, UnityEngine.SceneManagement.LoadSceneMode.Single);
+            isEnd = true;
+        }
         if (Input.GetButtonDown("Submit") || Input.GetButtonDown("Cancel")) {
-            if (endB.activeSelf) {
-                Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.TITLE,UnityEngine.SceneManagement.LoadSceneMode.Single);
-                isEnd = true;
-            }
             StartCoroutine(Active());
         }
     }
