@@ -24,6 +24,9 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
         if (!LoadJson()) {
             SaveJson();
         }
+        if (stage == 0) {
+            stage = debugStage;
+        }
 
         DontDestroyOnLoad(gameObject);
     }
@@ -60,9 +63,6 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     }
 
     public void LoadStage() {
-        if (stage == 0) {
-            stage = debugStage;
-        }
         var stagePrefab = Resources.Load<GameObject>(Path.Combine("Stage/", stage.ToString()));
 
         if (stagePrefab != null) {
@@ -78,6 +78,12 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     public void SetStage(int s) {
         stage = s ;
     }
+    
+    public int GetStage() {
+        return stage;
+    }
+    public bool IsLastStage { get => stage == wrapper.saveDatas.Count; }
+    public bool IsAllClear { get => wrapper.saveDatas.All(d=>d.status>=StageStatus.CLEAR); }
 
     public SaveData GetData(int s) {
         if (s - 1 < 0 || wrapper.saveDatas.Count <= s-1) {
