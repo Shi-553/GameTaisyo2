@@ -136,7 +136,7 @@ namespace Player {
 
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
 
-            cameraManager = Camera.main.GetComponent<CameraManager>();
+            cameraManager = Camera.main.transform.parent.GetComponent<CameraManager>();
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
 
             baseDistance = cameraManager.MebiusuDistance;
