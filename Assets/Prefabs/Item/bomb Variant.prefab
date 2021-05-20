@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 0b91373e4e5757147aca0483c8932692, type: 3}
-  bombPrefab: {fileID: 7083869442149012310, guid: 720308478341ce846b00f036b42dc15f,
+  bombPrefab: {fileID: 3841680159210891686, guid: 720308478341ce846b00f036b42dc15f,
     type: 3}
 --- !u!1001 &8314646412990052009
 PrefabInstance:

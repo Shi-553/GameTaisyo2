@@ -36,6 +36,9 @@ public class Bomb : MonoBehaviour {
 
             explosionFrame++;
         if (isExplosion) {
+            if (explosionFrame > 4) {
+                transform.GetChild(0).gameObject.SetActive(false);
+            } 
             if (explosionFrame > 30) {
                 Destroy(gameObject);
             }
@@ -45,7 +48,9 @@ public class Bomb : MonoBehaviour {
                 isExplosion = true;
                 explosionFrame = 0;
 
-                transform.localScale += Vector3.one * bombRadius;
+                GetComponent<ParticleSystem>().Play();
+                GetComponent<SphereCollider>().radius+= bombRadius;
+                transform.GetChild(0).localScale += Vector3.one/4;
 
                 AudioManager.Instance.Play(se);
             }
@@ -61,7 +66,7 @@ public class Bomb : MonoBehaviour {
         }
     }
     void OnTriggerStay(Collider other) {
-        if (other.tag == "Player" || other.gameObject.layer == mask) {
+        if (other.tag != "Block" ) {
             return;
         }
         if (!isExplosion) {
