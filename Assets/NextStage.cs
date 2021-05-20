@@ -5,6 +5,8 @@ using UnityEngine;
 public class NextStage : MonoBehaviour
 {
     public void Next() {
-        StageManager.Instance.NextStage();
+        var canNextStage=StageManager.Instance.NextStage();
+        var nextScene = canNextStage ? Scene.SceneType.GAME : Scene.SceneType.ALLCLEAR;
+        Scene.SceneManager.Instance.ChangeScene(nextScene, UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 }

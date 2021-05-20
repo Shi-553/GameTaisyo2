@@ -16,6 +16,7 @@ namespace Scene
         GAME,
         GAMECLEAR,
         GAMEOVER,
+        ALLCLEAR,
         NONE,
     };
     public class SceneManager : SingletonMonoBehaviour<SceneManager>
