@@ -5,14 +5,22 @@ using UnityEngine;
 public class MoveBlock : TransformBlock {
     int mask;
 
-    [SerializeField] [Range(0.0f,1.0f)] float smoothSpeed=0.1f;
+    [SerializeField] [Range(0.0f, 1.0f)] float smoothSpeed = 0.1f;
 
 
     Vector3 prevAnimeValue;
+    float prevTime;
+    Vector3 startV;
+    Quaternion startR;
+    Vector3 endV;
+    Quaternion endR;
+    bool isE = false;
 
     private void Start() {
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
         prevAnimeValue = GetCurrentAnimeValue();
+        startV = transform.position;
+        startR = transform.rotation;
 
         Set(Vector3.zero, prevAnimeValue);
     }
@@ -20,7 +28,22 @@ public class MoveBlock : TransformBlock {
     private void Update() {
 
         var animeValue = GetCurrentAnimeValue();
-        Set(prevAnimeValue, animeValue);
+        if (GetCurrentTime() > prevTime) {
+            isE = false;
+        }
+        if (GetCurrentTime() < prevTime) {
+            if (!isE) {
+                endV = transform.position;
+                endR = transform.rotation;
+                isE = true;
+            }
+            transform.position = Vector3.Lerp(endV, startV, 1 - GetCurrentTime());
+            transform.rotation = Quaternion.Lerp(endR, startR, 1 - GetCurrentTime());
+        }
+        else {
+            Set(prevAnimeValue, animeValue);
+        }
+        prevTime = GetCurrentTime();
         prevAnimeValue = animeValue;
     }
 
@@ -37,8 +60,8 @@ public class MoveBlock : TransformBlock {
 
             var sa = current - prev;
 
-            transform.localPosition += forwardPoints.Right.normalized * sa.x + 
-                forwardPoints.Up.normalized * sa.y+
+            transform.localPosition += forwardPoints.Right.normalized * sa.x +
+                forwardPoints.Up.normalized * sa.y +
                 forwardPoints.Normal * sa.z;
         }
 
