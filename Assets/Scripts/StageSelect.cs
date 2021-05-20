@@ -39,6 +39,7 @@ public class StageSelect : MonoBehaviour {
     private void Update() {
         if (Input.GetButtonDown("Cancel")) {
             Scene.SceneManager.Instance.ChangeScene((int)Scene.SceneType.TITLE);
+            GetComponent<ButtonManager>().ButtonEnd();
         }
     }
     public void SetStage(GameObject obj) {
