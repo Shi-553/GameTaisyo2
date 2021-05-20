@@ -12270,7 +12270,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 4
+  near clip plane: 7.5
   far clip plane: 1000
   field of view: 50
   orthographic: 0
@@ -12886,7 +12886,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a13ce588f26f414cad3dfc3383ffdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpMax: 3
+  hpMax: 50
   itemMax: 3
   defaultUseableItems: []
   invincibleTime: 1.5
