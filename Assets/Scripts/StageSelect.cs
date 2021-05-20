@@ -9,27 +9,28 @@ public class StageSelect : MonoBehaviour {
 
     private void Start() {
         for (int i = 0; i < transform.childCount; i++) {
-            var c = transform.GetChild(i);
-            var stage = StageManager.Instance.GetData(int.Parse(c.name));
+            var childRoot = transform.GetChild(i);
+            var image = childRoot.GetChild(1);
+            var stage = StageManager.Instance.GetData(int.Parse(childRoot.name));
             if (stage == null) {
-                Destroy(c.gameObject,0.1f);
+                Destroy(childRoot.gameObject,0.1f);
                 continue;
             }
 
             switch (stage.status) {
                 case StageStatus.LOCK:
-                    c.GetComponent<Image>().color = Color.gray;
+                    image.GetComponent<Image>().color = Color.gray;
                     break;
                 case StageStatus.UNLOCK:
                     break;
                 case StageStatus.CLEAR:
-                    c.GetComponent<Image>().color = Color.yellow;
+                    image.GetComponent<Image>().color = new Color(1, 0.95f, 0.42f);
                     break;
                 case StageStatus.NO_DAMAGE:
-                    c.GetComponent<Image>().color = new Color(1,0.5f,0.5f);
+                    image.GetComponent<Image>().color = new Color(1,0.64f,0.72f);
                     break;
                 case StageStatus.PURE_NO_DAMAGE:
-                    c.GetComponent<Image>().color = Color.red;
+                    image.GetComponent<Image>().color = new Color(1, 0.64f, 0.72f);
                     break;
                 default:
                     break;
