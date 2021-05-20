@@ -431,8 +431,6 @@ GameObject:
   - component: {fileID: 424467251}
   - component: {fileID: 424467250}
   - component: {fileID: 424467249}
-  - component: {fileID: 424467252}
-  - component: {fileID: 424467253}
   m_Layer: 5
   m_Name: NextStage
   m_TagString: Untagged
@@ -515,7 +513,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 424467253}
+      - m_Target: {fileID: 2062994714}
         m_MethodName: Next
         m_Mode: 1
         m_Arguments:
@@ -563,31 +561,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424467247}
   m_CullTransparentMesh: 0
---- !u!114 &424467252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424467247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cca049391e2df24e84296b785e73d45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneType: 2
---- !u!114 &424467253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424467247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 110f5362ccfc6e34ba563a677db0ffe9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &466647692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1247,7 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af16d8711934194698134645687f7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugStage: 1
+  debugStage: 15
 --- !u!1 &1341020954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1636,8 +1609,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2062994712}
   - component: {fileID: 2062994713}
+  - component: {fileID: 2062994714}
   m_Layer: 0
-  m_Name: Manu
+  m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1682,3 +1656,16 @@ MonoBehaviour:
   action:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2062994714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062994711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 110f5362ccfc6e34ba563a677db0ffe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allClearSprite: {fileID: 21300000, guid: 6224729fd84352d45b952a86503125a7, type: 3}
