@@ -14,12 +14,12 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
 
     SaveDataWrapper wrapper = null;
     string SAVEDATA_PATH;
-    string STAGE_PATH;
+
+    int STAGE_MAX=15;
 
     override protected void  Awake() {
         base.Awake();
         SAVEDATA_PATH = Path.Combine(Application.dataPath, "SaveData.json");
-        STAGE_PATH = Path.Combine(Application.dataPath, "Resources/Stage");
 
         if (!LoadJson()) {
             SaveJson();
@@ -50,7 +50,7 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
         if (wrapper == null) {
             wrapper = new SaveDataWrapper();
             wrapper.saveDatas = new List<SaveData>();
-            for (int i = 0; i < Directory.GetFiles(STAGE_PATH, "*.prefab").Length; i++) {
+            for (int i = 0; i < STAGE_MAX; i++) {
                 wrapper.saveDatas.Add(new SaveData(StageStatus.UNLOCK));
             }
         }
