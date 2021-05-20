@@ -42,6 +42,10 @@ namespace Scene
             var scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(UnityEngine.SceneManagement.SceneManager.sceneCount - 1);
            Transform fadeImage= scene.GetRootGameObjects().FirstOrDefault(g=>g.name=="Canvas").transform.Find("Fade Image");
             FadeCorutine fadeCorutine  = fadeImage.GetComponent<FadeCorutine>();
+
+            if (!fadeCorutine.CanStart) {
+                yield break;
+            }
             yield return StartCoroutine(fadeCorutine.FadeOut());
 
             TimeRestart();

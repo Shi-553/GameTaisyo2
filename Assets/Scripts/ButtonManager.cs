@@ -41,6 +41,9 @@ public class ButtonManager : MonoBehaviour {
         Start();
         isSubmit = false;
     }
+    public void ButtonEnd() {
+        isSubmit = true;
+    }
 
     private void Start() {
         var selected = transform.GetChild(selectIndex);
