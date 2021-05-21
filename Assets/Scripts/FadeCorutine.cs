@@ -73,7 +73,7 @@ public class FadeCorutine : MonoBehaviour
         color.a = 1;
         image.color = color;
 
-        yield return new WaitForEndOfFrame();
+       // yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         while (true) {
             if (color.a <= 0) {

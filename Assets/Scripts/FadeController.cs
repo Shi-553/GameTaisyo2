@@ -1,30 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; //パネルのイメージを操作するのに必要
+using UnityEngine.Video;
 
 public class FadeController : MonoBehaviour {
-    [SerializeField]
-    float fadeSpeed = 1;
-    [SerializeField]
-    float targetSpeed = 1;
-    [SerializeField]
-    float fadeSpeed2 = 3;
 
-    Image fadeImage;
-    Image targetImage;
-    Image fadeImage2;
+    [SerializeField]
+    VideoPlayer target;
 
     Coroutine coroutine;
 
     [SerializeField]
     MonoBehaviour nextScript;
+    [SerializeField]
+    AudioSource nextBGM;
 
     void Start() {
-        fadeImage = transform.GetChild(2).GetComponent<Image>();
-        targetImage = transform.GetChild(1).GetComponent<Image>();
-        fadeImage2 = transform.GetChild(0).GetComponent<Image>();
-
         coroutine = StartCoroutine(Enumerator());
     }
 
@@ -38,39 +29,16 @@ public class FadeController : MonoBehaviour {
         }
     }
     void End() {
-        fadeImage.gameObject.SetActive(false);
-        targetImage.gameObject.SetActive(false);
-        fadeImage2.gameObject.SetActive(false);
+        nextBGM.Play();
+        gameObject.SetActive(false);
         nextScript.enabled = true;
     }
 
     IEnumerator Enumerator() {
-        yield return new WaitForSeconds(0.5f);
-
-        yield return StartCoroutine(ClearAlpha(fadeImage, fadeSpeed));
-
-        yield return new WaitForSeconds(1);
-
-        yield return StartCoroutine(ClearAlpha(targetImage, targetSpeed));
-        yield return StartCoroutine(ClearAlpha(fadeImage2, fadeSpeed2));
+        yield return new WaitUntil(() => target.isPlaying);
+        yield return new WaitWhile(() => target.isPlaying);
 
         End();
         coroutine = null;
-    }
-
-
-    IEnumerator ClearAlpha(Image image, float speed) {
-        Color color = Color.white;
-
-        while (true) {
-            color.a -= Time.deltaTime * speed;
-
-            image.color = color;
-            yield return null;
-
-            if (color.a < 0) {
-                break;
-            }
-        }
     }
 }
