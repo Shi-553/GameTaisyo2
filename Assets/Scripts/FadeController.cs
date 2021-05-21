@@ -58,7 +58,7 @@ public class FadeController : MonoBehaviour {
         }
         
         image.color = Color.black;
-        gameObject.SetActive(false);
+        End();
         yield return new WaitForSeconds(fadeStopTime);
 
         while (true) {
@@ -70,7 +70,6 @@ public class FadeController : MonoBehaviour {
             image.color = c;
             yield return null;
         }
-        End();
 
         coroutine = null;
     }
