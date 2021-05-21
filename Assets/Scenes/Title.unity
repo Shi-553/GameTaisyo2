@@ -426,7 +426,7 @@ MonoBehaviour:
   nextScript: {fileID: 941015970}
   nextBGM: {fileID: 653684554}
   image: {fileID: 2059942723}
-  fadeOutSpeed: 1
+  fadeOutSpeed: 2.5
   fadeStopTime: 0.5
   fadeInSpeed: 1
 --- !u!1 &439079099
