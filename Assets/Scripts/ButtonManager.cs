@@ -8,14 +8,18 @@ using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour {
     [SerializeField]
     Transform selectImage;
+    Vector3 selectImageDiff;
+    Vector3 selectImageAngle;
+    [SerializeField]
+    bool isSelectHummer = true;
 
     [SerializeField]
     Vector3 selectScale;
 
     [SerializeField]
     bool isChangeColor = true;
-    Color selectColor=Color.white;
-    Color unselectColor = new Color(150 / 255.0f, 150 / 255.0f, 150/ 255.0f, 1);
+    Color selectColor = Color.white;
+    Color unselectColor = new Color(150 / 255.0f, 150 / 255.0f, 150 / 255.0f, 1);
 
     int selectIndex = 0;
     bool pressed = true;
@@ -28,17 +32,29 @@ public class ButtonManager : MonoBehaviour {
     [SerializeField] bool reverseH = false;
 
     [SerializeField] int columnMax = 0;
-    
+
     [SerializeField]
     AudioClip se;
     [Serializable] public class MyEvent : UnityEvent<GameObject> { }
     [SerializeField] MyEvent action;
+
+    float sinFrame = 0;
+    [SerializeField]
+    float selectImageMoveScale = -0.6f;
+    [SerializeField]
+    float selectImageMoveSpeed = 0.1f;
+
+    bool isNext = false;
+    float nextTime = 0;
+
+    bool firstStart = true;
 
     public GameObject GetSelected() {
         return transform.GetChild(selectIndex).gameObject;
     }
     public void ButtonReset() {
         Start();
+
         isSubmit = false;
     }
     public void ButtonEnd() {
@@ -48,17 +64,35 @@ public class ButtonManager : MonoBehaviour {
     private void Start() {
         var selected = transform.GetChild(selectIndex);
 
-        if (selectImage != null) {
-            selectImage.position = selected.position;
+        if (firstStart) {
+            if (selectImage != null) {
+                selectImageDiff = selectImage.position - selected.position;
+                if (isSelectHummer) {
+                    selectImageAngle = selectImage.localEulerAngles;
+                }
+            }
+        }
+        else {
+            if (selectImage != null) {
+                selectImage.position = selected.position + selectImageDiff;
+
+                if (isSelectHummer) {
+                    selectImage.localEulerAngles = selectImageAngle;
+                }
+            }
         }
         selected.localScale += selectScale;
 
         if (isChangeColor) {
-        for (int i = 0; i < transform.childCount; i++) {
-            transform.GetChild(i).GetComponent<Image>().color = unselectColor;
-        }
+            for (int i = 0; i < transform.childCount; i++) {
+                transform.GetChild(i).GetComponent<Image>().color = unselectColor;
+            }
             selected.GetComponent<Image>().color = selectColor;
         }
+        isNext = false;
+        nextTime = 0;
+
+        firstStart = false;
     }
 
 
@@ -66,7 +100,12 @@ public class ButtonManager : MonoBehaviour {
         if (isSubmit) {
             return;
         }
-
+        if (isSelectHummer && selectImage != null) {
+            var selectPos = selectImage.localPosition;
+            selectPos.y += Mathf.Sin(sinFrame) * selectImageMoveScale;
+            sinFrame += selectImageMoveSpeed;
+            selectImage.localPosition = selectPos;
+        }
 
         float v = Input.GetAxisRaw("Vertical");
         float h = Input.GetAxisRaw("Horizontal");
@@ -91,7 +130,7 @@ public class ButtonManager : MonoBehaviour {
             var vVal = reverseV ? 1 : -1;
             var hVal = reverseH ? 1 : -1;
             if (v > 0) {
-                selectIndex -= 1* vVal;
+                selectIndex -= 1 * vVal;
             }
             if (v < 0) {
                 selectIndex += 1 * vVal;
@@ -110,10 +149,11 @@ public class ButtonManager : MonoBehaviour {
             }
 
             if (pressed) {
+                sinFrame = 0;
                 var selected = transform.GetChild(selectIndex);
 
                 if (selectImage != null) {
-                    selectImage.position = selected.position;
+                    selectImage.position = selected.position + selectImageDiff;
                 }
                 selected.localScale += selectScale;
                 if (isChangeColor) {
@@ -124,13 +164,42 @@ public class ButtonManager : MonoBehaviour {
 
         if (v == 0 && h == 0) {
             pressed = false;
+            isNext = false;
+            nextTime = 0;
+        }
+        else {
+            nextTime += Time.unscaledDeltaTime;
+            if (!isNext && nextTime > 0.4f) {
+                pressed = false;
+                nextTime = 0;
+                isNext = true;
+            }
+            if (isNext && nextTime > 0.2f) {
+                nextTime = 0;
+                pressed = false;
+            }
         }
 
         if (Input.GetButtonDown("Submit")) {
-            isSubmit = true;
-            UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
-            transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
-            action.Invoke(transform.GetChild(selectIndex).gameObject);
+            StartCoroutine(ActionHummer());
         }
+    }
+    IEnumerator ActionHummer() {
+        isSubmit = true;
+        if (isSelectHummer && selectImage != null) {
+            for (int i = 0; i < 3; i++) {
+                var r = selectImage.localEulerAngles;
+                r.z -= 60.0f / 3;
+                selectImage.localEulerAngles = r;
+                yield return null;
+            }
+        }
+        transform.GetChild(selectIndex).localScale -= selectScale;
+
+        transform.GetChild(selectIndex).GetComponent<Image>().color = unselectColor;
+
+        UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
+        transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
+        action.Invoke(transform.GetChild(selectIndex).gameObject);
     }
 }
