@@ -75,6 +75,10 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     public bool IsDeathHpUp() {
         return deathCount >= 3;
     }
+    
+    public int GetDeathCount() {
+        return deathCount;
+    }
 
     public void LoadStage() {
         var stagePrefab = Resources.Load<GameObject>(Path.Combine("Stage/", stage.ToString()));
