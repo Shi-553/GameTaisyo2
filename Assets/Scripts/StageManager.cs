@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using Scene;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class StageManager : SingletonMonoBehaviour<StageManager> {
 
@@ -16,6 +17,8 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     string SAVEDATA_PATH;
 
     int STAGE_MAX=15;
+
+    int deathCount = 0;
 
     override protected void  Awake() {
         base.Awake();
@@ -60,6 +63,21 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     public void ClearStage(StageStatus status) {
         GetData(stage).status = status;
         SaveJson();
+        Scene.SceneManager.Instance.TimeStop();
+        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMECLEAR, LoadSceneMode.Additive);
+    }
+    
+    public void GameOverStage() {
+        deathCount++;
+        Scene.SceneManager.Instance.TimeStop();
+        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMEOVER, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+    }
+    public bool IsDeathHpUp() {
+        return deathCount >= 3;
+    }
+    
+    public int GetDeathCount() {
+        return deathCount;
     }
 
     public void LoadStage() {
@@ -69,15 +87,25 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
             var stageInstance = Instantiate<GameObject>(stagePrefab);
 
             stageInstance.transform.SetParent(GameObject.Find("stage").transform);
+
+            if (IsDeathHpUp()) {
+                Player.PlayerCore.Instance.SetHP(5);
+            }
         }
     }
     public bool NextStage() {
         stage++;
+        deathCount = 0;
         return GetData(stage) != null;
     }
     public void SetStage(int s) {
-        stage = s ;
+        if (s == stage) {
+            return;
+        }
+        stage = s;
+        deathCount = 0;
     }
+
     
     public int GetStage() {
         return stage;
