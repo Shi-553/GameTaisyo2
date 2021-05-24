@@ -175,7 +175,7 @@ public class Tutorial1 : MonoBehaviour {
 
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos() {
+    private void OnDrawGizmosSelected() {
         if (!UnityEditor.EditorApplication.isPlaying) {
             var t = GameObject.Find("TutorialRoot").transform;
 
