@@ -691,6 +691,7 @@ MonoBehaviour:
   timeStopItem: {fileID: 8596711384766659218}
   beltconbyerSwitch: {fileID: 6844814206408294006}
   leverRotation: {fileID: 5146568176139468022}
+  se: {fileID: 8300000, guid: ea9c62556463dc6498c60478686f85da, type: 3}
 --- !u!1 &433362395095852382
 GameObject:
   m_ObjectHideFlags: 0

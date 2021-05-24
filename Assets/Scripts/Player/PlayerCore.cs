@@ -108,7 +108,7 @@ namespace Player {
             SetItem();
         }
         void SetItem() {
-            if (currentItemIndex == -1 || useableItems.Count == 0) {
+            if (currentItemIndex == -1 ) {
                 slideUI.SetItem(new List<Sprite>(), 0);
                 return;
             }

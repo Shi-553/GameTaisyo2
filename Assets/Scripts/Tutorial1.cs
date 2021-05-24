@@ -26,6 +26,8 @@ public class Tutorial1 : MonoBehaviour {
 
     Coroutine coroutine;
 
+    [SerializeField]
+    AudioClip se;
 
     void Start() {
         tutorialRoot = GameObject.Find("TutorialRoot").transform;
@@ -165,6 +167,7 @@ public class Tutorial1 : MonoBehaviour {
             default:
                 break;
         }
+        AudioManager.Instance.Play(se);
 
         child.GetChild(0).gameObject.SetActive(true);
         cameraManager.Speed = beforeSpeed;
@@ -175,10 +178,12 @@ public class Tutorial1 : MonoBehaviour {
 
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos() {
+    private void OnDrawGizmosSelected() {
         if (!UnityEditor.EditorApplication.isPlaying) {
-            var t = GameObject.Find("TutorialRoot").transform;
-
+            var t = GameObject.Find("TutorialRoot")?.transform;
+            if (t == null) {
+                return;
+            }
             for (int i = 0; i < t.childCount; i++) {
                 var child = t.GetChild(i);
                 Gizmos.DrawWireSphere(child.position, distance);
