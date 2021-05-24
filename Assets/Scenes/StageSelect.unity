@@ -5789,6 +5789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1817573046}
+  isSelectHummer: 0
   selectScale: {x: 0.02, y: 0.02, z: 0.02}
   isChangeColor: 0
   swapVH: 1
@@ -5810,6 +5811,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  selectImageMoveScale: -0.6
+  selectImageMoveSpeed: 0.1
 --- !u!114 &1359128820
 MonoBehaviour:
   m_ObjectHideFlags: 0
