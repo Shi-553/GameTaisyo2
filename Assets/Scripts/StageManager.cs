@@ -89,7 +89,7 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
             stageInstance.transform.SetParent(GameObject.Find("stage").transform);
 
             if (IsDeathHpUp()) {
-                Player.PlayerCore.Instance.SetHP(5);
+                Player.PlayerCore.Instance.SetMaxHP(5);
             }
         }
     }

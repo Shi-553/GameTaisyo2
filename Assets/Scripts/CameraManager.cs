@@ -8,6 +8,8 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
     [SerializeField] float speed = 0.002f;
 
+    public float Speed { get => speed; set => speed = value; }
+
     [SerializeField] float positionRatio = 0.5f;
     [SerializeField] float positionUp = 0;
 
@@ -49,6 +51,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     Vector3 aftQ;
 
     bool isStopped = false;
+    public bool IsStopped { get => isStopped;private set => isStopped = value; }
 
     public Vector3 MebiusuPoint { private set; get; }
 
@@ -124,7 +127,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
 
 
-            transform.position += forwardPoints.Right.normalized * (speed * Time.timeScale);
+            transform.position += forwardPoints.Right.normalized * (Speed * Time.timeScale);
 
 
         }
