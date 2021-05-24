@@ -27,6 +27,8 @@ namespace Player {
 
         GameObject hammerRoot;
 
+        [SerializeField]
+        float hitStopTime = 0.1f;
 
         private void Start() {
             hp = hpMax;
@@ -58,6 +60,7 @@ namespace Player {
                 isAttack = false;
                 isParry = true;
                 AudioManager.Instance.Play(use);
+                StartCoroutine(HitStop());
             }
             if (!isAttack) {
                 return;
@@ -66,11 +69,17 @@ namespace Player {
             if (o != null) {
                 o.Hit(this);
                 AudioManager.Instance.Play(use);
+                StartCoroutine(HitStop());
             }
             var d = other.GetComponent<Damage.IGimmickDamageable>();
             if (d != null) {
                 d.ApplyDamage(atk);
             }
+        }
+        IEnumerator HitStop() {
+            anime.speed = 0;
+            yield return new WaitForSecondsRealtime(hitStopTime);
+            anime.speed = 1;
         }
 
         public void WieldHummer() {
