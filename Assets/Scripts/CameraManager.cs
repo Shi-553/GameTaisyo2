@@ -51,6 +51,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
     Vector3 aftQ;
 
     bool isStopped = false;
+    public bool IsStopped { get => isStopped;private set => isStopped = value; }
 
     public Vector3 MebiusuPoint { private set; get; }
 
