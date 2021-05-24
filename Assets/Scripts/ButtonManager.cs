@@ -18,7 +18,7 @@ public class ButtonManager : MonoBehaviour {
     Color unselectColor = new Color(150 / 255.0f, 150 / 255.0f, 150/ 255.0f, 1);
 
     int selectIndex = 0;
-    bool pressed = false;
+    bool pressed = true;
 
     bool isSubmit = false;
 

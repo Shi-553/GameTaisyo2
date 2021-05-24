@@ -19,6 +19,10 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     int STAGE_MAX=15;
 
     int deathCount = 0;
+    bool isRelifeRetry = false;
+    public void SetRelifeRetry() {
+        isRelifeRetry = true;
+    }
 
     override protected void  Awake() {
         base.Awake();
@@ -61,6 +65,7 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
         File.WriteAllText(SAVEDATA_PATH, savedataString);
     }
     public void ClearStage(StageStatus status) {
+        deathCount = 0;
         GetData(stage).status = status;
         SaveJson();
         Scene.SceneManager.Instance.TimeStop();
@@ -88,8 +93,9 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
 
             stageInstance.transform.SetParent(GameObject.Find("stage").transform);
 
-            if (IsDeathHpUp()) {
+            if (IsDeathHpUp()&& isRelifeRetry) {
                 Player.PlayerCore.Instance.SetMaxHP(5);
+                isRelifeRetry = false;
             }
         }
     }
