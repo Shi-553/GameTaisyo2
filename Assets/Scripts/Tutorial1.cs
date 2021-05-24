@@ -180,8 +180,10 @@ public class Tutorial1 : MonoBehaviour {
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected() {
         if (!UnityEditor.EditorApplication.isPlaying) {
-            var t = GameObject.Find("TutorialRoot").transform;
-
+            var t = GameObject.Find("TutorialRoot")?.transform;
+            if (t == null) {
+                return;
+            }
             for (int i = 0; i < t.childCount; i++) {
                 var child = t.GetChild(i);
                 Gizmos.DrawWireSphere(child.position, distance);
