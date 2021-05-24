@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Player {
-    public class PlayerHummer : MonoBehaviour {
+    public class PlayerHummer : SingletonMonoBehaviour<PlayerHummer> {
         int atk = 1;
 
         Animator anime;
@@ -11,6 +11,7 @@ namespace Player {
         [SerializeField]
         int hpMax = 100;
         int hp;
+        public int Hp { get => hp;private set => hp = value; }
 
 
         HummerUI hummerUI = null;
@@ -25,6 +26,7 @@ namespace Player {
         AudioClip use;
 
         GameObject hammerRoot;
+
 
         private void Start() {
             hp = hpMax;

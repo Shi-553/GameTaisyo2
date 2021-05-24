@@ -7,7 +7,7 @@ public class CrackBlock : MonoBehaviour, Damage.IGimmickDamageable, IOperatedHum
     [SerializeField]
     int hp = 1;
 
-    PlayerHummer h=null;
+    PlayerHummer h = null;
     public void ApplyDamage(int damage) {
         if (h == null) {
             if (hp <= damage) {
@@ -27,18 +27,12 @@ public class CrackBlock : MonoBehaviour, Damage.IGimmickDamageable, IOperatedHum
         h = null;
     }
     void DrawEffect() {
-        foreach (var c in gameObject.GetComponents<Collider>()) {
-            c.enabled = false;
-        }
-        foreach (var c in gameObject.GetComponents<MeshRenderer>()) {
-            c.enabled = false;
-        }
-        var cs = transform.GetComponentsInChildren<ParticleSystem>();
+        var cs = transform.parent.GetComponentsInChildren<ParticleSystem>();
         foreach (var c in cs) {
             c.Play();
         }
+        gameObject.SetActive(false);
 
-        Destroy(gameObject, 2);
     }
 
     public void Hit(PlayerHummer hummer) {

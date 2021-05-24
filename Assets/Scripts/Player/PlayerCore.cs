@@ -115,10 +115,13 @@ namespace Player {
 
             slideUI.SetItem(useableItems.Select(i => i.Sprite).ToList(), currentItemIndex);
         }
-       public  void SetHP(int hp) {
+       public  void SetMaxHP(int hp) {
             hpMax = hp;
             this.hp = hp;
             heartUI.SetMax(hp, hp);
+        }
+       public  int GetHP() {
+            return hp;
         }
 
         void Start() {
@@ -140,7 +143,7 @@ namespace Player {
             SetItem();
 
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
-            SetHP(hpMax);
+            SetMaxHP(hpMax);
 
             cameraManager = Camera.main.GetComponent<CameraManager>();
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
