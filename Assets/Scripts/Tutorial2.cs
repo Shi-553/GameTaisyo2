@@ -15,6 +15,7 @@ public class Tutorial2 : MonoBehaviour {
     GameObject beltconbyerSwitch;
     [SerializeField]
     Transform leverRotation;
+    Quaternion leverChildRotate;
 
     Transform tutorialRoot;
 
@@ -30,6 +31,7 @@ public class Tutorial2 : MonoBehaviour {
     void Start() {
         tutorialRoot = GameObject.Find("TutorialRoot").transform;
         cameraManager = Camera.main.GetComponent<CameraManager>();
+        leverChildRotate = leverRotation.rotation;
 
     }
 
@@ -55,7 +57,7 @@ public class Tutorial2 : MonoBehaviour {
                 continue;
             }
             if (i == 4) {
-                if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance-3) {
+                if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
                     continue;
                 }
             }
@@ -94,9 +96,8 @@ public class Tutorial2 : MonoBehaviour {
                 break;
 
             case 4:
-                var leverChildRotate = leverRotation.rotation;
 
-                yield return new WaitUntil(() => leverChildRotate!= leverRotation.rotation);
+                yield return new WaitUntil(() => leverChildRotate != leverRotation.rotation);
                 break;
 
 
