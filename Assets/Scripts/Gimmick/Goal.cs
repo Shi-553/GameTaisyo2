@@ -9,9 +9,7 @@ public class Goal : MonoBehaviour, IOperatedPlayerObject
         gameObject.SetActive(true);
     }
     void IOperatedPlayerObject.Hit() {
-        Scene.SceneManager.Instance.TimeStop();
         StageManager.Instance.ClearStage(Player.PlayerCore.Instance.Status);
-        Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMECLEAR, LoadSceneMode.Additive);
     }
 
     void Update()

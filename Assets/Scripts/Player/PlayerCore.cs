@@ -72,7 +72,7 @@ namespace Player {
 
             AudioManager.Instance.Play(damagese);
             if (hp == 0) {
-                Death();
+                StageManager.Instance.GameOverStage();
             }
 
         }
@@ -115,8 +115,13 @@ namespace Player {
 
             slideUI.SetItem(useableItems.Select(i => i.Sprite).ToList(), currentItemIndex);
         }
+       public  void SetHP(int hp) {
+            hpMax = hp;
+            this.hp = hp;
+            heartUI.SetMax(hp, hp);
+        }
+
         void Start() {
-            hp = hpMax;
             isDamage = false;
 
             useableItems = new List<UseableItemBase>();
@@ -135,6 +140,7 @@ namespace Player {
             SetItem();
 
             heartUI = canvasTrans.Find("Heart").GetComponent<IntObjectUI>();
+            SetHP(hpMax);
 
             cameraManager = Camera.main.GetComponent<CameraManager>();
             alertImage = GameObject.Find("AlertImage").GetComponent<Image>();
@@ -167,11 +173,6 @@ namespace Player {
                 SetItem();
             }
 
-        }
-        void Death() {
-            Scene.SceneManager.Instance.TimeStop();
-            Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMEOVER, UnityEngine.SceneManagement.LoadSceneMode.Additive);
-            
         }
 
 
@@ -211,7 +212,7 @@ namespace Player {
             //Debug.Log(cameraDistance);
 
             if (cameraDistance > deathDistanceFromOffset) {
-                Death();
+                StageManager.Instance.GameOverStage();
                 enabled = false;
             }
         }
