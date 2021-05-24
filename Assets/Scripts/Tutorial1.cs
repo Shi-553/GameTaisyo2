@@ -26,6 +26,8 @@ public class Tutorial1 : MonoBehaviour {
 
     Coroutine coroutine;
 
+    [SerializeField]
+    AudioClip se;
 
     void Start() {
         tutorialRoot = GameObject.Find("TutorialRoot").transform;
@@ -165,6 +167,7 @@ public class Tutorial1 : MonoBehaviour {
             default:
                 break;
         }
+        AudioManager.Instance.Play(se);
 
         child.GetChild(0).gameObject.SetActive(true);
         cameraManager.Speed = beforeSpeed;

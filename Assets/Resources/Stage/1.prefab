@@ -1291,6 +1291,7 @@ MonoBehaviour:
   - {fileID: 3545312212612838992}
   - {fileID: 3545312212956054965}
   goalSwitch: {fileID: 170786688983632967}
+  se: {fileID: 8300000, guid: ea9c62556463dc6498c60478686f85da, type: 3}
 --- !u!1 &7658243533363028057
 GameObject:
   m_ObjectHideFlags: 0
