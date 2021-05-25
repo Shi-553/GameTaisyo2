@@ -187,13 +187,16 @@ public class ButtonManager : MonoBehaviour {
     IEnumerator ActionHummer() {
         isSubmit = true;
         if (isSelectHummer && selectImage != null) {
-            for (int i = 0; i < 3; i++) {
+            var angle = selectImage.rotation;
+            for (int i = 0; i < 4; i++) {
                 var r = selectImage.localEulerAngles;
-                r.z -= 60.0f / 3;
+                r.z -= 70.0f / 4;
                 selectImage.localEulerAngles = r;
                 yield return null;
             }
+            StartCoroutine(ActionWaitUp(angle));
         }
+
         transform.GetChild(selectIndex).localScale -= selectScale;
 
         transform.GetChild(selectIndex).GetComponent<Image>().color = unselectColor;
@@ -201,5 +204,16 @@ public class ButtonManager : MonoBehaviour {
         UnityEngine.EventSystems.BaseEventData data = new UnityEngine.EventSystems.BaseEventData(UnityEngine.EventSystems.EventSystem.current);
         transform.GetChild(selectIndex).GetComponent<Button>().OnSubmit(data);
         action.Invoke(transform.GetChild(selectIndex).gameObject);
+    }
+    IEnumerator ActionWaitUp(Quaternion angle) {
+        yield return new WaitForSecondsRealtime(0.1f);
+        for (int i = 0; i < 4; i++) {
+            var r = selectImage.localEulerAngles;
+            r.z += 70.0f / 4;
+            selectImage.localEulerAngles = r;
+            yield return null;
+        }
+        selectImage.rotation = angle;
+
     }
 }
