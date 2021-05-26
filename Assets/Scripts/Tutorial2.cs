@@ -12,6 +12,8 @@ public class Tutorial2 : MonoBehaviour {
     [SerializeField]
     GameObject timeStopItem;
     [SerializeField]
+    GameObject timeStopItemHideBlock;
+    [SerializeField]
     GameObject beltconbyerSwitch;
     [SerializeField]
     Transform leverRotation;
@@ -22,6 +24,7 @@ public class Tutorial2 : MonoBehaviour {
     CameraManager cameraManager;
 
     float beforeSpeed = 0;
+    bool isSpeedDown = false;
 
     Coroutine coroutine;
 
@@ -41,40 +44,48 @@ public class Tutorial2 : MonoBehaviour {
         if (Scene.SceneManager.Instance.IsTimeStopped || cameraManager.Speed == 0) {
             return;
         }
-        if (coroutine != null) {
+
+
+        if (currentIndex >= tutorialRoot.childCount) {
             return;
         }
 
-
         var child = tutorialRoot.GetChild(currentIndex);
+
+        //そのアクションクリア済みならスルー
         if (child.GetChild(0).gameObject.activeSelf) {
             return;
         }
 
-        if (currentIndex == 4) {
-            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
-                return;
-            }
-        }
-       else if (currentIndex == 2) {
-            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
-                return;
+        if (coroutine == null) {
+            //ある程度近づいたら吹き出し出してアクション待機
+            if (!child.gameObject.activeSelf) {
+                if (((currentIndex == 4 || currentIndex == 2) && Vector3.Distance(child.position, cameraManager.MebiusuPoint) < distance - 3 + 3) ||
+                    ((currentIndex != 4 && currentIndex != 2) && Vector3.Distance(child.position, cameraManager.MebiusuPoint) < distance + 3)) {
+                    child.gameObject.SetActive(true);
+
+                    coroutine = StartCoroutine(WaitAction());
+                }
             }
         }
         else {
-            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance) {
-                return;
+            //すごく近づいたら遅くする
+            if (!isSpeedDown &&
+                (((currentIndex == 4 || currentIndex == 2) && Vector3.Distance(child.position, cameraManager.MebiusuPoint) < distance - 3) ||
+                ((currentIndex != 4 && currentIndex != 2) && Vector3.Distance(child.position, cameraManager.MebiusuPoint) < distance))) {
+                ChangeSpeed();
             }
         }
-
-        coroutine = StartCoroutine(WaitAction());
+    }
+    void ChangeSpeed() {
+        isSpeedDown = true;
+        beforeSpeed = cameraManager.Speed;
+        cameraManager.Speed *= 0.1f;
     }
 
     IEnumerator WaitAction() {
         var child = tutorialRoot.GetChild(currentIndex);
         child.gameObject.SetActive(true);
-        beforeSpeed = cameraManager.Speed;
-        cameraManager.Speed *= 0.1f;
 
         switch (currentIndex) {
             case 0:
@@ -86,6 +97,7 @@ public class Tutorial2 : MonoBehaviour {
                 break;
 
             case 2:
+                timeStopItemHideBlock.SetActive(false);
                 timeStopItem.GetComponent<Collider>().isTrigger = true;
                 yield return new WaitUntil(() => cameraManager.IsStopped);
                 break;
@@ -106,9 +118,11 @@ public class Tutorial2 : MonoBehaviour {
         AudioManager.Instance.Play(se);
 
         child.GetChild(0).gameObject.SetActive(true);
-        cameraManager.Speed = beforeSpeed;
-        beforeSpeed = 0;
-        yield return new WaitForSeconds(0.1f);
+        if (isSpeedDown) {
+            cameraManager.Speed = beforeSpeed;
+            beforeSpeed = 0;
+            isSpeedDown = false;
+        }
         coroutine = null;
         currentIndex++;
         yield return new WaitForSeconds(3);

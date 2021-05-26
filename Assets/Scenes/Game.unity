@@ -1982,7 +1982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af16d8711934194698134645687f7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugStage: 1
+  debugStage: 2
 --- !u!114 &154057227
 MonoBehaviour:
   m_ObjectHideFlags: 0
