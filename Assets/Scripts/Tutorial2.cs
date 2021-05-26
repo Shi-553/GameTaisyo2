@@ -45,18 +45,12 @@ public class Tutorial2 : MonoBehaviour {
             return;
         }
 
-        var playerPos = Player.PlayerCore.Instance.transform.position;
-        int mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
         var child = tutorialRoot.GetChild(currentIndex);
         if (child.GetChild(0).gameObject.activeSelf) {
             return;
         }
-        var ray = new Ray(child.position, playerPos - child.position);
 
-        if (Physics.Raycast(ray, 10, mask)) {
-            return;
-        }
         if (currentIndex == 4) {
             if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
                 return;
