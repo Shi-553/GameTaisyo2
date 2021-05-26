@@ -207,6 +207,9 @@ public class ButtonManager : MonoBehaviour {
     }
     IEnumerator ActionWaitUp(Quaternion angle) {
         yield return new WaitForSecondsRealtime(0.1f);
+        transform.GetChild(selectIndex).localScale += selectScale;
+
+        transform.GetChild(selectIndex).GetComponent<Image>().color = selectColor;
         for (int i = 0; i < 4; i++) {
             var r = selectImage.localEulerAngles;
             r.z += 70.0f / 4;

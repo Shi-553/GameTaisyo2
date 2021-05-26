@@ -28,6 +28,8 @@ public class Tutorial2 : MonoBehaviour {
     [SerializeField]
     AudioClip se;
 
+    int currentIndex = 0;
+
     void Start() {
         tutorialRoot = GameObject.Find("TutorialRoot").transform;
         cameraManager = Camera.main.GetComponent<CameraManager>();
@@ -43,41 +45,38 @@ public class Tutorial2 : MonoBehaviour {
             return;
         }
 
-        var playerPos = Player.PlayerCore.Instance.transform.position;
-        int mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
-        for (int i = 0; i < tutorialRoot.childCount; i++) {
-            var child = tutorialRoot.GetChild(i);
-            if (!child.gameObject.activeSelf || child.GetChild(0).gameObject.activeSelf) {
-                continue;
-            }
-            var ray = new Ray(child.position, playerPos - child.position);
-
-            if (Physics.Raycast(ray, 10, mask)) {
-                continue;
-            }
-            if (i == 4) {
-                if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
-                    continue;
-                }
-            }
-            else {
-                if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance) {
-                    continue;
-                }
-            }
-
-            coroutine = StartCoroutine(WaitAction(i));
+        var child = tutorialRoot.GetChild(currentIndex);
+        if (child.GetChild(0).gameObject.activeSelf) {
             return;
         }
+
+        if (currentIndex == 4) {
+            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
+                return;
+            }
+        }
+       else if (currentIndex == 2) {
+            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance - 3) {
+                return;
+            }
+        }
+        else {
+            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance) {
+                return;
+            }
+        }
+
+        coroutine = StartCoroutine(WaitAction());
     }
 
-    IEnumerator WaitAction(int i) {
-        var child = tutorialRoot.GetChild(i);
+    IEnumerator WaitAction() {
+        var child = tutorialRoot.GetChild(currentIndex);
+        child.gameObject.SetActive(true);
         beforeSpeed = cameraManager.Speed;
         cameraManager.Speed *= 0.1f;
 
-        switch (i) {
+        switch (currentIndex) {
             case 0:
                 yield return new WaitUntil(() => !switchGreen.activeSelf);
                 break;
@@ -87,7 +86,7 @@ public class Tutorial2 : MonoBehaviour {
                 break;
 
             case 2:
-                timeStopItem.SetActive(true);
+                timeStopItem.GetComponent<Collider>().isTrigger = true;
                 yield return new WaitUntil(() => cameraManager.IsStopped);
                 break;
 
@@ -111,5 +110,9 @@ public class Tutorial2 : MonoBehaviour {
         beforeSpeed = 0;
         yield return new WaitForSeconds(0.1f);
         coroutine = null;
+        currentIndex++;
+        yield return new WaitForSeconds(3);
+
+        child.gameObject.SetActive(false);
     }
 }

@@ -9,6 +9,11 @@ public class AdditiveScene : MonoBehaviour
         if (bgm != null) {
             bgm.GetComponent<AudioSource>().Stop();
         }
+        var addCamera = GameObject.Find("AddCamera");
+        if (addCamera != null) {
+            addCamera.SetActive(false);
+            Destroy(addCamera);
+        }
 #if UNITY_EDITOR
         if (GameObject.FindObjectOfType<AudioListener>()==null) {
             gameObject.AddComponent<AudioListener>();

@@ -20,6 +20,9 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
 
     int deathCount = 0;
     bool isRelifeRetry = false;
+
+    public StageStatus CurrentStatus { private set; get; }
+
     public void SetRelifeRetry() {
         isRelifeRetry = true;
     }
@@ -65,14 +68,20 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
         File.WriteAllText(SAVEDATA_PATH, savedataString);
     }
     public void ClearStage(StageStatus status) {
+        CurrentStatus = status;
+
         deathCount = 0;
-        GetData(stage).status = status;
+        if (status > GetData(stage).status) {
+            GetData(stage).status = status;
+        }
         SaveJson();
         Scene.SceneManager.Instance.TimeStop();
         Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMECLEAR, LoadSceneMode.Additive);
     }
     
     public void GameOverStage() {
+        CurrentStatus = StageStatus.UNLOCK;
+
         deathCount++;
         Scene.SceneManager.Instance.TimeStop();
         Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMEOVER, UnityEngine.SceneManagement.LoadSceneMode.Additive);
