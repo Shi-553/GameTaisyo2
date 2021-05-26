@@ -104,9 +104,6 @@ public class Tutorial1 : MonoBehaviour {
                 break;
 
             case 2:
-                if (Player.PlayerCore.Instance.GetHP() >= 3) {
-                    Player.PlayerCore.Instance.ApplyDamage(Vector3.zero, 0);
-                }
                 heart.SetActive(true);
                 yield return new WaitUntil(() => !heart.activeSelf);
                 break;
