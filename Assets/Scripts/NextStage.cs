@@ -16,14 +16,15 @@ public class NextStage : MonoBehaviour {
                 nextStage.GetComponent<Image>().sprite = allClearSprite;
             }
             else {
+
+                stageSelect.position = nextStage.position;
+
                 nextStage.SetParent(null);
                 nextStage.gameObject.SetActive(false);
                 Destroy(nextStage.gameObject);
+
                 GetComponent<ButtonManager>().ButtonReset();
 
-                var pos = stageSelect.localPosition;
-                pos.y += 100;
-                stageSelect.localPosition = pos;
             }
         }
     }
