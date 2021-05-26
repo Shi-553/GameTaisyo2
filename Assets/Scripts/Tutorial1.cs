@@ -14,6 +14,8 @@ public class Tutorial1 : MonoBehaviour {
     [SerializeField]
     Rigidbody hitBlock;
     [SerializeField]
+    GameObject bomb;
+    [SerializeField]
     List<GameObject> bombBleaks;
     [SerializeField]
     GameObject goalSwitch;
@@ -29,12 +31,12 @@ public class Tutorial1 : MonoBehaviour {
     [SerializeField]
     AudioClip se;
 
+    int currentIndex = 0;
+
     void Start() {
         tutorialRoot = GameObject.Find("TutorialRoot").transform;
         cameraManager = Camera.main.GetComponent<CameraManager>();
 
-        //最後の邪魔だからけす
-        tutorialRoot.GetChild(tutorialRoot.childCount - 1).gameObject.SetActive(false);
     }
 
     void Update() {
@@ -45,47 +47,36 @@ public class Tutorial1 : MonoBehaviour {
             return;
         }
 
-        var playerPos = Player.PlayerCore.Instance.transform.position;
-        int mask = LayerMask.GetMask(new string[] { "Mebiusu" });
-
-        for (int i = 0; i < tutorialRoot.childCount; i++) {
-            var child = tutorialRoot.GetChild(i);
-            if (!child.gameObject.activeSelf || child.GetChild(0).gameObject.activeSelf) {
-                continue;
-            }
-            var ray = new Ray(child.position, playerPos - child.position);
-
-            if (Physics.Raycast(ray, 10, mask)) {
-                continue;
-            }
-            if (i == 7) {
-                if (Vector3.Distance(bombBleaks[0].transform.position, cameraManager.MebiusuPoint) > distance - 1) {
-                    continue;
-                }
-            }
-            else if (i == 8) {
-                if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance-2) {
-                    continue;
-                }
-
-            }
-            else {
-                if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance) {
-                    continue;
-                }
-            }
-
-            coroutine = StartCoroutine(WaitAction(i));
+        if (currentIndex >= tutorialRoot.childCount) {
             return;
         }
+
+        var child = tutorialRoot.GetChild(currentIndex);
+        if (child.GetChild(0).gameObject.activeSelf) {
+            return;
+        }
+        if (currentIndex == 7) {
+            if (Vector3.Distance(bombBleaks[0].transform.position, cameraManager.MebiusuPoint) > distance - 1) {
+                return;
+            }
+        }
+        else {
+            if (Vector3.Distance(child.position, cameraManager.MebiusuPoint) > distance) {
+                return;
+            }
+        }
+
+        coroutine = StartCoroutine(WaitAction());
     }
 
-    IEnumerator WaitAction(int i) {
-        var child = tutorialRoot.GetChild(i);
+    IEnumerator WaitAction() {
+        var child = tutorialRoot.GetChild(currentIndex);
+        child.gameObject.SetActive(true);
+
         beforeSpeed = cameraManager.Speed;
         cameraManager.Speed *= 0.1f;
 
-        switch (i) {
+        switch (currentIndex) {
             case 0:
                 yield return new WaitUntil(() => {
                     var h = Input.GetAxis("Horizontal");
@@ -104,7 +95,7 @@ public class Tutorial1 : MonoBehaviour {
                 break;
 
             case 2:
-                heart.SetActive(true);
+                heart.GetComponent<Collider>().isTrigger = true;
                 yield return new WaitUntil(() => !heart.activeSelf);
                 break;
 
@@ -121,7 +112,7 @@ public class Tutorial1 : MonoBehaviour {
 
             case 4:
                 var hummerHp = Player.PlayerHummer.Instance.Hp;
-                repair.SetActive(true);
+                repair.GetComponent<Collider>().isTrigger = true;
 
                 yield return new WaitUntil(() => {
                     if (Player.PlayerHummer.Instance.Hp > hummerHp) {
@@ -144,6 +135,7 @@ public class Tutorial1 : MonoBehaviour {
                 break;
 
             case 7:
+                bomb.GetComponent<Collider>().isTrigger = true;
                 yield return new WaitUntil(() => {
                     foreach (var block in bombBleaks) {
                         if (!block.activeSelf) {
@@ -152,7 +144,6 @@ public class Tutorial1 : MonoBehaviour {
                     }
                     return false;
                 });
-                tutorialRoot.GetChild(tutorialRoot.childCount - 1).gameObject.SetActive(true);
                 break;
 
             case 8:
@@ -171,6 +162,10 @@ public class Tutorial1 : MonoBehaviour {
         beforeSpeed = 0;
         yield return new WaitForSeconds(0.1f);
         coroutine = null;
+        currentIndex++;
+        yield return new WaitForSeconds(3);
+
+        child.gameObject.SetActive(false);
     }
 
 
