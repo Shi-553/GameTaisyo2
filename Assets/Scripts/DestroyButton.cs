@@ -8,6 +8,9 @@ public class DestroyButton : MonoBehaviour {
     [SerializeField]
     AudioClip clip;
 
+    [SerializeField]
+    SerialNumberPng serialNumberPng;
+
     void Start() {
         
     }
@@ -25,5 +28,6 @@ public class DestroyButton : MonoBehaviour {
         this.gameObject.SetActive(false);
         AudioManager.Instance.Play(clip);
 
+        serialNumberPng.Play();
     }
 }
