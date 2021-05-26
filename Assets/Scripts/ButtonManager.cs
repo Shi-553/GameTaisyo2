@@ -196,7 +196,9 @@ public class ButtonManager : MonoBehaviour {
             }
             StartCoroutine(ActionWaitUp(angle));
         }
-
+        else {
+            StartCoroutine(WaitUp());
+        }
         transform.GetChild(selectIndex).localScale -= selectScale;
 
         transform.GetChild(selectIndex).GetComponent<Image>().color = unselectColor;
@@ -217,6 +219,13 @@ public class ButtonManager : MonoBehaviour {
             yield return null;
         }
         selectImage.rotation = angle;
+
+    }
+    IEnumerator WaitUp() {
+        yield return new WaitForSecondsRealtime(0.1f);
+        transform.GetChild(selectIndex).localScale += selectScale;
+
+        transform.GetChild(selectIndex).GetComponent<Image>().color = selectColor;
 
     }
 }
