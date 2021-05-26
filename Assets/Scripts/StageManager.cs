@@ -66,7 +66,9 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
     }
     public void ClearStage(StageStatus status) {
         deathCount = 0;
-        GetData(stage).status = status;
+        if (status > GetData(stage).status) {
+            GetData(stage).status = status;
+        }
         SaveJson();
         Scene.SceneManager.Instance.TimeStop();
         Scene.SceneManager.Instance.ChangeScene(Scene.SceneType.GAMECLEAR, LoadSceneMode.Additive);
