@@ -29,11 +29,12 @@ public class NextStage : MonoBehaviour {
         }
     }
     public void Next() {
-        if (!StageManager.Instance.IsLastStage) {
+        var isLast = StageManager.Instance.IsLastStage;
+        if (!isLast) {
             StageManager.Instance.NextStage();
         }
 
-        var nextScene = StageManager.Instance.IsLastStage ? Scene.SceneType.ALLCLEAR : Scene.SceneType.GAME;
+        var nextScene = isLast ? Scene.SceneType.ALLCLEAR : Scene.SceneType.GAME;
 
         Scene.SceneManager.Instance.ChangeScene(nextScene, UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
