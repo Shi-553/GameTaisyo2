@@ -80,7 +80,7 @@ public class Tutorial2 : MonoBehaviour {
     void ChangeSpeed() {
         isSpeedDown = true;
         beforeSpeed = cameraManager.Speed;
-        cameraManager.Speed *= 0.1f;
+        cameraManager.Speed *= 0.2f;
     }
 
     IEnumerator WaitAction() {

@@ -12,69 +12,78 @@ public class ChangeSpeed : MonoBehaviour {
     AudioClip speedDownSE;
 
     IntObjectUI speedUI;
+    float scale;
 
+    CameraManager cameraManager;
+    bool isUp = true;
+
+    Coroutine animeCo;
 
     IntObjectUI SpeedUI {
         get {
             if (speedUI == null) {
-                speedUI = GameObject.Find("Canvas/SpeedScale/Background").GetComponent<IntObjectUI>();
+                speedUI = GameObject.Find("Canvas/SpeedScaleRoot").GetComponent<IntObjectUI>();
             }
             return speedUI;
         }
     }
-
-    bool isPressed = false;
-
-    private void Update() {
-        var trigger = Input.GetAxis("SpeedChange");
-        if (trigger == 0) {
-            isPressed = false;
-            return;
-        }
-        if (isPressed) {
-            return;
-        }
-        isPressed = true;
-
-        TimeChange(trigger > 0);
+    private void Start() {
+        cameraManager = Camera.main.GetComponent<CameraManager>();
+        scale = cameraManager.Speed;
     }
 
 
-    void TimeChange(bool isSpeedUp) {
-        var scale = Time.timeScale;
-
-        if (Mathf.Approximately(Time.timeScale, 1.0f)) {
-            if (isSpeedUp) {
-                scale = 1.5f;
-                AudioManager.Instance.Play(speedUpSE);
-                SpeedUI.Add();
-            }
-            else {
-                scale = 0.7f;
-                AudioManager.Instance.Play(speedDownSE);
-                SpeedUI.Remove();
-            }
+    private void Update() {
+        if (Scene.SceneManager.Instance.IsTimeStopped || cameraManager.Speed == 0) {
+            return;
         }
-        else if (Time.timeScale < 1.0f) {
-            if (isSpeedUp) {
-                scale = 1.0f;
-                AudioManager.Instance.Play(speedUpSE);
-                SpeedUI.Add();
-            }
-        }
-        else if (Time.timeScale > 1.0f) {
-            if (!isSpeedUp) {
-                scale = 1.0f;
-                AudioManager.Instance.Play(speedDownSE);
-                SpeedUI.Remove();
-            }
-        }
-
-        if (Mathf.Approximately(Time.timeScale, scale)) {
+        if (!Mathf.Approximately(cameraManager.Speed, scale)) {
             return;
         }
 
-        Time.timeScale = scale;
+        if (!Input.GetButtonDown("SpeedChange")) {
+            return;
+        }
 
+        TimeChange(isUp);
+        isUp = !isUp;
+    }
+
+    void TimeChange(bool isSpeedUp) {
+        scale = cameraManager.Speed;
+
+        if (isSpeedUp) {
+            scale *= 2.0f;
+            AudioManager.Instance.Play(speedUpSE);
+            if (animeCo == null) {
+                animeCo = StartCoroutine(SpeedUpAnime());
+            }
+        }
+        else {
+            scale /= 2.0f;
+            AudioManager.Instance.Play(speedDownSE);
+            if (animeCo != null) {
+                StopCoroutine(animeCo);
+                SpeedUI.Clear();
+                animeCo = null;
+            }
+        }
+
+
+        cameraManager.Speed = scale;
+
+    }
+    IEnumerator SpeedUpAnime() {
+        SpeedUI.SetMax(3, 0);
+        while (true) {
+            SpeedUI.Add();
+            yield return new WaitForSeconds(1);
+            SpeedUI.Add();
+            yield return new WaitForSeconds(1);
+            SpeedUI.Add();
+            yield return new WaitForSeconds(1);
+            SpeedUI.Remove(3);
+            yield return new WaitForSeconds(1);
+        }
     }
 }

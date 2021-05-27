@@ -81,16 +81,15 @@ public class Tutorial1 : MonoBehaviour {
     void ChangeSpeed() {
         isSpeedDown = true;
         beforeSpeed = cameraManager.Speed;
-        cameraManager.Speed *= 0.1f;
 
         switch (currentIndex) {
             case 1:
             case 6:
-                cameraManager.Speed = beforeSpeed;
                 break;
 
 
             default:
+                cameraManager.Speed *= 0.2f;
                 break;
         }
     }
@@ -181,8 +180,8 @@ public class Tutorial1 : MonoBehaviour {
 
         child.GetChild(0).gameObject.SetActive(true);
         if (isSpeedDown) {
-            cameraManager.Speed = beforeSpeed;
-            beforeSpeed = 0;
+                cameraManager.Speed = beforeSpeed;
+                beforeSpeed = 0;
             isSpeedDown = false;
         }
         coroutine = null;
