@@ -36,7 +36,9 @@ public class StageSelect : MonoBehaviour {
                     break;
             }
         }
-    }
+        var index = Mathf.Max(StageManager.Instance.GetStage() - 1, 0);
+        GetComponent<ButtonManager>().SetIndex(index);
+}
     private void Update() {
         if (Input.GetButtonDown("Cancel")) {
             Scene.SceneManager.Instance.ChangeScene((int)Scene.SceneType.TITLE);

@@ -52,6 +52,27 @@ public class ButtonManager : MonoBehaviour {
     public GameObject GetSelected() {
         return transform.GetChild(selectIndex).gameObject;
     }
+    public void SetIndex(int index) {
+        var selected = transform.GetChild(selectIndex);
+        selected.localScale -= selectScale;
+        if (isChangeColor) {
+            selected.GetComponent<Image>().color = unselectColor;
+        }
+
+        selectIndex = index;
+
+
+        sinFrame = 0;
+         selected = transform.GetChild(selectIndex);
+
+        if (selectImage != null) {
+            selectImage.position = selected.position + selectImageDiff;
+        }
+        selected.localScale += selectScale;
+        if (isChangeColor) {
+            selected.GetComponent<Image>().color = selectColor;
+        }
+    }
     public void ButtonReset() {
         Start();
 
