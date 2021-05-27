@@ -41,7 +41,7 @@ namespace Player {
             }
 
             if (isUp && itemValue != 0) {
-                if (itemValue < 0) {
+                if (itemValue > 0) {
                     playerCore.NextItem();
                 }
                 else {
