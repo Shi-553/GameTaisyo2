@@ -7,7 +7,9 @@ namespace Player {
         PlayerMove playerMove;
         PlayerHummer playerHummer;
         PlayerCore playerCore;
-        // Start is called before the first frame update
+
+        bool isUp = true;
+
         void Start() {
             playerHummer=transform.GetComponentInChildren<PlayerHummer>(true);
             playerMove = GetComponent<PlayerMove>();
@@ -27,11 +29,25 @@ namespace Player {
                 playerCore.UseItem();
             }
             var itemValue = Input.GetAxis("ChangeItem");
-            if (Input.GetButtonDown("NextItem")||itemValue<0) {
+
+            if (Input.GetButtonDown("NextItem")) {
                 playerCore.NextItem();
             }
-            if (Input.GetButtonDown("PrevItem") || itemValue > 0) {
+            if (Input.GetButtonDown("PrevItem") ) {
                 playerCore.PrevItem();
+            }
+            if (itemValue == 0) {
+                isUp = true;
+            }
+
+            if (isUp && itemValue != 0) {
+                if (itemValue < 0) {
+                    playerCore.NextItem();
+                }
+                else {
+                    playerCore.PrevItem();
+                }
+                isUp = false;
             }
 
 
