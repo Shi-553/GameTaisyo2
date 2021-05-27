@@ -68,7 +68,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
     void Awake() {
         TargetDistance = farDistance;
-
+        Application.targetFrameRate = 60;
 
         mask = LayerMask.GetMask(new string[] { "Mebiusu" });
 
