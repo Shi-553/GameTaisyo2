@@ -11,10 +11,14 @@ public class SlideObjectUI : MonoBehaviour {
     [SerializeField]
     Transform selectX;
 
+    List<Sprite> currentSprites ;
     List<GameObject> objects = new List<GameObject>();
 
     [SerializeField]
     Vector3 nextPosDiff;
+
+    [SerializeField]
+    AudioClip selectSe;
 
     void Start() {
 
@@ -27,8 +31,9 @@ public class SlideObjectUI : MonoBehaviour {
 
 
     public void SetItem(List<Sprite> sprites, int currentIndex) {
+        currentSprites = sprites;
         foreach (var obj in objects) {
-            
+
             if (obj != null) {
                 Destroy(obj);
             }
@@ -56,5 +61,9 @@ public class SlideObjectUI : MonoBehaviour {
         if (objects.Count > currentIndex) {
             selectX.position = objects[currentIndex].transform.position - new Vector3(50, 50);
         }
+    }
+    public void SeIndex(int currentIndex) {
+        SetItem(currentSprites,currentIndex);
+        AudioManager.Instance.Play(selectSe);
     }
 }

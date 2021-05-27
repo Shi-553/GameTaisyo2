@@ -11248,6 +11248,7 @@ MonoBehaviour:
     type: 3}
   selectX: {fileID: 1860667223}
   nextPosDiff: {x: -130, y: 0, z: 0}
+  selectSe: {fileID: 8300000, guid: 3305f8f06f7a86a42b41f197c376130b, type: 3}
 --- !u!4 &884863153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a1e883538de5e14980d454a30a6c72b,
@@ -15417,7 +15418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -304.1, y: -101}
+  m_AnchoredPosition: {x: -304.10156, y: -101}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1201351417
@@ -19110,6 +19111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee032ec078b8ea74095c51fcd1a4aec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rejectScale: 3
+  rejectSe: {fileID: 8300000, guid: 33ae2f6f41565c24ea83b018da45175c, type: 3}
 --- !u!4 &1434909067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7a1e883538de5e14980d454a30a6c72b,

@@ -98,14 +98,14 @@ namespace Player {
                 return;
             }
             currentItemIndex = (currentItemIndex + 1 + itemMax) % itemMax;
-            SetItem();
+            slideUI.SeIndex(currentItemIndex);
         }
         public void PrevItem() {
             if (currentItemIndex == -1) {
                 return;
             }
             currentItemIndex = (currentItemIndex - 1 + itemMax) % itemMax;
-            SetItem();
+            slideUI.SeIndex(currentItemIndex);
         }
         void SetItem() {
             if (currentItemIndex == -1 ) {
