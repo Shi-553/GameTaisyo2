@@ -38,6 +38,11 @@ public class ChangeSpeed : MonoBehaviour {
             return;
         }
         if (!Mathf.Approximately(cameraManager.Speed, scale)) {
+            if (!isUp) {
+                TimeChange(false);
+                isUp = !isUp;
+                scale = cameraManager.StartSpeed;
+            }
             return;
         }
 
