@@ -10,6 +10,9 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
     public float Speed { get => speed; set => speed = value; }
 
+    public float StartSpeed { get; private set; }
+    public float SpeedDiff { get => Speed / StartSpeed; }
+
     [SerializeField] float positionRatio = 0.5f;
     [SerializeField] float positionUp = 0;
 
@@ -87,6 +90,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
         }
     }
     void Start() {
+        StartSpeed = Speed;
     }
     void Update() {
         if (isStopped) {
@@ -117,12 +121,12 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
             Debug.DrawRay(point, forwardPoints.Normal2 * TargetDistance);
 
 
-            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * TargetDistance, positionLerp * Time.timeScale);
+            transform.position = Vector3.Lerp(transform.position, point + forwardPoints.Normal * TargetDistance, positionLerp * SpeedDiff * Time.timeScale);
 
 
-            aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp * Time.timeScale);
+            aftQ = Vector3.Lerp(aftQ, forwardPoints.Up.normalized, lookAtLerp * SpeedDiff * Time.timeScale);
 
-            var p = Vector3.Lerp(forwerdHit.point, point, pointLerp * Time.timeScale);
+            var p = Vector3.Lerp(forwerdHit.point, point, pointLerp * SpeedDiff * Time.timeScale);
             transform.LookAt(p, aftQ);
 
 
@@ -140,7 +144,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
 
             if (boxHit.distance > thresholdDistance) {
                 TargetDistance = farDistance;
-                warningFrame -= positionLerp;
+                warningFrame -= positionLerp * SpeedDiff;
 
                 if (warningFrame < 0 && boxHit.distance < thresholdWarningDistance) {
                     cameraWarning.StartWorning();
@@ -150,7 +154,7 @@ public class CameraManager : MonoBehaviour, Item.TimeStopable {
             else {
                 TargetDistance = nearDistance;
 
-                warningFrame += positionLerp;
+                warningFrame += positionLerp * SpeedDiff;
             }
             if (warningFrame > 1) {
                 cameraWarning.StopWorning();
