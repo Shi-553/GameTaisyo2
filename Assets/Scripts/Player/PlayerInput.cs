@@ -26,12 +26,14 @@ namespace Player {
             if (Input.GetButtonDown("UseItem")) {
                 playerCore.UseItem();
             }
-            if (Input.GetButtonDown("NextItem")) {
+            var itemValue = Input.GetAxis("ChangeItem");
+            if (Input.GetButtonDown("NextItem")||itemValue<0) {
                 playerCore.NextItem();
             }
-            if (Input.GetButtonDown("PrevItem")) {
+            if (Input.GetButtonDown("PrevItem") || itemValue > 0) {
                 playerCore.PrevItem();
             }
+
 
             var h = Input.GetAxis("Horizontal");
             var v = Input.GetAxis("Vertical");
