@@ -34,9 +34,11 @@ public class StageManager : SingletonMonoBehaviour<StageManager> {
         if (!LoadJson()) {
             SaveJson();
         }
+#if UNITY_EDITOR
         if (stage == 0) {
             stage = debugStage;
         }
+#endif
 
         DontDestroyOnLoad(gameObject);
     }

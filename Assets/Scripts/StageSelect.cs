@@ -27,7 +27,7 @@ public class StageSelect : MonoBehaviour {
                     image.GetComponent<Image>().color = new Color(1, 0.95f, 0.42f);
                     break;
                 case StageStatus.NO_DAMAGE:
-                    image.GetComponent<Image>().color = new Color(1,0.64f,0.72f);
+                    image.GetComponent<Image>().color = new Color(1, 0.95f, 0.42f);
                     break;
                 case StageStatus.PURE_NO_DAMAGE:
                     image.GetComponent<Image>().color = new Color(1, 0.64f, 0.72f);
@@ -36,7 +36,9 @@ public class StageSelect : MonoBehaviour {
                     break;
             }
         }
-    }
+        var index = Mathf.Max(StageManager.Instance.GetStage() - 1, 0);
+        GetComponent<ButtonManager>().SetIndex(index);
+}
     private void Update() {
         if (Input.GetButtonDown("Cancel")) {
             Scene.SceneManager.Instance.ChangeScene((int)Scene.SceneType.TITLE);
