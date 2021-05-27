@@ -30,6 +30,8 @@ namespace Player {
         [SerializeField]
         float hitStopTime = 0.1f;
 
+        ParticleSystem[] particles;
+
         private void Start() {
             hp = hpMax;
             hummerUI = GameObject.Find("Hummer").GetComponent<HummerUI>();
@@ -39,6 +41,7 @@ namespace Player {
             hammerRoot.SetActive(false);
             isAttack = false;
             isParry = false;
+            particles = transform.parent.GetComponentsInChildren<ParticleSystem>();
 
         }
         private void Update() {
@@ -61,6 +64,9 @@ namespace Player {
                 isParry = true;
                 AudioManager.Instance.Play(use);
                 StartCoroutine(HitStop());
+                foreach (var p in particles) {
+                    p.Play();
+                }
             }
             if (!isAttack) {
                 return;
