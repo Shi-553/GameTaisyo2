@@ -87,6 +87,7 @@ namespace Player {
                 return;
             }
             if (hp == 0) {
+                hummerUI.Reject();
                 return;
             }
             hammerRoot.SetActive(true);
@@ -105,6 +106,7 @@ namespace Player {
                 isAttack = false;
                 hp -= damage;
                 if (hp < 0) {
+                    hummerUI.Reject();
                     hp = 0;
                     isPierce = false;
                 }
