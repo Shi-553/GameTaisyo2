@@ -25604,7 +25604,7 @@ GameObject:
   - component: {fileID: 1860667225}
   - component: {fileID: 1860667224}
   m_Layer: 5
-  m_Name: X
+  m_Name: Y
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25648,7 +25648,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 00c70336a763c6649992198ef7f5551b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b453e9c373ec38446a213c5876759e28, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
