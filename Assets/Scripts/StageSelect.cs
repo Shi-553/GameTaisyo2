@@ -27,7 +27,7 @@ public class StageSelect : MonoBehaviour {
                     image.GetComponent<Image>().color = new Color(1, 0.95f, 0.42f);
                     break;
                 case StageStatus.NO_DAMAGE:
-                    image.GetComponent<Image>().color = new Color(1,0.64f,0.72f);
+                    image.GetComponent<Image>().color = new Color(1, 0.95f, 0.42f);
                     break;
                 case StageStatus.PURE_NO_DAMAGE:
                     image.GetComponent<Image>().color = new Color(1, 0.64f, 0.72f);
